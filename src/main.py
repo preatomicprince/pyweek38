@@ -11,13 +11,13 @@ if __name__ == "__main__":
     settings = Settings()
     input = Input()
     prev_input = Input()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
-
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))#temporeroly removed fullscreen as itll be easier for me to find this bug
+    #, pygame.FULLSCREEN
     player = Player(200, 200)
 
     new_room = Room(5, 5)
 
-    new_room.tiles[12].obj = Obj("./res/box1.png")
+    new_room.tiles[12].obj = Obj("../res/box1.png")
 
     while settings.running:
         screen.fill((128, 128, 128))
