@@ -1,30 +1,23 @@
 from entity import Ent
+from input import Input
+from player import Player
 import pygame
-from pygame.locals import *
-import sys
-
-RUNNING = True
-WIDTH = 500
-HEIGHT = 300
+from settings import Settings, WIDTH, HEIGHT
 
 if __name__ == "__main__":
     pygame.init()
+    settings = Settings()
+    input = Input()
+    prev_input = Input()
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
-    new_ent = Ent(100, 100, "./res/pc.png")
+    player = Player(200, 200)
 
-    while RUNNING:
+    while settings.running:
         screen.fill((128, 128, 128))
-        new_ent.draw(screen)
 
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                RUNNING = False
-                sys.exit()
-
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    RUNNING = False
-                    sys.exit()
-
+        input.update(settings, prev_input)
+        player.update(input)
+        
+        player.draw(screen)
         pygame.display.update()

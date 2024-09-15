@@ -13,7 +13,7 @@ class Input:
 
     def update(self, settings: Settings, prev_input):
 
-        copy_input(prev_input, self)
+        _copy_input(prev_input, self)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -29,13 +29,13 @@ class Input:
                     self.key_right = True
 
                 if event.key == K_LEFT:
-                    self.key_right = True
+                    self.key_left = True
 
                 if event.key == K_UP:
-                    self.key_right = True
+                    self.key_up = True
 
                 if event.key == K_DOWN:
-                    self.key_right = True
+                    self.key_down = True
 
 
             if event.type == KEYUP:
@@ -43,17 +43,17 @@ class Input:
                     self.key_right = False
 
                 if event.key == K_LEFT:
-                    self.key_right = False
+                    self.key_left = False
 
                 if event.key == K_UP:
-                    self.key_right = False
+                    self.key_up = False
 
                 if event.key == K_DOWN:
-                    self.key_right = False
+                    self.key_down = False
 
   
 
-def copy_input(input1: Input, input2: Input):
+def _copy_input(input1: Input, input2: Input):
     input1.key_left = input2.key_left
     input1.key_right = input2.key_right
     input1.key_up = input2.key_up
