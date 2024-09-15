@@ -1,7 +1,10 @@
 from entity import Ent
+from settings import TILE_H
 
 class Obj(Ent):
-    def __init__(self, x_pos: float, y_pos: float, filepath: str, animation_steps = 1, collide = True, interact = False):
-        self.collide: bool = collide
-        self.interact = True
+    def __init__(self, filepath: str, animation_steps: int = 1, collide: bool = True, interact = False):
+        self.collide = collide
+        self.interact = interact
+        x_pos = 0
+        y_pos = 0
         super().__init__(x_pos, y_pos, filepath, animation_steps)

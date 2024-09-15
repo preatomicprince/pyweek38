@@ -15,3 +15,7 @@ class Room:
     def draw(self, screen):
         for tile in self.tiles:
             tile.draw(screen)
+
+        for tile in self.tiles:
+            if tile.obj != None:
+                tile.draw_obj(screen)
