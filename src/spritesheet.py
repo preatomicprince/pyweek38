@@ -15,6 +15,7 @@ class SpriteSheet:
         self.y_cut = y_cut
         
         ###the colour used in the background of sprites that gets cut out to make it transparent
+        ##the bit you want to cut out has to be this colour
         BLACK_GRE = (11, 158, 3)
         
         for x in range(self.animation_steps):
