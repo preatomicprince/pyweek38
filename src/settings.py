@@ -17,8 +17,8 @@ class Settings:
 # u = up, d = down, l = left, r = right
 Direction = Enum('Direction', ['ul', 'dl', 'dr', 'ur'])
 
-WIDTH = 700
-HEIGHT = 500
+WIDTH = 900
+HEIGHT = 700
 
 TILE_W = 128
 TILE_H = 64

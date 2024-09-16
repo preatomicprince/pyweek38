@@ -8,7 +8,7 @@ class Room:
         self.room_name = room_name
         
         self.rows = rows
-        self.cols = rows
+        self.cols = cols
         self.tiles: list = []
 
         ##not permenant, im just putting this in to test how it looks
