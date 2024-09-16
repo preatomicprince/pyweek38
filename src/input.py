@@ -9,7 +9,8 @@ class Input:
         self.key_right: bool = False
         self.key_up: bool = False
         self.key_down: bool = False
-        self.interact: bool = False
+        self.key_interact: bool = False
+        
 
     def update(self, settings: Settings, prev_input):
 
@@ -37,6 +38,9 @@ class Input:
                 if event.key == K_DOWN:
                     self.key_down = True
 
+                if event.key == K_e:
+                    self.key_interact = True
+
 
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
@@ -51,6 +55,9 @@ class Input:
                 if event.key == K_DOWN:
                     self.key_down = False
 
+                if event.key == K_e:
+                    self.key_interact = False
+
   
 
 def _copy_input(input1: Input, input2: Input):
@@ -58,6 +65,6 @@ def _copy_input(input1: Input, input2: Input):
     input1.key_right = input2.key_right
     input1.key_up = input2.key_up
     input1.key_down = input2.key_down
-    input1.interact = input2.interact
+    input1.key_interact = input2.key_interact
 
     input1.prev_input = None

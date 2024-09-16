@@ -1,6 +1,7 @@
 from entity import Ent
 from input import Input
-from object import Obj
+from object import Obj, Obj_Type
+import pygame
 from settings import Direction, SPEED, fvec2
 
 class Player(Ent):
@@ -9,10 +10,10 @@ class Player(Ent):
         animation_steps = 1
         self.velocity = fvec2(0, 0)
         self.selected_obj: Obj = None
-        self.inventory = []
+        self.inventory: Obj = []
         super().__init__(x_pos, y_pos, filepath, animation_steps)
 
-    def update(self, input: Input):
+    def update(self, input: Input, kitchen_room):
         self.velocity = fvec2(0, 0)
 
         if input.key_right:
@@ -49,6 +50,9 @@ class Player(Ent):
             self.pos.x += self.velocity.x
             self.pos.y += self.velocity.y
 
+        if input.key_interact:
+            self.interact(kitchen_room)
+
     def get_bottom_pos(self) -> fvec2:
         return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y - 10)
 
@@ -56,14 +60,17 @@ class Player(Ent):
         if self.selected_obj != None:
             if self.selected_obj.obj_type == Obj_Type.pickup:
                 self.inventory.append(self.selected_obj)
+                self.inventory[len(self.inventory)-1].sprites.ind -= 1
                 for t in room.tiles:
                     if t.obj != None:
                         if self.selected_obj in t.obj:
                             t.obj.remove(self.selected_obj)
                 self.selected_obj = None
 
-
-
-
-
-        
+    def draw_inv(self, screen) -> None:
+        if len(self.inventory) > 0:
+            count = 0
+            for i in self.inventory:
+                rect = pygame.Rect(10*count + count*i.size.x, 10, i.size.x, i.size.y)
+                screen.blit(i.sprites.animation_list[i.sprites.ind], rect)
+                count += 1
