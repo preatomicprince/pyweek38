@@ -1,6 +1,6 @@
 from entity import Ent
 from input import Input
-from settings import SPEED, fvec2
+from settings import Direction, SPEED, fvec2
 
 class Player(Ent):
     def __init__(self, x_pos: float, y_pos: float):
@@ -13,42 +13,37 @@ class Player(Ent):
         self.velocity = fvec2(0, 0)
 
         if input.key_right:
-            self.velocity.x += SPEED.x
+            self.dir = Direction.dr
 
         if input.key_left:
-            self.velocity.x -= SPEED.x
+            self.dir = Direction.ul
 
         if input.key_up:
-            self.velocity.y -= SPEED.y
+            self.dir = Direction.ur
 
         if input.key_down:
-            self.velocity.y += SPEED.y
+            self.dir = Direction.dl
 
-        if self.velocity.x > 1:
-            if self.velocity.y > 1:
-                self.direction = 1
-            elif self.velocity.y < 1:
-                self.direction = 1
-            elif self.velocity.y == 0:
-                pass
+        match self.dir:
+            case Direction.dr:
+                self.velocity.x += SPEED.x
+                self.velocity.y += SPEED.y
 
-        elif self.velocity.x < 1:
-            if self.velocity.y > 1:
-                pass
-            elif self.velocity.y < 1:
-                pass
-            elif self.velocity.y == 0:
-                pass
+            case Direction.ul:
+                self.velocity.x -= SPEED.x
+                self.velocity.y -= SPEED.y
 
-        elif self.velocity.x == 0:
-            if self.velocity.y > 1:
-                pass
-            elif self.velocity.y < 1:
-                pass
-            elif self.velocity.y == 0:
-                pass
+            case Direction.ur:
+                self.velocity.x += SPEED.x
+                self.velocity.y -= SPEED.y
 
-        self.pos.x += self.velocity.x
-        self.pos.y += self.velocity.y
+            case Direction.dl:
+                self.velocity.x -= SPEED.x
+                self.velocity.y += SPEED.y
+
+     
+        if input.key_right or input.key_left or input.key_up or input.key_down:
+            self.pos.x += self.velocity.x
+            self.pos.y += self.velocity.y
 
         

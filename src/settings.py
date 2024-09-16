@@ -15,7 +15,7 @@ class Settings:
         self.running = True
 
 # u = up, d = down, l = left, r = right
-Direction = Enum('direction', ['u', 'ul', 'l', 'dl', 'd', 'dr', 'r', 'ur'])
+Direction = Enum('Direction', ['ul', 'dl', 'dr', 'ur'])
 
 WIDTH = 700
 HEIGHT = 500
