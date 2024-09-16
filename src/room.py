@@ -14,10 +14,6 @@ class Room:
         self.cols = cols
         self.tiles: list = []
 
-        ##not permenant, im just putting this in to test how it looks
-        wall_file = "../res/tile1.png"
-        self.wall_list: list = []
-
         for x in range(cols):
             for y in range(rows):
                 #https://clintbellanger.net/articles/isometric_math/ idk
@@ -35,19 +31,19 @@ class Room:
             tile.draw(screen)
 
         for tile in self.tiles:
-            if tile.obj != None:
+            if len(tile.obj) > 0:
                 for i in range(len(tile.obj)):
                     if tile.obj[i].obj_type == Obj_Type.wall:
                         tile.draw_obj(screen, i)
 
         for tile in self.tiles:
-            if tile.obj != None:
+            if len(tile.obj) > 0:
                 for i in range(len(tile.obj)):
                     if tile.obj[i].obj_type == Obj_Type.door:
                         tile.draw_obj(screen, i)
 
         for tile in self.tiles:
-            if tile.obj != None:
+            if len(tile.obj) > 0:
                 for i in range(len(tile.obj)):
                     if tile.obj[i].obj_type != Obj_Type.wall and tile.obj[i].obj_type != Obj_Type.door:
                         if tile.pos.y + TILE_H/2 < player.pos.y + player.size.y:
@@ -56,7 +52,7 @@ class Room:
         player.draw(screen) # can be adjusted to work for all characters
 
         for tile in self.tiles:
-            if tile.obj != None:
+            if len(tile.obj) > 0:
                 for i in range(len(tile.obj)):
                     if tile.obj[i].obj_type != Obj_Type.wall and tile.obj[i].obj_type != Obj_Type.door:
                         if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
@@ -84,7 +80,7 @@ class Room:
         p_tile = self.find_player_tile(player)
         if p_tile == None:
             return
-
+        
         if self.tiles[p_tile].obj != None:
             for o in self.tiles[p_tile].obj:
                 if o.interact == True:
@@ -109,16 +105,17 @@ class Room:
             case Direction.dl:
                 p_tile += 1
 
-        if self.tiles[p_tile].obj != None:
-            for o in self.tiles[p_tile].obj:
-                if o.interact == True:
-                    if player.selected_obj != None:
-                        player.selected_obj.selected = False
-                        player.selected_obj.sprites.ind -= 1
-                    player.selected_obj = o
-                    o.selected = True
-                    player.selected_obj.sprites.ind += 1
-                    return
+        if 0 < p_tile < len(self.tiles):
+            if self.tiles[p_tile].obj != None:
+                for o in self.tiles[p_tile].obj:
+                    if o.interact == True:
+                        if player.selected_obj != None:
+                            player.selected_obj.selected = False
+                            player.selected_obj.sprites.ind -= 1
+                        player.selected_obj = o
+                        o.selected = True
+                        player.selected_obj.sprites.ind += 1
+                        return
 
         if player.selected_obj != None:
             player.selected_obj.selected = False

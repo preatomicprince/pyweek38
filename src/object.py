@@ -7,7 +7,7 @@ Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "scre
 
 
 class Obj(Ent):
-    def __init__(self, filepath: str,  ind: int = 0, obj_type: Obj_Type = Obj_Type.other, pickup_type: Pickup_Type = None):
+    def __init__(self, filepath: str,  ind: int = 0, obj_type: Obj_Type = Obj_Type.other, pickup_type: Pickup_Type = None, new_room: int = None, go_to: int = None):
         self.obj_type = obj_type
         self.go_to = None
         self.selected = False
@@ -23,7 +23,8 @@ class Obj(Ent):
                 animation_steps = 2
                 self.collide = False
                 self.interact = True
-                self.go_to = "dining"
+                self.new_room = new_room
+                self.go_to = go_to
 
             case Obj_Type.pickup:
                 animation_steps = 10
