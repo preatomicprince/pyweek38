@@ -11,6 +11,10 @@ class Room:
         self.cols = rows
         self.tiles: list = []
 
+        ##not permenant, im just putting this in to test how it looks
+        wall_file = "../res/tile1.png"
+        self.wall_list: list = []
+
         for x in range(cols):
             for y in range(rows):
                 #https://clintbellanger.net/articles/isometric_math/ idk

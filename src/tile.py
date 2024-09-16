@@ -15,4 +15,5 @@ class Tile(Ent):
         y_pos = self.pos.y - self.obj.size.y + TILE_H
         rect = pygame.Rect(self.pos.x, y_pos, self.obj.size.x, self.obj.size.y)
 
-        screen.blit(self.obj.sprites.animation_list[self.sprites.ind], rect)
+        screen.blit(self.obj.sprites.animation_list[self.obj.sprites.ind], rect)
+
