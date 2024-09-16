@@ -3,7 +3,10 @@ from settings import TILE_W, TILE_H, WIDTH, HEIGHT
 from tile import Tile
 
 class Room:
-    def __init__(self, rows, cols) -> None:
+    def __init__(self, room_name, rows, cols) -> None:
+        #if we compare the room name to the current room in the game vars, we can show specific rooms
+        self.room_name = room_name
+        
         self.rows = rows
         self.cols = rows
         self.tiles: list = []

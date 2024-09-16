@@ -28,4 +28,12 @@ ISO_RATIO = TILE_W/TILE_H
 _BASE_SPEED = 0.2
 SPEED =  fvec2(_BASE_SPEED*ISO_RATIO, _BASE_SPEED)
 
+class GameVars:
+    ##this is where we can keep all the information for the game, current score, current room to show ect.
+    ###if we create it twice it should be easy to reload
+    def __init__(self) -> None:
+        
+    ###the rooms that will be in the game are, study, hallway, dinning room, kitchen, bedroom1, bedroom2, library, lounge
+        self.current_room = "dining"
+
 
