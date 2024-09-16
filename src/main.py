@@ -46,9 +46,12 @@ if __name__ == "__main__":
         ##for r in range(kitchen_room.cols+1 * kitchen_room.rows+1):
           #  if r == kitchen_room.rows:
             #    kitchen_room.tiles[r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=1))            
-        for r in range(kitchen_room.cols+1 * kitchen_room.rows+1):
-            if r == kitchen_room.rows:
-                kitchen_room.tiles[r].obj.append(Obj("../res/dining.wall.png", animation_steps=2, ind=1))            
+        for c in range(kitchen_room.cols):
+            for r in range(kitchen_room.rows):
+                if c == 0:
+                    kitchen_room.tiles[c*kitchen_room.rows + r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=0)) 
+                if r == 0:
+                    kitchen_room.tiles[c*kitchen_room.rows + r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=1))             
         
         #for r in range(kitchen_room.cols):    
             #print(c, r)
