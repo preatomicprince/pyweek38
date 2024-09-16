@@ -35,11 +35,16 @@ class Room:
                     if tile.obj[i].obj_type == Obj_Type.wall:
                         tile.draw_obj(screen, i)
 
+        for tile in self.tiles:
+            if tile.obj != None:
+                for i in range(len(tile.obj)):
+                    if tile.obj[i].obj_type == Obj_Type.door:
+                        tile.draw_obj(screen, i)
 
         for tile in self.tiles:
             if tile.obj != None:
                 for i in range(len(tile.obj)):
-                    if tile.obj[i].obj_type != Obj_Type.wall:
+                    if tile.obj[i].obj_type != Obj_Type.wall and tile.obj[i].obj_type != Obj_Type.door:
                         if tile.pos.y + TILE_H/2 < player.pos.y + player.size.y:
                             tile.draw_obj(screen, i)
 
@@ -48,7 +53,7 @@ class Room:
         for tile in self.tiles:
             if tile.obj != None:
                 for i in range(len(tile.obj)):
-                    if tile.obj[i].obj_type != Obj_Type.wall:
+                    if tile.obj[i].obj_type != Obj_Type.wall and tile.obj[i].obj_type != Obj_Type.door:
                         if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
                             tile.draw_obj(screen, i)
 

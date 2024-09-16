@@ -2,7 +2,7 @@ from entity import Ent
 from enum import Enum
 from settings import TILE_H
 
-Obj_Type = Enum("Obj_type", ["wall", "other"])
+Obj_Type = Enum("Obj_type", ["wall", "door", "other"])
 
 
 class Obj(Ent):
