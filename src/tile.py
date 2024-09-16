@@ -11,10 +11,9 @@ class Tile(Ent):
         
         super().__init__(x_pos, y_pos, filepath, animation_steps, ind)
 
-    def draw_obj(self, screen):
-        for o in self.obj:
-            y_pos = self.pos.y - o.size.y + TILE_H
-            rect = pygame.Rect(self.pos.x, y_pos, o.size.x, o.size.y)
+    def draw_obj(self, screen, ind: int):
+            y_pos = self.pos.y - self.obj[ind].size.y + TILE_H
+            rect = pygame.Rect(self.pos.x, y_pos, self.obj[ind].size.x, self.obj[ind].size.y)
 
-            screen.blit(o.sprites.animation_list[o.sprites.ind], rect)
+            screen.blit(self.obj[ind].sprites.animation_list[self.obj[ind].sprites.ind], rect)
 

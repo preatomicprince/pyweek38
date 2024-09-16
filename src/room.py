@@ -1,4 +1,4 @@
-from object import Obj
+from object import Obj, Obj_Type
 from player import Player
 from settings import TILE_W, TILE_H, WIDTH, HEIGHT
 from tile import Tile
@@ -31,20 +31,31 @@ class Room:
 
         for tile in self.tiles:
             if tile.obj != None:
-                if tile.pos.y + TILE_H/2 < player.pos.y + player.size.y:
-                    tile.draw_obj(screen)
+                for i in range(len(tile.obj)):
+                    if tile.obj[i].obj_type == Obj_Type.wall:
+                        tile.draw_obj(screen, i)
+
+
+        for tile in self.tiles:
+            if tile.obj != None:
+                for i in range(len(tile.obj)):
+                    if tile.obj[i].obj_type != Obj_Type.wall:
+                        if tile.pos.y + TILE_H/2 < player.pos.y + player.size.y:
+                            tile.draw_obj(screen, i)
 
         player.draw(screen) # can be adjusted to work for all characters
 
         for tile in self.tiles:
             if tile.obj != None:
-                if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
-                    tile.draw_obj(screen)
+                for i in range(len(tile.obj)):
+                    if tile.obj[i].obj_type != Obj_Type.wall:
+                        if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
+                            tile.draw_obj(screen, i)
 
     def add_walls(self, filepath: str):
         for c in range(self.cols):
             for r in range(self.rows):
                 if c == 0:
-                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=0)) 
+                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=0, obj_type = Obj_Type.wall)) 
                 if r == 0:
-                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=1))    
+                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=1, obj_type = Obj_Type.wall))    
