@@ -30,36 +30,7 @@ if __name__ == "__main__":
     dining_room = Room("dining", 6, 6)
     
     kitchen_room = Room("kitchen", 4, 6)
-    for c in range(kitchen_room.rows):
-
-        kitchen_room.tiles[c].obj.append(Obj("../res/windows.png", animation_steps=2, ind=0))
-    for c in range(kitchen_room.cols):
-        for r in range(kitchen_room.rows):
-            if c == 0:
-                kitchen_room.tiles[c*kitchen_room.rows + r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=0)) 
-            if r == 0:
-                kitchen_room.tiles[c*kitchen_room.rows + r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=1))    
-
-
-        ##kitchen_room.tiles[c].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=0))
-        ###0, 4, 8, 12
-        ##for r in range(kitchen_room.cols+1 * kitchen_room.rows+1):
-          #  if r == kitchen_room.rows:
-            #    kitchen_room.tiles[r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=1))            
-        for c in range(kitchen_room.cols):
-            for r in range(kitchen_room.rows):
-                if c == 0:
-                    kitchen_room.tiles[c*kitchen_room.rows + r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=0)) 
-                if r == 0:
-                    kitchen_room.tiles[c*kitchen_room.rows + r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=1))             
-        
-        #for r in range(kitchen_room.cols):    
-            #print(c, r)
-            #if r == 3 or c == 0:
-                
-            
-                
-            
+    kitchen_room.add_walls("../res/kitchen_wall.png")
 
 
     room_list = [study_room, hallway_room, dining_room, kitchen_room]

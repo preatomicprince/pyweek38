@@ -1,3 +1,4 @@
+from object import Obj
 from player import Player
 from settings import TILE_W, TILE_H, WIDTH, HEIGHT
 from tile import Tile
@@ -39,3 +40,11 @@ class Room:
             if tile.obj != None:
                 if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
                     tile.draw_obj(screen)
+
+    def add_walls(self, filepath: str):
+        for c in range(self.cols):
+            for r in range(self.rows):
+                if c == 0:
+                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=0)) 
+                if r == 0:
+                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=1))    
