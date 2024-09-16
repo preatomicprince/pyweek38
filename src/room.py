@@ -1,7 +1,9 @@
 from object import Obj, Obj_Type
 from player import Player
-from settings import TILE_W, TILE_H, WIDTH, HEIGHT
+from settings import TILE_W, TILE_H, WIDTH, HEIGHT, fvec2
 from tile import Tile
+
+
 
 class Room:
     def __init__(self, room_name, rows, cols) -> None:
@@ -24,6 +26,9 @@ class Room:
                     self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2), ind=0) )
                 else:
                     self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2), ind=1) )
+
+    def coord_to_ind(self, x: int, y: int) -> int:
+        return x*self.rows + y
 
     def draw(self, screen, player):
         for tile in self.tiles:
@@ -61,6 +66,55 @@ class Room:
         for c in range(self.cols):
             for r in range(self.rows):
                 if c == 0:
-                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=0, obj_type = Obj_Type.wall)) 
+                    self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, animation_steps=2, ind=0, obj_type = Obj_Type.wall)) 
                 if r == 0:
-                    self.tiles[c*self.rows + r].obj.append(Obj(filepath, animation_steps=2, ind=1, obj_type = Obj_Type.wall))    
+                    self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, animation_steps=2, ind=1, obj_type = Obj_Type.wall)) 
+
+    def find_player_tile(self, player: Player) -> int:
+        # Returns tile index player is standing in
+        p_bottom_pos = player.get_bottom_pos()
+
+        for x in range(self.cols):
+            for y in range(self.rows):
+                if (p_bottom_pos.x > self.tiles[self.coord_to_ind(x, y)].pos.x) and (p_bottom_pos.x < self.tiles[self.coord_to_ind(x, y)].pos.x + TILE_W):
+                    if (p_bottom_pos.y > self.tiles[self.coord_to_ind(x, y)].pos.y) and (p_bottom_pos.y < self.tiles[self.coord_to_ind(x, y)].pos.y + TILE_H):
+                        return self.coord_to_ind(x, y)
+
+    def set_interact(self, player: Player) -> None:
+        p_tile = find_player_tile(player)
+
+        for o in self.tiles[p_tile].obj:
+            if o.interact == True:
+                player.selected_obj.selected = False
+                player.selected_obj.sprites.ind -= 1
+                player.selected_obj = o
+                o.selected = True
+                player.selected_obj.sprites.ind += 1
+                return
+
+        match player.dir:
+            case Direction.dr:
+                p_tile + self.rows
+
+            case Direction.ul:
+                p_tile + self.rows
+                
+            case Direction.ur:
+                p_tile -= 1
+
+            case Direction.dl:
+                p_tile += 1
+
+        for o in self.tiles[p_tile].obj:
+            if o.interact == True:
+                player.selected_obj.selected = False
+                player.selected_obj.sprites.ind -= 1
+                player.selected_obj = o
+                o.selected = True
+                player.selected_obj.sprites.ind += 1
+                return
+                
+
+
+
+

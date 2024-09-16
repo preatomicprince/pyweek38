@@ -1,5 +1,6 @@
 from entity import Ent
 from input import Input
+from object import Obj
 from settings import Direction, SPEED, fvec2
 
 class Player(Ent):
@@ -7,6 +8,7 @@ class Player(Ent):
         filepath = "../res/pc.png"
         animation_steps = 1
         self.velocity = fvec2(0, 0)
+        self.selected_obj: Obj = None
         super().__init__(x_pos, y_pos, filepath, animation_steps)
 
     def update(self, input: Input):
@@ -45,5 +47,9 @@ class Player(Ent):
         if input.key_right or input.key_left or input.key_up or input.key_down:
             self.pos.x += self.velocity.x
             self.pos.y += self.velocity.y
+
+    def get_bottom_pos(self) -> fvec2:
+        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y)
+
 
         

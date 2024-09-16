@@ -46,4 +46,6 @@ if __name__ == "__main__":
             if room_list[r].room_name == game_vars.current_room:
                 room_list[r].draw(screen, player)
 
+        print(kitchen_room.find_player_tile(player))
+
         pygame.display.update()
