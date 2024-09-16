@@ -7,13 +7,14 @@ class Tile(Ent):
     def __init__(self, x_pos: float, y_pos: float, obj: Obj = None, ind: int = 0):
         filepath = "../res/tile1.png"
         animation_steps = 2
-        self.obj = obj
+        self.obj = []
         
         super().__init__(x_pos, y_pos, filepath, animation_steps, ind)
 
     def draw_obj(self, screen):
-        y_pos = self.pos.y - self.obj.size.y + TILE_H
-        rect = pygame.Rect(self.pos.x, y_pos, self.obj.size.x, self.obj.size.y)
+        for o in self.obj:
+            y_pos = self.pos.y - o.size.y + TILE_H
+            rect = pygame.Rect(self.pos.x, y_pos, o.size.x, o.size.y)
 
-        screen.blit(self.obj.sprites.animation_list[self.obj.sprites.ind], rect)
+            screen.blit(o.sprites.animation_list[o.sprites.ind], rect)
 

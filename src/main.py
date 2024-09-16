@@ -22,22 +22,21 @@ if __name__ == "__main__":
 
     ###initialise some of the rooms to test transitions
     study_room = Room("study", 5, 5)
-    study_room.tiles[12].obj = Obj(Path("../res/box1.png"))
+    study_room.tiles[12].obj.append(Obj(Path("../res/box1.png")))
 
     hallway_room = Room("hallway", 10, 4)
-    hallway_room.tiles[12].obj = Obj(Path("../res/box1.png"))
+    hallway_room.tiles[12].obj.append(Obj(Path("../res/box1.png")))
 
     dining_room = Room("dining", 6, 6)
     
     kitchen_room = Room("kitchen", 4, 6)
     for c in range(kitchen_room.rows):
-        ###the ind here isnt working to do the walls facing the other way
-        kitchen_room.tiles[c].obj = Obj("../res/kitchen_wall.png", animation_steps=2, ind=0)
+
+        kitchen_room.tiles[c].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=0))
         ###0, 4, 8, 12
         for r in range(kitchen_room.cols+1 * kitchen_room.rows+1):
-            if r == 4:
-                kitchen_room.tiles[r].obj = Obj("../res/kitchen_wall.png", animation_steps=2, ind=1)
-            
+            if r == kitchen_room.rows:
+                kitchen_room.tiles[r].obj.append(Obj("../res/kitchen_wall.png", animation_steps=2, ind=1))            
         
         #for r in range(kitchen_room.cols):    
             #print(c, r)
