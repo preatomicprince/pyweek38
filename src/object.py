@@ -2,26 +2,45 @@ from entity import Ent
 from enum import Enum
 from settings import TILE_H
 
-Obj_Type = Enum("Obj_type", ["wall", "door", "other"])
+Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "other"])
+Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])
 
 
 class Obj(Ent):
-    def __init__(self, filepath: str, animation_steps: int = 1, ind: int = 0, obj_type: Obj_Type = Obj_Type.other):
+    def __init__(self, filepath: str,  ind: int = 0, obj_type: Obj_Type = Obj_Type.other, pickup_type: Pickup_Type = None):
         self.obj_type = obj_type
         self.go_to = None
         self.selected = False
+        self.pickup_type = None
 
         match self.obj_type:
-            case Obj_Type.wall:
+            case Obj_Type.wall: 
+                animation_steps = 2
                 self.collide = False
                 self.interact = False
 
             case Obj_Type.door:
+                animation_steps = 2
                 self.collide = False
                 self.interact = True
                 self.go_to = "dining"
 
+            case Obj_Type.pickup:
+                animation_steps = 10
+                self.collide = False
+                self.interact = True
+                self.pickup_type = pickup_type
+
+                match self.pickup_type:
+                    case Pickup_Type.water_bottle:
+                        ind = 0
+
+                    case Pickup_Type.rat_poison:
+                        ind = 2
+
+
             case Obj_Type.other:
+                animation_steps = 1
                 self.collide = True
                 self.interact = False
         

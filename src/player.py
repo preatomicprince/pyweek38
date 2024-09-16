@@ -9,6 +9,7 @@ class Player(Ent):
         animation_steps = 1
         self.velocity = fvec2(0, 0)
         self.selected_obj: Obj = None
+        self.inventory = []
         super().__init__(x_pos, y_pos, filepath, animation_steps)
 
     def update(self, input: Input):
@@ -49,7 +50,20 @@ class Player(Ent):
             self.pos.y += self.velocity.y
 
     def get_bottom_pos(self) -> fvec2:
-        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y)
+        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y - 10)
+
+    def interact(self, room) -> None:
+        if self.selected_obj != None:
+            if self.selected_obj.obj_type == Obj_Type.pickup:
+                self.inventory.append(self.selected_obj)
+                for t in room.tiles:
+                    if t.obj != None:
+                        if self.selected_obj in t.obj:
+                            t.obj.remove(self.selected_obj)
+                self.selected_obj = None
+
+
+
 
 
         

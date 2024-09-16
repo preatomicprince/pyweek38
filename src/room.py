@@ -1,6 +1,6 @@
 from object import Obj, Obj_Type
 from player import Player
-from settings import TILE_W, TILE_H, WIDTH, HEIGHT, fvec2
+from settings import Direction, TILE_W, TILE_H, WIDTH, HEIGHT, fvec2
 from tile import Tile
 
 
@@ -66,9 +66,9 @@ class Room:
         for c in range(self.cols):
             for r in range(self.rows):
                 if c == 0:
-                    self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, animation_steps=2, ind=0, obj_type = Obj_Type.wall)) 
+                    self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, ind=0, obj_type = Obj_Type.wall)) 
                 if r == 0:
-                    self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, animation_steps=2, ind=1, obj_type = Obj_Type.wall)) 
+                    self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, ind=1, obj_type = Obj_Type.wall)) 
 
     def find_player_tile(self, player: Player) -> int:
         # Returns tile index player is standing in
@@ -81,23 +81,27 @@ class Room:
                         return self.coord_to_ind(x, y)
 
     def set_interact(self, player: Player) -> None:
-        p_tile = find_player_tile(player)
+        p_tile = self.find_player_tile(player)
+        if p_tile == None:
+            return
 
-        for o in self.tiles[p_tile].obj:
-            if o.interact == True:
-                player.selected_obj.selected = False
-                player.selected_obj.sprites.ind -= 1
-                player.selected_obj = o
-                o.selected = True
-                player.selected_obj.sprites.ind += 1
-                return
+        if self.tiles[p_tile].obj != None:
+            for o in self.tiles[p_tile].obj:
+                if o.interact == True:
+                    if player.selected_obj != None:
+                        player.selected_obj.selected = False
+                        player.selected_obj.sprites.ind -= 1
+                    player.selected_obj = o
+                    o.selected = True
+                    player.selected_obj.sprites.ind += 1
+                    return
 
         match player.dir:
             case Direction.dr:
-                p_tile + self.rows
+                p_tile += self.rows
 
             case Direction.ul:
-                p_tile + self.rows
+                p_tile -= self.rows
                 
             case Direction.ur:
                 p_tile -= 1
@@ -105,14 +109,21 @@ class Room:
             case Direction.dl:
                 p_tile += 1
 
-        for o in self.tiles[p_tile].obj:
-            if o.interact == True:
-                player.selected_obj.selected = False
-                player.selected_obj.sprites.ind -= 1
-                player.selected_obj = o
-                o.selected = True
-                player.selected_obj.sprites.ind += 1
-                return
+        if self.tiles[p_tile].obj != None:
+            for o in self.tiles[p_tile].obj:
+                if o.interact == True:
+                    if player.selected_obj != None:
+                        player.selected_obj.selected = False
+                        player.selected_obj.sprites.ind -= 1
+                    player.selected_obj = o
+                    o.selected = True
+                    player.selected_obj.sprites.ind += 1
+                    return
+
+        if player.selected_obj != None:
+            player.selected_obj.selected = False
+            player.selected_obj.sprites.ind -= 1
+            player.selected_obj = None
                 
 
 
