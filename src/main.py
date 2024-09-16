@@ -1,6 +1,7 @@
 from entity import Ent
 from input import Input
 from object import Obj
+from pathlib import Path
 from player import Player
 import pygame
 from room import Room
@@ -21,10 +22,10 @@ if __name__ == "__main__":
 
     ###initialise some of the rooms to test transitions
     study_room = Room("study", 5, 5)
-    study_room.tiles[12].obj = Obj("../res/box1.png")
+    study_room.tiles[12].obj = Obj(Path("../res/box1.png"))
 
     hallway_room = Room("hallway", 10, 4)
-    hallway_room.tiles[12].obj = Obj("../res/box1.png")
+    hallway_room.tiles[12].obj = Obj(Path("../res/box1.png"))
 
     dining_room = Room("dining", 6, 6)
     
