@@ -28,9 +28,9 @@ if __name__ == "__main__":
 
     dining_room = Room("dining", 6, 6)
     
-    kitchen_room = Room("kitchen", 6, 4)
+    kitchen_room = Room("kitchen", 4, 6)
 
-    room_list = [study_room, hallway_room, dining_room]
+    room_list = [study_room, hallway_room, dining_room, kitchen_room]
 
     while settings.running:
         screen.fill((128, 128, 128))

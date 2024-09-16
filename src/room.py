@@ -14,7 +14,11 @@ class Room:
         for x in range(cols):
             for y in range(rows):
                 #https://clintbellanger.net/articles/isometric_math/ idk
-                self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2)))
+                ##makes the distincation between the rooms for different floor tiles
+                if self.room_name == "kitchen":
+                    self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2), ind=0) )
+                else:
+                    self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2), ind=1) )
 
     def draw(self, screen, player):
         for tile in self.tiles:
