@@ -10,6 +10,12 @@ from settings import Settings, WIDTH, HEIGHT, GameVars
 
 if __name__ == "__main__":
     pygame.init()
+
+    ###this is for the snarky joke im gonna leave in the game
+    ##remove once the joke has been done
+    ###its blitted at the end of the main function
+    meme = pygame.image.load(Path("../res/comment.jpg"))
+
     settings = Settings()
     ###initialise the game vars
     game_vars = GameVars()
@@ -69,5 +75,8 @@ if __name__ == "__main__":
         game_vars.room_list[game_vars.current_room].draw(screen, player)
         player.draw_inv(screen)
 
+        ###this is where I blit the image to the screen, the image is leaded at the begining of the main function
+        ###can remove once done
+        screen.blit(meme, (0, 0))
 
         pygame.display.update()
