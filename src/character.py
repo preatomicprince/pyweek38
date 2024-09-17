@@ -1,7 +1,7 @@
 from entity import Ent
 from enum import Enum
 from object import Obj, Obj_Type
-from settings import SPEED, Direction, fvec2
+from settings import SPEED, Direction, fvec2, TILE_W
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
 
@@ -26,6 +26,7 @@ class Character(Ent):
                 filepath = "../res/the_heir.png"
 
             case Char.duke:
+                self.current_room = 3
                 self.path = [0, 1, 2, 3]
                 filepath = "../res/duke_sprite.png"
 
@@ -66,16 +67,13 @@ class Character(Ent):
 
             if len(game_vars.room_list[self.current_room].tiles[current_tile].obj) > 0:
                 for o in game_vars.room_list[self.current_room].tiles[current_tile].obj:
-                    print(current_tile)
-                    print(o.obj_type)
                     if o.obj_type == Obj_Type.door:
-                        print("fgjfg")
                         game_vars.room_list[self.current_room].chars.remove(self)
-                        self.current_room = o.next_room
+                        self.current_room = o.new_room
                         game_vars.room_list[self.current_room].chars.append(self)
-                        
-                        self.pos.x = game_vars.room_list[o.next_room].tiles[o.go_to].pos.x + TILE_W/2
-                        self.pos.y = game_vars.room_list[o.next_room].tiles[o.go_to].pos.y - self.size.y/2
+
+                        self.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x + TILE_W/2
+                        self.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - self.size.y/2
             
             #simple back and forth. Needs updating
             if self.path[self.next_tile] > current_tile:
