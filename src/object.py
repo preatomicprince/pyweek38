@@ -4,6 +4,7 @@ from settings import TILE_H
 
 Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "other"])
 Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])
+Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone", "armour", "telephone", "bookshelf"])
 
 
 class Obj(Ent):

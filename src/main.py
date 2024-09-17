@@ -7,6 +7,7 @@ from player import Player
 import pygame
 from room import Room
 from settings import Settings, WIDTH, HEIGHT, GameVars
+from sys import platform
 
 if __name__ == "__main__":
     pygame.init()
@@ -75,6 +76,7 @@ if __name__ == "__main__":
 
         ###this is where I blit the image to the screen, the image is leaded at the begining of the main function
         ###can remove once done
-        screen.blit(meme, (0, 0))
+        if platform != "linux":
+            screen.blit(meme, (0, 0))
 
         pygame.display.update()
