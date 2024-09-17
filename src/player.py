@@ -6,16 +6,23 @@ from settings import Direction, SPEED, fvec2, TILE_H, TILE_W
 
 class Player(Ent):
     def __init__(self, x_pos: float, y_pos: float):
-        filepath = "../res/pc.png"
-        animation_steps = 1
+        filepath = "../res/char.png"
+        animation_steps = 32
         self.velocity = fvec2(0, 0)
         self.selected_obj: Obj = None
         self.inventory: Obj = []
+        self.prev_dir: Direction = Direction.dl
+
+        self.dl_start = 0
+        self.dr_start = 8
+        self.ur_start = 16
+        self.ul_start = 24
+
         super().__init__(x_pos, y_pos, filepath, animation_steps)
 
     def update(self, input: Input, game_vars):
         self.velocity = fvec2(0, 0)
-
+        self.prev_dir = self.dir
         if input.key_right:
             self.dir = Direction.dr
 
@@ -30,23 +37,32 @@ class Player(Ent):
 
         match self.dir:
             case Direction.dr:
+                if self.dir != self.prev_dir:
+                    self.sprites.set_animation(self.dr_start, self.ur_start - 1)
                 self.velocity.x += SPEED.x
                 self.velocity.y += SPEED.y
 
             case Direction.ul:
+                if self.dir != self.prev_dir:
+                    self.sprites.set_animation(self.ul_start, self.sprites.animation_steps -1)
                 self.velocity.x -= SPEED.x
                 self.velocity.y -= SPEED.y
 
             case Direction.ur:
+                if self.dir != self.prev_dir:
+                    self.sprites.set_animation(self.ur_start, self.ul_start -1)
                 self.velocity.x += SPEED.x
                 self.velocity.y -= SPEED.y
 
             case Direction.dl:
+                if self.dir != self.prev_dir:
+                    self.sprites.set_animation(self.dl_start, self.dr_start -1)
                 self.velocity.x -= SPEED.x
                 self.velocity.y += SPEED.y
 
      
         if input.key_right or input.key_left or input.key_up or input.key_down:
+            self.sprites.update(game_vars.time)
             self.pos.x += self.velocity.x
             self.pos.y += self.velocity.y
 
