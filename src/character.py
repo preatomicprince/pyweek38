@@ -22,11 +22,13 @@ class Character(Ent):
         
         match self.char:
             case Char.heir:
+                animation_steps = 34
                 self.current_room = 3
                 self.path = [0]
                 filepath = "../res/the_heir.png"
 
             case Char.duke:
+                animation_steps = 39
                 self.current_room = 3
                 self.path = [0, 1, 2, 3]
                 filepath = "../res/duke_sprite.png"
@@ -34,13 +36,14 @@ class Character(Ent):
             case Char.duchess:
                 self.current_room = 3
                 self.path = [4, 5, 6, 7]
-                animation_steps = 4
+                animation_steps = 9
                 self.dr_start = 1
                 self.ur_start = 2
                 self.ul_start = 3
                 filepath = "../res/mother.png"
 
             case Char.cleaner:
+                animation_steps = 37
                 self.current_room = 3
                 self.path = [8, 10]
                 filepath = "../res/the_maid.png"
@@ -48,7 +51,7 @@ class Character(Ent):
             case Char.lady:
                 self.current_room = 3
                 self.path = [12, 15]
-                animation_steps = 16
+                animation_steps = 21
                 self.dr_start = 4
                 self.ur_start = 8
                 self.ul_start = 12
