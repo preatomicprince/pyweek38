@@ -27,5 +27,5 @@ class Ent:
         screen.blit(self.sprites.animation_list[self.sprites.ind], rect)
 
     def get_bottom_pos(self) -> fvec2:
-        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y - 10)
+        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y - 5)
 

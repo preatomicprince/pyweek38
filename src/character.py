@@ -22,6 +22,7 @@ class Character(Ent):
         
         match self.char:
             case Char.heir:
+                self.current_room = 3
                 self.path = [0]
                 filepath = "../res/the_heir.png"
 
@@ -31,7 +32,8 @@ class Character(Ent):
                 filepath = "../res/duke_sprite.png"
 
             case Char.duchess:
-                self.path = [0]
+                self.current_room = 3
+                self.path = [4, 5, 6, 7]
                 animation_steps = 4
                 self.dr_start = 1
                 self.ur_start = 2
@@ -39,11 +41,13 @@ class Character(Ent):
                 filepath = "../res/mother.png"
 
             case Char.cleaner:
-                self.path = [0]
+                self.current_room = 3
+                self.path = [8, 10]
                 filepath = "../res/the_maid.png"
 
             case Char.lady:
-                self.path = [0]
+                self.current_room = 3
+                self.path = [12, 15]
                 animation_steps = 16
                 self.dr_start = 4
                 self.ur_start = 8
@@ -56,7 +60,7 @@ class Character(Ent):
 
         self.sprites.update(game_vars.time)
 
-        current_tile = game_vars.current_room.find_ent_tile(self)            
+        current_tile = game_vars.room_list[self.current_room].find_ent_tile(self)            
 
         if self.path[self.next_tile] == current_tile:
             if self.next_tile == len(self.path) - 1:

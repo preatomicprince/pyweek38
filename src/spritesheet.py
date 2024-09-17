@@ -1,7 +1,7 @@
 import pygame
 from pathlib import Path
 
-base_fps = 15
+base_fps = 10
 
 class SpriteSheet:
     def __init__(self, image, animation_steps, x_cut, y_cut, ind = 0):

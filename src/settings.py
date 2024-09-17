@@ -34,7 +34,7 @@ class GameVars:
     def __init__(self) -> None:
         
     ###the rooms that will be in the game are, study, hallway, dinning room, kitchen, bedroom1, bedroom2, library, lounge
-        self.current_room = 0
+        self.current_room: int = 0
         self.rooms = []
         self.chars = []
 

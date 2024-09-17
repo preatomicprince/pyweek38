@@ -10,6 +10,8 @@ class Input:
         self.key_up: bool = False
         self.key_down: bool = False
         self.key_interact: bool = False
+
+        self.prev_input = None
         
 
     def update(self, settings: Settings, prev_input):

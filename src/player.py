@@ -67,7 +67,8 @@ class Player(Ent):
             self.pos.y += self.velocity.y
 
         if input.key_interact:
-            self.interact(game_vars)
+            if input.prev_input.key_interact == False:
+                self.interact(game_vars)
 
 
     def interact(self, game_vars) -> None:
@@ -75,7 +76,7 @@ class Player(Ent):
             if self.selected_obj.obj_type == Obj_Type.pickup:
                 self.inventory.append(self.selected_obj)
                 self.inventory[len(self.inventory)-1].sprites.ind -= 1
-                for t in game_vars.current_room.tiles:
+                for t in game_vars.room_list[game_vars.current_room].tiles:
                     if t.obj != None:
                         if self.selected_obj in t.obj:
                             t.obj.remove(self.selected_obj)
@@ -83,11 +84,14 @@ class Player(Ent):
                 return
             
             if self.selected_obj.obj_type  == Obj_Type.door:
-                game_vars.current_room = game_vars.room_list[self.selected_obj.new_room]
-                self.pos.x = game_vars.current_room.tiles[self.selected_obj.go_to].pos.x + TILE_W/2
-                self.pos.y = game_vars.current_room.tiles[self.selected_obj.go_to].pos.y - self.size.y/2
+                game_vars.current_room = self.selected_obj.new_room
+                print(game_vars.current_room)
+                self.pos.x = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.x + TILE_W/2
+                self.pos.y = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.y - self.size.y/2
+                self.selected_obj.selected = False
+                self.selected_obj.sprites.ind -= 1
                 self.selected_obj = None
-
+                
     def draw_inv(self, screen) -> None:
         if len(self.inventory) > 0:
             count = 0
