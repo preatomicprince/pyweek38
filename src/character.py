@@ -75,15 +75,21 @@ class Character(Ent):
         current_tile = game_vars.room_list[self.current_room].find_ent_tile(self)            
 
         if self.path[self.next_tile] == current_tile:
+
+            # If at end of path, reverse path and walk back along route
+            # else set next target
             if self.next_tile == len(self.path) - 1:
                 self.path.reverse()
                 self.next_tile = 0
             else:
                 self.next_tile += 1
 
+            # When next tile reached, check if it has a door.
             if len(game_vars.room_list[self.current_room].tiles[current_tile].obj) > 0:
                 for o in game_vars.room_list[self.current_room].tiles[current_tile].obj:
                     if o.obj_type == Obj_Type.door:
+
+                        # Go through door
                         game_vars.room_list[self.current_room].chars.remove(self)
                         self.current_room = o.new_room
                         game_vars.room_list[self.current_room].chars.append(self)

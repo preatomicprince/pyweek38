@@ -73,6 +73,8 @@ class Player(Ent):
 
     def interact(self, game_vars) -> None:
         if self.selected_obj != None:
+
+            # If selected object is a pickup
             if self.selected_obj.obj_type == Obj_Type.pickup:
                 self.inventory.append(self.selected_obj)
                 self.inventory[len(self.inventory)-1].sprites.ind -= 1
@@ -83,6 +85,7 @@ class Player(Ent):
                 self.selected_obj = None
                 return
             
+            # If selected object is door
             if self.selected_obj.obj_type  == Obj_Type.door:
                 game_vars.current_room = self.selected_obj.new_room
                 print(game_vars.current_room)

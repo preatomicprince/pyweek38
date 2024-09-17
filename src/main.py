@@ -11,10 +11,8 @@ from settings import Settings, WIDTH, HEIGHT, GameVars
 if __name__ == "__main__":
     pygame.init()
 
-    ###this is for the snarky joke im gonna leave in the game
-    ##remove once the joke has been done
-    ###its blitted at the end of the main function
-    meme = pygame.image.load(Path("../res/comment.jpg"))
+    #to-do: add comments
+    meme = pygame.image.load(Path("../res/1lzym5zv16j01.png"))
 
     settings = Settings()
     ###initialise the game vars

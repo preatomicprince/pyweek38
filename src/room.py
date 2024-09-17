@@ -82,35 +82,13 @@ class Room:
                         return self.coord_to_ind(x, y)
 
     def set_interact(self, player: Player) -> None:
+        # Checks if interactable object is on current tile or tile player is facing.
+        # Selects object so player will interact when e key is pressed
+
         p_tile = self.find_ent_tile(player)
-        if p_tile == None:
-            return
-        
-        if self.tiles[p_tile].obj != None:
-            for o in self.tiles[p_tile].obj:
-                if o.interact == True:
-                    if player.selected_obj != None:
-                        player.selected_obj.selected = False
-                        player.selected_obj.sprites.ind -= 1
-                    player.selected_obj = o
-                    o.selected = True
-                    player.selected_obj.sprites.ind += 1
-                    return
-
-        match player.dir:
-            case Direction.dr:
-                p_tile += self.rows
-
-            case Direction.ul:
-                p_tile -= self.rows
-                
-            case Direction.ur:
-                p_tile -= 1
-
-            case Direction.dl:
-                p_tile += 1
-
-        if 0 < p_tile < len(self.tiles):
+        if p_tile != None:
+            
+        # Check and set interactable obj on player's current tile        
             if self.tiles[p_tile].obj != None:
                 for o in self.tiles[p_tile].obj:
                     if o.interact == True:
@@ -121,6 +99,33 @@ class Room:
                         o.selected = True
                         player.selected_obj.sprites.ind += 1
                         return
+
+            # Set checking tile to one next to player, in direction they're facing
+            match player.dir:
+                case Direction.dr:
+                    p_tile += self.rows
+
+                case Direction.ul:
+                    p_tile -= self.rows
+                    
+                case Direction.ur:
+                    p_tile -= 1
+
+                case Direction.dl:
+                    p_tile += 1
+
+            # Check new tile for interactable object and set it
+            if 0 < p_tile < len(self.tiles):
+                if self.tiles[p_tile].obj != None:
+                    for o in self.tiles[p_tile].obj:
+                        if o.interact == True:
+                            if player.selected_obj != None:
+                                player.selected_obj.selected = False
+                                player.selected_obj.sprites.ind -= 1
+                            player.selected_obj = o
+                            o.selected = True
+                            player.selected_obj.sprites.ind += 1
+                            return
 
         if player.selected_obj != None:
             player.selected_obj.selected = False
