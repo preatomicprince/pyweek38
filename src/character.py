@@ -9,16 +9,25 @@ class Character(Ent):
     def __init__(self, x_pos, y_pos, char: Char):
         self.char = char
         self.dir = Direction.dl
+
+        # Start frame for each direction's walk cycle
+        # End frame should be the next start minus 1
         self.dl_start = 0
         self.dr_start = 8
         self.ur_start = 16
         self.ul_start = 24
 
+        # Room the character is in
         self.current_room = 0
         animation_steps = 32
 
-        
+        # Index for self.path[]
         self.next_tile: ind = 0
+
+        # List of points the character will travel to. 
+        # Each int represents the index for room.tiles[]
+        # If a tile in path contains a door, the character will walk through when reached
+        self.path: List(int) = []
         
         match self.char:
             case Char.heir:
@@ -79,7 +88,8 @@ class Character(Ent):
                         self.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x + TILE_W/2
                         self.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - self.size.y/2
             
-            #simple back and forth. Needs updating
+            # Simple back and forth. Direction.ur to Direction.dl. 
+            # Needs updating to find tiles to left and right
             if self.path[self.next_tile] > current_tile:
                 self.dir = Direction.dl
             elif self.path[self.next_tile] < current_tile:

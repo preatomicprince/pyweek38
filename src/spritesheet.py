@@ -21,23 +21,25 @@ class SpriteSheet:
         self.fps = base_fps
 
         self.prev_frame_time = 0
-        self.time = 0
         
         ###the colour used in the background of sprites that gets cut out to make it transparent
         ##the bit you want to cut out has to be this colour
         BLACK_GRE = (11, 158, 3)
         
         for x in range(self.animation_steps):
-            self.animation_list.append(self.get_image(x, self.x_cut, self.y_cut, BLACK_GRE))
+            self.animation_list.append(self._get_image(x, self.x_cut, self.y_cut, BLACK_GRE))
             
             
-    def get_image(self, frame, width, height, colour):
+    def _get_image(self, frame, width, height, colour):
         image = pygame.Surface((width, height))
         image.blit(self.sheet, (0, 0), ((frame * width), 0 , width, height))
         image.set_colorkey(colour)
         return image
 
     def set_animation(self, start_frame, end_frame, fps = base_fps) -> None:
+        # Sets the start and end frames for certain parts of the sprite sheet
+        # Used for calling specific animations from different parts of the same sheet
+
         self.start_frame = start_frame
         self.end_frame = end_frame
         self.fps = fps
@@ -45,7 +47,8 @@ class SpriteSheet:
         self.ind = self.start_frame
 
     def update(self, time) -> None:
-    #Moves animation to next frame if enough time has passed
+        # Moves animation to next frame if enough time has passed
+
         if time > self.prev_frame_time + 1000/self.fps:
             self.prev_frame_time = time
             if self.ind < self.end_frame:
