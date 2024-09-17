@@ -53,8 +53,6 @@ class Player(Ent):
         if input.key_interact:
             self.interact(game_vars)
 
-    def get_bottom_pos(self) -> fvec2:
-        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y - 10)
 
     def interact(self, game_vars) -> None:
         if self.selected_obj != None:

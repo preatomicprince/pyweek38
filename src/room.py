@@ -1,3 +1,4 @@
+from entity import Ent
 from object import Obj, Obj_Type
 from player import Player
 from settings import Direction, TILE_W, TILE_H, WIDTH, HEIGHT, fvec2
@@ -13,6 +14,8 @@ class Room:
         self.rows = rows
         self.cols = cols
         self.tiles: list = []
+
+        self.chars = []
 
         for x in range(cols):
             for y in range(rows):
@@ -50,6 +53,8 @@ class Room:
                             tile.draw_obj(screen, i)
 
         player.draw(screen) # can be adjusted to work for all characters
+        for character in self.chars:
+            character.draw(screen)
 
         for tile in self.tiles:
             if len(tile.obj) > 0:
@@ -66,18 +71,18 @@ class Room:
                 if r == 0:
                     self.tiles[self.coord_to_ind(c, r)].obj.append(Obj(filepath, ind=1, obj_type = Obj_Type.wall)) 
 
-    def find_player_tile(self, player: Player) -> int:
-        # Returns tile index player is standing in
-        p_bottom_pos = player.get_bottom_pos()
+    def find_ent_tile(self, ent: Ent) -> int:
+        # Returns tile index ent is standing in
+        bottom_pos = ent.get_bottom_pos()
 
         for x in range(self.cols):
             for y in range(self.rows):
-                if (p_bottom_pos.x > self.tiles[self.coord_to_ind(x, y)].pos.x) and (p_bottom_pos.x < self.tiles[self.coord_to_ind(x, y)].pos.x + TILE_W):
-                    if (p_bottom_pos.y > self.tiles[self.coord_to_ind(x, y)].pos.y) and (p_bottom_pos.y < self.tiles[self.coord_to_ind(x, y)].pos.y + TILE_H):
+                if (bottom_pos.x > self.tiles[self.coord_to_ind(x, y)].pos.x) and (bottom_pos.x < self.tiles[self.coord_to_ind(x, y)].pos.x + TILE_W):
+                    if (bottom_pos.y > self.tiles[self.coord_to_ind(x, y)].pos.y) and (bottom_pos.y < self.tiles[self.coord_to_ind(x, y)].pos.y + TILE_H):
                         return self.coord_to_ind(x, y)
 
     def set_interact(self, player: Player) -> None:
-        p_tile = self.find_player_tile(player)
+        p_tile = self.find_ent_tile(player)
         if p_tile == None:
             return
         

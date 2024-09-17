@@ -25,3 +25,7 @@ class Ent:
         rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
 
         screen.blit(self.sprites.animation_list[self.sprites.ind], rect)
+
+    def get_bottom_pos(self) -> fvec2:
+        return fvec2(self.pos.x + self.size.x/2, self.pos.y + self.size.y - 10)
+
