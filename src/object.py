@@ -20,7 +20,7 @@ class Obj(Ent):
                 self.interact = False
 
             case Obj_Type.door:
-                animation_steps = 2
+                animation_steps = 4
                 self.collide = False
                 self.interact = True
                 self.new_room = new_room
