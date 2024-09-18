@@ -1,7 +1,7 @@
 from character import Character, Char
 from entity import Ent
 from input import Input
-from object import Obj, Obj_Type, Pickup_Type
+from object import Obj, Obj_Type, Pickup_Type, Interact_Type
 from pathlib import Path
 from player import Player
 import pygame
@@ -48,6 +48,7 @@ if __name__ == "__main__":
     kitchen_room.tiles[5].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.water_bottle))
     kitchen_room.tiles[11].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.rat_poison))
     kitchen_room.tiles[3].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 0, go_to = 0))
+    kitchen_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.stove))
 
     heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
     duke = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.duke)
@@ -78,7 +79,7 @@ if __name__ == "__main__":
 
         ###this is where I blit the image to the screen, the image is leaded at the begining of the main function
         ###can remove once done
-        if platform == "linux":
-            screen.blit(meme, (-100, 0))
+        if platform != "linux":
+           screen.blit(meme, (0, 0))
 
         pygame.display.update()

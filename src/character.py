@@ -27,7 +27,7 @@ class Character(Ent):
         # List of points the character will travel to. 
         # Each int represents the index for room.tiles[]
         # If a tile in path contains a door, the character will walk through when reached
-        self.path: List(int) = []
+        self.path: list = []
         
         self.alive = True
 

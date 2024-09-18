@@ -1,6 +1,6 @@
 from entity import Ent
 from input import Input
-from object import Obj, Obj_Type
+from object import Obj, Obj_Type, Interact_Type
 import pygame
 from settings import Direction, SPEED, fvec2, TILE_H, TILE_W
 
@@ -97,12 +97,17 @@ class Player(Ent):
 
             # If selected object is interactable stationary object
             elif self.selected_obj.obj_type == Obj_Type.interact:
-                 for i in self.inv:
+                 if self.selected_obj.interact_type == Interact_Type.stove:
+                    self.selected_obj.interact = False
+                    self.selected_obj.active = True
+                    self.selected_obj.selected = False
+                    self.selected_obj = None
+                 for i in self.inventory:
                     if self.selected_obj.pickup_type == i.pickup_type:
                         
                         print("This object is now deadly")
                         self.inv.remove(i)
-
+                        self.selected_obj.interact = False
                         self.selected_obj.active = True
                         self.selected_obj.selected = False
                         self.selected_obj = None

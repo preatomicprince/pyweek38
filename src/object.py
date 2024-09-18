@@ -1,5 +1,6 @@
 from entity import Ent
 from enum import Enum
+from pathlib import Path
 from settings import TILE_H
 
 Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "other"])
@@ -8,21 +9,27 @@ Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone",
 
 
 class Obj(Ent):
-    def __init__(self, filepath: str,  ind: int = 0, obj_type: Obj_Type = Obj_Type.other, pickup_type: Pickup_Type = None, new_room: int = None, go_to: int = None):
+    def __init__(self, filepath: str = None,  ind: int = 0, 
+                 obj_type: Obj_Type = Obj_Type.other, 
+                 interact_type: Interact_Type = None, 
+                 pickup_type: Pickup_Type = None, 
+                 new_room: int = None, go_to: int = None):
+        
         self.obj_type = obj_type
         self.go_to = None
         self.selected = False
         self.pickup_type = None
-        self.interact_type = None
+        self.interact_type = interact_type
         self.active = None
 
         match self.obj_type:
-            case Obj_Type.wall: 
+            case Obj_Type.wall:
                 animation_steps = 2
                 self.collide = False
                 self.interact = False
 
             case Obj_Type.door:
+                filepath = Path("../res/doors.png")
                 animation_steps = 4
                 self.collide = False
                 self.interact = True
@@ -30,6 +37,7 @@ class Obj(Ent):
                 self.go_to = go_to
 
             case Obj_Type.pickup:
+                filepath = Path("../res/usables2.png")
                 animation_steps = 10
                 self.collide = False
                 self.interact = True
@@ -43,7 +51,8 @@ class Obj(Ent):
                         ind = 2
 
             case Obj_Type.interact:
-                animation_steps = 7
+                filepath = Path("../res/interact.png")
+                animation_steps = 14
                 self.collide = True
                 self.interact = True
 
@@ -54,30 +63,30 @@ class Obj(Ent):
 
                     case Interact_Type.stove:
                         ind = 0
-                        self.pickup_type = None
+                        self.pickup_type = []
 
                     case Interact_Type.whiskey:
-                        ind = 1
-                        self.pickup_type = [Pickup_Type.rat_poison]
-
-                    case Interact_Type.wine:
                         ind = 2
                         self.pickup_type = [Pickup_Type.rat_poison]
 
+                    case Interact_Type.wine:
+                        ind = 4
+                        self.pickup_type = [Pickup_Type.rat_poison]
+
                     case Interact_Type.gramophone:
-                        ind = 3
+                        ind = 6
                         self.pickup_type = [Pickup_Type.water_bottle, Pickup_Type.screwdriver]
 
                     case Interact_Type.armour:
-                        ind = 4
+                        ind = 8
                         self.pickup_type = [Pickup_Type.screwdriver]
 
                     case Interact_Type.telephone:
-                        ind = 5
+                        ind = 10
                         self.pickup_type = [Pickup_Type.water_bottle]
 
                     case Interact_Type.bookshelf:
-                        ind = 6
+                        ind = 12
                         self.pickup_type = [Pickup_Type.screwdriver]
 
             case Obj_Type.other:
