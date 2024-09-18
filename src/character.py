@@ -9,7 +9,11 @@ Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
 class Character(Ent):
     def __init__(self, x_pos, y_pos, char: Char):
         self.char = char
+        
         self.dir = Direction.dl
+        self.prev_dir = Direction.ul
+        
+        
 
         # Start frame for each direction's walk cycle
         # End frame should be the next start minus 1
@@ -22,8 +26,7 @@ class Character(Ent):
         self.current_room = 0
         self.walking_animation_steps = 32
 
-        # Index for self.path[]
-        self.next_tile: int = 0
+        self.pathing = Pathing()
 
         # List of points the character will travel to. 
         # Each int represents the index for room.tiles[]
@@ -77,76 +80,7 @@ class Character(Ent):
 
         self.sprites.update(game_vars.time)
 
-        current_tile = game_vars.room_list[self.current_room].find_ent_tile(self)            
-
-        if self.path[self.next_tile] == current_tile:
-
-            # If at end of path, reverse path and walk back along route
-            # else set next target
-            if self.next_tile == len(self.path) - 1:
-                self.path.reverse()
-                self.next_tile = 0
-            else:
-                self.next_tile += 1
-
-            # When next tile reached, check if it has a door.
-            if len(game_vars.room_list[self.current_room].tiles[current_tile].obj) > 0:
-                for o in game_vars.room_list[self.current_room].tiles[current_tile].obj:
-                    if o.obj_type == Obj_Type.door:
-
-                        # Go through door
-                        game_vars.room_list[self.current_room].chars.remove(self)
-                        self.current_room = o.new_room
-                        game_vars.room_list[self.current_room].chars.append(self)
-
-                        self.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x + TILE_W/2
-                        self.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - self.size.y/2
-
-            # Check tiles next to current tile
-            # If interact object is active, kill character
-
-            # List of nearby tiles
-            above_tile = current_tile - 1
-            below_tile = current_tile + 1
-            left_tile = current_tile - game_vars.room_list[self.current_room].rows
-            right_tile = current_tile + game_vars.room_list[self.current_room].rows
-
-            check_tiles = [above_tile, below_tile, left_tile, right_tile]
-
-            # Check tiles
-            for t in check_tiles:
-                if len(game_vars.room_list[self.current_room].tiles[t].obj) > 0:
-                    for o in game_vars.room_list[self.current_room].tiles[t].obj:
-                        if o.obj_type == Obj_Type.interact:
-                            
-                            # Kill character
-                            if o.active == True:
-                                self.alive = False
-
-            
-            # Simple back and forth. Direction.ur to Direction.dl. 
-            # Needs updating to find tiles to left and right
-            if self.path[self.next_tile] > current_tile:
-                self.dir = Direction.dl
-            elif self.path[self.next_tile] < current_tile:
-                self.dir = Direction.ur
-
-            match self.dir:
-                case Direction.dl:
-                    self.vel = fvec2(-SPEED.x/2, SPEED.y/2)
-                    self.sprites.set_animation(self.dl_start, self.dr_start - 1)
-
-                case Direction.ur:
-                    self.vel = fvec2(SPEED.x/2, -SPEED.y/2)
-                    self.sprites.set_animation(self.ur_start, self.ul_start - 1)
-
-                case Direction.ul:
-                    self.vel = fvec2(-SPEED.x/2, -SPEED.y/2)
-                    self.sprites.set_animation(self.ul_start, self.walking_animation_steps - 1)
-
-                case Direction.dr:
-                    self.vel = fvec2(SPEED.x/2, SPEED.y/2)
-                    self.sprites.set_animation(self.dr_start, self.ur_start - 1)
+        self.pathing.update(game_vars, self)
 
         self.pos.x += self.vel.x
         self.pos.y += self.vel.y

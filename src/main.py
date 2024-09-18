@@ -50,13 +50,15 @@ if __name__ == "__main__":
     kitchen_room.tiles[3].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 0, go_to = 0))
     kitchen_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.gramophone))
 
-    heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
+    #heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
     duke = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.duke)
-    duchess = Character(kitchen_room.tiles[4].pos.x, kitchen_room.tiles[4].pos.y - 64, Char.duchess)
-    cleaner = Character(kitchen_room.tiles[8].pos.x, kitchen_room.tiles[8].pos.y - 64, Char.cleaner)
-    lady = Character(kitchen_room.tiles[12].pos.x, kitchen_room.tiles[12].pos.y- 64, Char.lady)
-    game_vars.chars = [heir, duke, duchess, cleaner, lady]
-    kitchen_room.chars = [heir, duke, duchess, cleaner, lady]
+    #duchess = Character(kitchen_room.tiles[4].pos.x, kitchen_room.tiles[4].pos.y - 64, Char.duchess)
+    #cleaner = Character(kitchen_room.tiles[8].pos.x, kitchen_room.tiles[8].pos.y - 64, Char.cleaner)
+    #lady = Character(kitchen_room.tiles[12].pos.x, kitchen_room.tiles[12].pos.y- 64, Char.lady)
+    #game_vars.chars = [heir, duke, duchess, cleaner, lady]
+    #kitchen_room.chars = [heir, duke, duchess, cleaner, lady]
+    game_vars.chars = [duke]
+    kitchen_room.chars = [duke]
 
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room]
@@ -72,7 +74,8 @@ if __name__ == "__main__":
         player.update(input, game_vars)
 
         for i in game_vars.chars:
-            i.update(game_vars)        
+            i.update(game_vars)  
+                  
         ###this goes over the list of rooms, checks which room the player (in the game vars) is in against the names of the rooms
         game_vars.room_list[game_vars.current_room].draw(screen, player)
         player.draw_inv(screen)
