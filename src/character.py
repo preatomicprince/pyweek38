@@ -29,6 +29,8 @@ class Character(Ent):
         # If a tile in path contains a door, the character will walk through when reached
         self.path: List(int) = []
         
+        self.alive = True
+
         match self.char:
             case Char.heir:
                 animation_steps = 34
@@ -96,6 +98,28 @@ class Character(Ent):
 
                         self.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x + TILE_W/2
                         self.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - self.size.y/2
+
+            # Check tiles next to current tile
+            # If interact object is active, kill character
+
+            # List of nearby tiles
+            above_tile = current_tile - 1
+            below_tile = current_tile + 1
+            left_tile = current_tile - game_vars.room_list[self.current_room].rows
+            right_tile = current_tile + game_vars.room_list[self.current_room].rows
+
+            check_tiles = [above_tile, below_tile, left_tile, right_tile]
+
+            # Check tiles
+            for t in check_tiles:
+                if len(game_vars.room_list[self.current_room].tiles[t].obj) > 0:
+                    for o in game_vars.room_list[self.current_room].tiles[t].obj:
+                        if o.obj_type == Obj_Type.interact:
+                            
+                            # Kill character
+                            if o.active == True:
+                                self.alive = False
+
             
             # Simple back and forth. Direction.ur to Direction.dl. 
             # Needs updating to find tiles to left and right

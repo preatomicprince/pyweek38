@@ -37,6 +37,7 @@ class GameVars:
         self.current_room: int = 0
         self.rooms = []
         self.chars = []
+        self.score = 0
 
         self.time = 0
 
