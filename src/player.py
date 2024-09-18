@@ -94,6 +94,17 @@ class Player(Ent):
                 self.selected_obj.selected = False
                 self.selected_obj.sprites.ind -= 1
                 self.selected_obj = None
+
+            # If selected object is interactable stationary object
+            if self.selected_obj.obj_type == Obj_Type.interact:
+                 for i in self.inv:
+                    if self.selected_obj.pickup_type = i.pickup_type:
+                        print("This object is now deadly")
+                        self.selected_obj.active = True
+                        self.selected_obj.selected = False
+                        self.selected_obj = None
+                    else:
+                        print("You don't have the right kind of object, dingus")
                 
     def draw_inv(self, screen) -> None:
         if len(self.inventory) > 0:

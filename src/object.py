@@ -14,6 +14,7 @@ class Obj(Ent):
         self.selected = False
         self.pickup_type = None
         self.interact_type = None
+        self.active = None
 
         match self.obj_type:
             case Obj_Type.wall: 
@@ -45,6 +46,9 @@ class Obj(Ent):
                 animation_steps = 7
                 self.collide = True
                 self.interact = True
+
+                # If the correct pickup has been used
+                self.active = False
 
                 match self.interact_type:
 

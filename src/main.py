@@ -7,12 +7,14 @@ from player import Player
 import pygame
 from room import Room
 from settings import Settings, WIDTH, HEIGHT, GameVars
+
+# Just here so the "comment" splashscreen isn't in the way during my testing
 from sys import platform
 
 if __name__ == "__main__":
     pygame.init()
 
-    #to-do: add comments
+    # to-do: add comment
     meme = pygame.image.load(Path("../res/1lzym5zv16j01.png"))
 
     settings = Settings()
