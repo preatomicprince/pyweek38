@@ -98,7 +98,7 @@ class Player(Ent):
             # If selected object is interactable stationary object
             if self.selected_obj.obj_type == Obj_Type.interact:
                  for i in self.inv:
-                    if self.selected_obj.pickup_type = i.pickup_type:
+                    if self.selected_obj.pickup_type == i.pickup_type:
                         print("This object is now deadly")
                         self.selected_obj.active = True
                         self.selected_obj.selected = False
