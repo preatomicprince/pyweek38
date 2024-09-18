@@ -6,7 +6,7 @@ from pathlib import Path
 from player import Player
 import pygame
 from room import Room
-from settings import Settings, WIDTH, HEIGHT, GameVars
+from settings import Settings, WIDTH, HEIGHT, GameVars, TILE_W, TILE_H
 
 # Just here so the "comment" splashscreen isn't in the way during my testing
 from sys import platform
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     kitchen_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.gramophone))
 
     #heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
-    duke = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.duke)
+    duke = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - TILE_H, Char.duke)
     #duchess = Character(kitchen_room.tiles[4].pos.x, kitchen_room.tiles[4].pos.y - 64, Char.duchess)
     #cleaner = Character(kitchen_room.tiles[8].pos.x, kitchen_room.tiles[8].pos.y - 64, Char.cleaner)
     #lady = Character(kitchen_room.tiles[12].pos.x, kitchen_room.tiles[12].pos.y- 64, Char.lady)

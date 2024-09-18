@@ -1,5 +1,5 @@
 from object import Obj_Type
-from settings import GameVars, ivec2, fvec2, Direction, SPEED
+from settings import GameVars, ivec2, fvec2, Direction, SPEED, TILE_W, TILE_H
 
 class Path_Tile:
     def __init__(self, room: int, tile: int,
@@ -21,13 +21,13 @@ class Pathing:
 
         # All major stops and key interaction tiles
         # List of Path_Tiles
-        self.key_points: list = [Path_Tile(3, 0), Path_Tile(3, 3, door = True)]
+        self.key_points: list = [Path_Tile(3, 0), Path_Tile(3, 3, door = True), Path_Tile(0, 0, door = True), Path_Tile(0, 3)]
 
         # All stops between key points
         # List of tile indexes (int)
         # Should contain (len(self.key_points) - 1) lists
         # First in each list should be current key point. Last should be next key point
-        self.path_tiles: list = [[0, 1, 2, 3]]
+        self.path_tiles: list = [[0, 1, 2, 3], [3, 0], [0, 1, 2, 3]]
 
         # Index for room_list
         self.current_room = 3
@@ -52,6 +52,7 @@ class Pathing:
 
     def _set_direction(self, game_vars, character):
 
+        print(f"current tile: {self.current_tile}, room : {self.current_room}")
         char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
@@ -89,15 +90,29 @@ class Pathing:
 
     def update(self, game_vars, character):
         self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
+        print(self.current_tile)
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
         next_key_point = self.key_points[self.next_key_point_ind].tile
 
         if self.current_tile == next_tile:
-            print(self.current_tile)
             if self.current_tile == next_key_point:
+
+                # When next key tile reached, check if it has a door.
+                if self.key_points[self.next_key_point_ind].door == True:
+                    if self.key_points[self.next_key_point_ind].room != self.key_points[self.next_key_point_ind + 1].room:
+                        for o in game_vars.room_list[self.current_room].tiles[self.current_tile].obj:
+                            if o.obj_type == Obj_Type.door:
+                                # Go through door
+                                game_vars.room_list[self.current_room].chars.remove(character)
+                                self.current_room = o.new_room
+                                game_vars.room_list[self.current_room].chars.append(character)
+
+                                character.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x
+                                character.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - TILE_H
+                            print("went through door")
+
                 print(f"key point: {next_key_point}")
-                self.current_tile = 0
                 self.next_tile_ind = 1
 
                 # Move to next key point
@@ -112,20 +127,9 @@ class Pathing:
                     self.current_key_point_ind = 0
                     self.next_key_point_ind = 1
                 
+                
+               
                 """
-                # When next key tile reached, check if it has a door.
-                if len(game_vars.room_list[self.current_room].tiles[self.current_tile].obj) > 0:
-                    for o in game_vars.room_list[self.current_room].tiles[self.current_tile].obj:
-                        if o.obj_type == Obj_Type.door:
-
-                            # Go through door
-                            game_vars.room_list[self.current_room].chars.remove(self)
-                            self.current_room = o.new_room
-                            game_vars.room_list[self.current_room].chars.append(self)
-
-                            self.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x + TILE_W/2
-                            self.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - self.size.y/2
-
                 # List of nearby tiles
                 above_tile = self.current_tile - 1
                 below_tile = self.current_tile + 1
