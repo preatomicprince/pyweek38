@@ -1,7 +1,7 @@
 from entity import Ent
 from object import Obj, Obj_Type
 from player import Player
-from settings import Direction, TILE_W, TILE_H, WIDTH, HEIGHT, fvec2
+from settings import Direction, TILE_W, TILE_H, WIDTH, HEIGHT, fvec2, ivec2
 from tile import Tile
 
 
@@ -28,6 +28,13 @@ class Room:
 
     def coord_to_ind(self, x: int, y: int) -> int:
         return x*self.rows + y
+    
+    def ind_to_coord(self, ind: int) -> ivec2:
+        for c in range(1, self.cols + 1):
+            if c*self.rows <= ind:
+                continue
+            else:
+                return ivec2(c - 1, ind - (c-1)*self.rows)
 
     def draw(self, screen, player):
         for tile in self.tiles:

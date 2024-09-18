@@ -1,6 +1,7 @@
 from entity import Ent
 from enum import Enum
 from object import Obj, Obj_Type
+from pathing import Path_Tile, Pathing
 from settings import SPEED, Direction, fvec2, TILE_W
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
@@ -19,10 +20,10 @@ class Character(Ent):
 
         # Room the character is in
         self.current_room = 0
-        animation_steps = 32
+        self.walking_animation_steps = 32
 
         # Index for self.path[]
-        self.next_tile: ind = 0
+        self.next_tile: int = 0
 
         # List of points the character will travel to. 
         # Each int represents the index for room.tiles[]
@@ -47,6 +48,7 @@ class Character(Ent):
             case Char.duchess:
                 self.current_room = 3
                 self.path = [4, 5, 6, 7]
+                self.walking_animation_steps = 4
                 animation_steps = 9
                 self.dr_start = 1
                 self.ur_start = 2
@@ -62,6 +64,7 @@ class Character(Ent):
             case Char.lady:
                 self.current_room = 3
                 self.path = [12, 15]
+                self.walking_animation_steps = 16
                 animation_steps = 21
                 self.dr_start = 4
                 self.ur_start = 8
@@ -136,6 +139,14 @@ class Character(Ent):
                 case Direction.ur:
                     self.vel = fvec2(SPEED.x/2, -SPEED.y/2)
                     self.sprites.set_animation(self.ur_start, self.ul_start - 1)
+
+                case Direction.ul:
+                    self.vel = fvec2(-SPEED.x/2, -SPEED.y/2)
+                    self.sprites.set_animation(self.ul_start, self.walking_animation_steps - 1)
+
+                case Direction.dr:
+                    self.vel = fvec2(SPEED.x/2, SPEED.y/2)
+                    self.sprites.set_animation(self.dr_start, self.ur_start - 1)
 
         self.pos.x += self.vel.x
         self.pos.y += self.vel.y

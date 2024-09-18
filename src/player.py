@@ -23,6 +23,7 @@ class Player(Ent):
     def update(self, input: Input, game_vars):
         self.velocity = fvec2(0, 0)
         self.prev_dir = self.dir
+
         if input.key_right:
             self.dir = Direction.dr
 
@@ -88,31 +89,38 @@ class Player(Ent):
             # If selected object is door
             elif self.selected_obj.obj_type == Obj_Type.door:
                 game_vars.current_room = self.selected_obj.new_room
-                print(game_vars.current_room)
                 self.pos.x = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.x + TILE_W/2
                 self.pos.y = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.y - self.size.y/2
                 self.selected_obj.selected = False
                 self.selected_obj.sprites.ind -= 1
                 self.selected_obj = None
+                return
 
             # If selected object is interactable stationary object
             elif self.selected_obj.obj_type == Obj_Type.interact:
-                 if self.selected_obj.interact_type == Interact_Type.stove:
+                 
+                # Special case for stove, that doesn't require any pickup to interact
+                if self.selected_obj.interact_type == Interact_Type.stove:
                     self.selected_obj.interact = False
                     self.selected_obj.active = True
                     self.selected_obj.selected = False
                     self.selected_obj = None
-                 for i in self.inventory:
-                    if self.selected_obj.pickup_type == i.pickup_type:
+                    return
+
+                # All other interact objects
+                for i in self.inventory:
+                    for p in self.selected_obj.pickup_type:
+                        if p == i.pickup_type:
+                            print("This object is now deadly")
+                            self.inventory.remove(i)
+                            self.selected_obj.interact = False
+                            self.selected_obj.active = True
+                            self.selected_obj.selected = False
+                            self.selected_obj = None
+                            return
                         
-                        print("This object is now deadly")
-                        self.inv.remove(i)
-                        self.selected_obj.interact = False
-                        self.selected_obj.active = True
-                        self.selected_obj.selected = False
-                        self.selected_obj = None
-                    else:
-                        print("You don't have the right kind of object, dingus")
+                # Code below will run if player doesn't have correct pickup
+                print("You don't have the right kind of object, dingus")
                 
     def draw_inv(self, screen) -> None:
         if len(self.inventory) > 0:
