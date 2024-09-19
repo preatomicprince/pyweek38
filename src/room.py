@@ -22,9 +22,10 @@ class Room:
                 #https://clintbellanger.net/articles/isometric_math/ idk
                 ##makes the distincation between the rooms for different floor tiles
                 if self.room_name == "kitchen":
-                    self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2), ind=0) )
+                    ind = 0
                 else:
-                    self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2), ((x + y)*(TILE_H/2) + HEIGHT/2), ind=1) )
+                    ind = 1
+                self.tiles.append(Tile(((x - y)*(TILE_W/2) + WIDTH/2 + ((self.rows - self.cols)*TILE_W/2/2) - TILE_W/2), ((x + y)*(TILE_H/2) + TILE_H*4), ind=ind))
 
     def coord_to_ind(self, x: int, y: int) -> int:
         return x*self.rows + y
