@@ -4,7 +4,7 @@ from settings import GameVars, ivec2, fvec2, Direction, SPEED, TILE_W, TILE_H
 
 class Path_Tile:
     def __init__(self, room: int, tile: int,
-                 door: bool = False, interaction: bool = False) -> None:
+                 door: bool = False, interaction: bool = False, wait: int = 0) -> None:
         
         #index of room in room_list[]
         self.room = room
@@ -15,7 +15,10 @@ class Path_Tile:
         self.door = door
 
         # If true, interact with object on adjacent tile
-        self.interaction = interaction        
+        self.interaction = interaction      
+
+        # Time in seconds to wait before starting to move to next key point
+        self.wait = wait*1000  
 
 
 class Pathing:
@@ -42,6 +45,8 @@ class Pathing:
         # Indexes in self.key_points
         self.current_key_point_ind = 0
         self.next_key_point_ind = 1
+
+        self.timer = None
 
 
     def _reverse_path(self) -> None:
@@ -181,22 +186,29 @@ class Pathing:
 
             # If reached key point
             else:
-                self._handle_doors(game_vars, character)
-                
                 self._handle_interaction(game_vars, character)
 
-                self.next_tile_ind = 1
+                if self.key_points[self.next_key_point_ind].wait > 0:
+                    if self.timer == None:
+                        self.timer = game_vars.time
+                    else:
+                        if game_vars.time > self.timer + self.key_points[self.next_key_point_ind].wait:
+                            self.timer = None
 
-                # Move to next key point
-                if self.next_key_point_ind < len(self.key_points) - 1:
-                    self.current_key_point_ind = self.next_key_point_ind
-                    self.next_key_point_ind += 1
+                if self.timer == None:
+                    self._handle_doors(game_vars, character)
+                    self.next_tile_ind = 1
 
-                # If at end of path
-                else:
-                    self._reverse_path()
-                    self.current_key_point_ind = 0
-                    self.next_key_point_ind = 1
+                    # Move to next key point
+                    if self.next_key_point_ind < len(self.key_points) - 1:
+                        self.current_key_point_ind = self.next_key_point_ind
+                        self.next_key_point_ind += 1
+
+                    # If at end of path
+                    else:
+                        self._reverse_path()
+                        self.current_key_point_ind = 0
+                        self.next_key_point_ind = 1
             self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
             self._set_direction(game_vars, character)
 

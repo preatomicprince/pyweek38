@@ -26,11 +26,6 @@ class Character(Ent):
         # Room the character is in
         self.current_room = 0
         self.walking_animation_steps = 32
-
-        # List of points the character will travel to. 
-        # Each int represents the index for room.tiles[]
-        # If a tile in path contains a door, the character will walk through when reached
-        self.path: list = []
         
         self.prev_alive = True
         self.alive = True
@@ -45,7 +40,7 @@ class Character(Ent):
                 self.animation_steps = 39
                 self.current_room = 3
 
-                self.key_points = [Path_Tile(3, 16), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True)]
+                self.key_points = [Path_Tile(3, 16), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True, wait = 5)]
 
                 self.path_tiles = [[16, 17, 13, 9, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
 
@@ -73,7 +68,7 @@ class Character(Ent):
                 self.ur_start = 8
                 self.ul_start = 12
 
-                self.key_points = [Path_Tile(4, 2, interaction = True), Path_Tile(4, 14, door = True), 
+                self.key_points = [Path_Tile(4, 2, interaction = True, wait = 3), Path_Tile(4, 14, door = True), 
                                    Path_Tile(1, 2, door = True), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
                                    Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
                                    Path_Tile(2, 12, door = True), Path_Tile(2, 15)]
@@ -95,8 +90,9 @@ class Character(Ent):
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)
-            self.pos.x += self.vel.x
-            self.pos.y += self.vel.y
+            if self.pathing.timer == None:
+                self.pos.x += self.vel.x
+                self.pos.y += self.vel.y
 
         self.sprites.update(game_vars.time)
 
