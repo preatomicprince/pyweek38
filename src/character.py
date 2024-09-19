@@ -11,8 +11,8 @@ class Character(Ent):
     def __init__(self, x_pos, y_pos, char: Char):
         self.char = char
         
-        self.dir = Direction.dl
-        self.prev_dir = Direction.ul
+        self.dir = None
+        self.prev_dir = None
         
         self.death_type = None
 
@@ -39,25 +39,20 @@ class Character(Ent):
             case Char.heir:
                 self.animation_steps = 34
                 self.current_room = 3
-                self.path = [0]
                 filepath = "../res/the_heir.png"
 
             case Char.duke:
                 self.animation_steps = 39
                 self.current_room = 3
-                self.path = [0, 1, 2, 3]
 
-                self.key_points = [Path_Tile(3, 0), Path_Tile(3, 3, door = True), 
-                                 Path_Tile(0, 0, door = True), Path_Tile(0, 1, interaction = True), 
-                                 Path_Tile(0, 3)]
+                self.key_points = [Path_Tile(3, 21), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True)]
 
-                self.path_tiles = [[0, 1, 2, 3], [3, 0], [0,1], [1, 2, 3]]
+                self.path_tiles = [[21, 17, 13, 9, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
 
                 filepath = "../res/duke_sprite.png"
 
             case Char.duchess:
                 self.current_room = 3
-                self.path = [4, 5, 6, 7]
                 self.walking_animation_steps = 4
                 self.animation_steps = 9
                 self.dr_start = 1
@@ -68,23 +63,23 @@ class Character(Ent):
             case Char.cleaner:
                 self.animation_steps = 37
                 self.current_room = 3
-                self.path = [8, 10]
                 filepath = "../res/the_maid.png"
 
             case Char.lady:
-                self.current_room = 3
-                self.path = [12, 15]
+                self.current_room = 4
                 self.walking_animation_steps = 16
                 self.animation_steps = 21
                 self.dr_start = 4
                 self.ur_start = 8
                 self.ul_start = 12
 
-                self.key_points = [Path_Tile(3, 20), Path_Tile(3, 8, interaction = True)]
-                self.path_tiles = [[20, 16, 12, 8]]
+                self.key_points = [Path_Tile(4, 2), Path_Tile(4, 14, door = True), Path_Tile(1, 2, door = True),
+                                   Path_Tile(1, 33, door = True), Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
+                                   Path_Tile(2, 12, door = True), Path_Tile(2, 15)]
+                self.path_tiles = [[2, 14], [14, 2], [2, 3, 33], [33, 3], [3, 11], [11, 12], [12, 15]]
                 filepath = "../res/grandma.png"
 
-        self.pathing = Pathing(self.key_points, self.path_tiles)
+        self.pathing = Pathing(self.key_points, self.path_tiles, self.current_room)
 
         super().__init__(x_pos, y_pos, filepath, self.animation_steps)
 

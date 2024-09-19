@@ -10,7 +10,6 @@ class Ent:
     def __init__(self, x_pos: float, y_pos: float, filepath: str, animation_steps: int = 1, ind: int = 0)  -> None:
         self.pos = fvec2(x_pos, y_pos)
         self.vel = fvec2(0, 0)
-        self.dir: Direction = Direction.dr
         
         BLACK_GRE = (11, 158, 3)
         image = pygame.image.load(Path(filepath)).convert_alpha()
