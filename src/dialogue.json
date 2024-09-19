@@ -1,0 +1,42 @@
+{
+    "characters": 
+    [   {
+        "name": "duchess",
+        "lines" : [
+            "Mama needs wine"
+        ]
+        },
+        {
+        "name": "heir",
+        "lines" : [
+            "Begone cur, I'm waiting for an important phone call from the local opium connoisseur"
+        ]
+        },
+        {
+        "name": "duke",
+        "lines" : [
+            "blurnjsbjdsb *the duke usually sounds like this after numerous extra large glasses of whiskey*"
+        ]
+        },
+        {
+        "name": "cleaner",
+        "lines" : [
+            "Stop running! You'll kill someone pacing around like that"
+        ]
+        },
+        {
+        "name": "lady",
+        "lines" : [
+            "I remember, in my day, i remember, in my day...."
+        ]
+        }
+    ],
+    "objects": [
+        {
+            "obj_type": "husdgigush",
+            "lines" : [
+                "fuck it ill finish this later"
+            ]
+        }
+    ]
+}

@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room, bedroom1, bedroom2, living_room, library]
-    game_vars.current_room = 0
+    game_vars.current_room = 2
 
     while settings.running:
         game_vars.time = pygame.time.get_ticks()
