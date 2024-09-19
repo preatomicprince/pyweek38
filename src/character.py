@@ -87,6 +87,7 @@ class Character(Ent):
         if self.alive == False:
             if self.prev_alive == True:
                 self.prev_alive = False
+                game_vars.score += 250000
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)

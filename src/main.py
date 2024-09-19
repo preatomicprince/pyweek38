@@ -134,6 +134,7 @@ if __name__ == "__main__":
 
     while settings.running:
         game_vars.time = pygame.time.get_ticks()
+        print(game_vars.score)
 
         screen.fill((128, 128, 128))
 
