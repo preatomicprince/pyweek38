@@ -4,7 +4,7 @@ from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
 from settings import Direction, SPEED, fvec2, TILE_H, TILE_W
 
-show_tile = False
+show_tile = True
 
 class Player(Ent):
     def __init__(self, x_pos: float, y_pos: float):

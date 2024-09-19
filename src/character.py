@@ -95,7 +95,7 @@ class Character(Ent):
                 self.prev_alive = False
                 self._set_death_animation()
         else:
-            self.pathing.update(game_vars, self)
+            #self.pathing.update(game_vars, self)
             self.pos.x += self.vel.x
             self.pos.y += self.vel.y
 
