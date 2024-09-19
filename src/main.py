@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
         ###this is where I blit the image to the screen, the image is leaded at the begining of the main function
         ###can remove once done
-        if platform != "linux":
+        if platform == "linux":
            screen.blit(meme, (0, 0))
 
         pygame.display.update()
