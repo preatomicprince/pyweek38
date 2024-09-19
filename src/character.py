@@ -73,7 +73,7 @@ class Character(Ent):
                 self.ur_start = 8
                 self.ul_start = 12
 
-                self.key_points = [Path_Tile(4, 2), Path_Tile(4, 14, door = True), 
+                self.key_points = [Path_Tile(4, 2, interaction = True), Path_Tile(4, 14, door = True), 
                                    Path_Tile(1, 2, door = True), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
                                    Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
                                    Path_Tile(2, 12, door = True), Path_Tile(2, 15)]
