@@ -1,8 +1,9 @@
 from entity import Ent
 from input import Input
+import math
 from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
-from settings import Direction, SPEED, fvec2, TILE_H, TILE_W
+from settings import Direction, SPEED, fvec2, TILE_H, TILE_W, WIDTH
 
 show_tile = False
 
@@ -74,8 +75,45 @@ class Player(Ent):
      
         if input.key_right or input.key_left or input.key_up or input.key_down:
             self.sprites.update(game_vars.time)
+
             self.pos.x += self.velocity.x
             self.pos.y += self.velocity.y
+
+            # Calculate collision
+            # Thanks again to https://clintbellanger.net/articles/isometric_math/ 
+            cols = game_vars.room_list[game_vars.current_room].cols
+            rows = game_vars.room_list[game_vars.current_room].rows
+
+            if game_vars.current_room == 0:
+                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols - .5
+                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 1
+
+            elif game_vars.current_room == 1:
+                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols - 3
+                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 2.5
+
+            # Dunno why some rooms have a slight map position offset. 
+            # No time to figure it out but this makes it work properly
+            
+            elif game_vars.current_room == 3:
+                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols + 1
+                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
+            elif game_vars.current_room == 2:
+                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols + 0.5
+                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 1
+            else:
+                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols
+                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
+            print(f"x: {mapx}, y: {mapy}")
+            if mapx < 0 or mapx > cols:
+                self.pos.x -= self.velocity.x
+                self.pos.y -= self.velocity.y
+
+            if mapy < 0 or mapy > rows:
+                self.pos.x -= self.velocity.x
+                self.pos.y -= self.velocity.y
+
+
 
         if input.key_interact:
             if input.prev_input.key_interact == False:
@@ -99,8 +137,8 @@ class Player(Ent):
             # If selected object is door
             elif self.selected_obj.obj_type == Obj_Type.door:
                 game_vars.current_room = self.selected_obj.new_room
-                self.pos.x = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.x + TILE_W/2
-                self.pos.y = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.y - self.size.y/2
+                self.pos.x = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.x + TILE_W/2 - self.size.x/2
+                self.pos.y = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.y + 20 + TILE_H/2 - self.size.y
                 self.selected_obj.selected = False
                 self.selected_obj.sprites.ind -= 1
                 self.selected_obj = None
