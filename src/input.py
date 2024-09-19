@@ -14,7 +14,7 @@ class Input:
         self.prev_input = None
         
 
-    def update(self, settings: Settings, prev_input):
+    def update(self, buttons, settings: Settings, prev_input):
 
         _copy_input(prev_input, self)
 
@@ -59,7 +59,16 @@ class Input:
 
                 if event.key == K_e:
                     self.key_interact = False
+            
+            
+            if event.type == MOUSEBUTTONDOWN:
+            ####to feed in the button list
+                pass
 
+            if event.type == MOUSEBUTTONUP:
+                for b in range(len(buttons)):
+                    if buttons[b].over == True:
+                        print(buttons[b].name)
   
 
 def _copy_input(input1: Input, input2: Input):
