@@ -72,6 +72,8 @@ if __name__ == "__main__":
     # hallway door
     dining_room.tiles[1].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 37))
     dining_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.whiskey))
+    dining_room.tiles[14].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.banana))
+
 
 
     bedroom1 = Room("bedroom1", 3, 5)
@@ -94,6 +96,8 @@ if __name__ == "__main__":
     living_room.tiles[11].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 7, go_to = 6))
     # hallway_room door
     living_room.tiles[16].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 6))
+    living_room.tiles[0].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.wine))
+
 
 
     library = Room("library", 3, 5)
@@ -101,7 +105,8 @@ if __name__ == "__main__":
     # living_room door
     library.tiles[6].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 6, go_to = 11))
     library.tiles[12].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.bookshelf))
-    library.tiles[1].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    library.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.window))
+
 
     # hallway_room door
     library.tiles[14].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 9))

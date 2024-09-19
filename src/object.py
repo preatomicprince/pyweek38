@@ -51,6 +51,9 @@ class Obj(Ent):
                     case Pickup_Type.rat_poison:
                         ind = 2
 
+                    case Pickup_Type.banana:
+                        ind = 4
+
                     case Pickup_Type.screwdriver:
                         ind = 6
 
@@ -90,11 +93,15 @@ class Obj(Ent):
                         self.pickup_type = [Pickup_Type.water_bottle]
 
                     case Interact_Type.bookshelf:
-                        ind = 12
+                        animation_steps = 4
+                        filepath = Path("../res/bookcase.png")
+                        ind = 2
                         self.pickup_type = [Pickup_Type.screwdriver]
 
                     case Interact_Type.window:
-                        ind = 14
+                        ind = 0
+                        animation_steps = 2
+                        filepath = Path("../res/open_window2.png")
                         self.pickup_type = [Pickup_Type.banana]
 
             case Obj_Type.other:
