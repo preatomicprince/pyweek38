@@ -100,7 +100,9 @@ if __name__ == "__main__":
     library.add_walls("../res/kitchen_wall.png")
     # living_room door
     library.tiles[6].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 6, go_to = 11))
+    library.tiles[12].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.bookshelf))
     library.tiles[1].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+
     # hallway_room door
     library.tiles[14].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 9))
 
@@ -117,24 +119,25 @@ if __name__ == "__main__":
     #heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
     duke = Character(kitchen_room.tiles[21].pos.x, kitchen_room.tiles[21].pos.y - TILE_H, Char.duke)
 
-    #duchess = Character(kitchen_room.tiles[4].pos.x, kitchen_room.tiles[4].pos.y - 64, Char.duchess)
+    duchess = Character(living_room.tiles[4].pos.x, living_room.tiles[4].pos.y, Char.duchess)
     #cleaner = Character(kitchen_room.tiles[8].pos.x, kitchen_room.tiles[8].pos.y - 64, Char.cleaner)
     lady = Character(bedroom1.tiles[2].pos.x , bedroom1.tiles[2].pos.y, Char.lady)
     #game_vars.chars = [heir, duke, duchess, cleaner, lady]
     #kitchen_room.chars = [heir, duke, duchess, cleaner, lady]
-    game_vars.chars = [duke, lady]
+    game_vars.chars = [duke, lady, duchess]
     kitchen_room.chars = [duke]
     bedroom1.chars = [lady]
+    living_room.chars = [duchess]
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room, bedroom1, bedroom2, living_room, library]
     game_vars.current_room = 3
 
     duke.pathing._set_direction(game_vars, duke)
     lady.pathing._set_direction(game_vars, lady)
+    duchess.pathing._set_direction(game_vars, duchess)
 
     while settings.running:
         game_vars.time = pygame.time.get_ticks()
-        print(game_vars.score)
 
         screen.fill((128, 128, 128))
 

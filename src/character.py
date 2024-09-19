@@ -47,12 +47,16 @@ class Character(Ent):
                 filepath = "../res/duke_sprite.png"
 
             case Char.duchess:
-                self.current_room = 3
+                self.current_room = 6
                 self.walking_animation_steps = 4
                 self.animation_steps = 9
                 self.dr_start = 1
                 self.ur_start = 2
                 self.ul_start = 3
+
+                self.key_points = [Path_Tile(6, 4, interaction = True, wait = 7),  Path_Tile(6, 8), Path_Tile(6, 11, door = True),
+                                   Path_Tile(7, 6, door = True), Path_Tile(7, 7), Path_Tile(7, 13), Path_Tile(7, 12, interaction = True, wait = 5)]
+                self.path_tiles = [[4, 8], [8, 9, 10, 11], [11, 6], [6, 7], [7, 13], [13, 12]]
                 filepath = "../res/mother.png"
 
             case Char.cleaner:
@@ -91,6 +95,7 @@ class Character(Ent):
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)
+
             if self.pathing.timer == None:
                 self.pos.x += self.vel.x
                 self.pos.y += self.vel.y
