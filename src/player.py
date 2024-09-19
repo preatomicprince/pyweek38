@@ -154,6 +154,8 @@ class Player(Ent):
 
     def _check_if_caught(self, game_vars):
         # Checks if player is caught
+
+        ###add a bark here
         if len(game_vars.room_list[game_vars.current_room].chars) > 0:
             for c in game_vars.room_list[game_vars.current_room].chars:
 

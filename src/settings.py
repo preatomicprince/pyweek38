@@ -37,8 +37,12 @@ class GameVars:
         self.current_room: int = 0
         self.rooms = []
         self.chars = []
+        ###needs to go on the screen somewhere
         self.score = 0
 
         self.time = 0
+
+    ###to work out what screen we're on, 
+
 
 

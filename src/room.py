@@ -90,6 +90,10 @@ class Room:
                         return self.coord_to_ind(x, y)
 
     def set_interact(self, player: Player) -> None:
+
+        ###need to put bark in here
+        ###for the objects
+
         # Checks if interactable object is on current tile or tile player is facing.
         # Selects object so player will interact when e key is pressed
 
