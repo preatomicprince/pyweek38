@@ -56,10 +56,18 @@ class Pathing:
 
 
     def _set_direction(self, game_vars, character):
-        char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)
+        char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)            
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
         next_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(next_tile)
+        """
+        if char_tile_coord == None:
+            character.pos.x = game_vars.room_list[self.current_room].tiles[self.key_points[self.current_key_point_ind].tile].pos.x + TILE_W/2 - self.size.x/2
+            character.pos.y = game_vars.room_list[self.current_room].tiles[self.key_points[self.current_key_point_ind].tile].pos.y + TILE_H/2 - self.size.y + 20
+            self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
+            char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile) 
+        """
+
 
         character.prev_dir = character.dir
         
@@ -147,32 +155,27 @@ class Pathing:
     def _handle_doors(self, game_vars, character) -> None:
         # When next key tile reached, check if it has a door.
         if self.key_points[self.next_key_point_ind].door == True:
-
             if self.key_points[self.next_key_point_ind].room != self.key_points[self.next_key_point_ind + 1].room:
+                
                 for o in game_vars.room_list[self.current_room].tiles[self.current_tile].obj:
                     if o.obj_type == Obj_Type.door:
-                        print("££££")
-
                         # Go through door
                         game_vars.room_list[self.current_room].chars.remove(character)
                         self.current_room = o.new_room
+                        character.current_room = o.new_room
                         game_vars.room_list[self.current_room].chars.append(character)
 
-                        character.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x
-                        character.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - TILE_H
+                        character.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x + TILE_W/2 - character.size.x/2
+                        character.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y + 20 + TILE_H/2 - character.size.y
     
    
     def update(self, game_vars, character) -> None:
         self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
-        
-
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
 
         
         next_key_point = self.key_points[self.next_key_point_ind].tile
         if self.current_tile == next_tile:
-            print(self.current_tile)
-            print(f"next tile: {next_tile}\n")
             if self.current_tile != next_key_point:
                 self.next_tile_ind += 1
 
@@ -194,6 +197,6 @@ class Pathing:
                     self._reverse_path()
                     self.current_key_point_ind = 0
                     self.next_key_point_ind = 1
-                
-        self._set_direction(game_vars, character)
+            self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
+            self._set_direction(game_vars, character)
 

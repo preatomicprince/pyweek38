@@ -3,7 +3,7 @@ from enum import Enum
 from object import Obj, Obj_Type, Death_Type
 from pathing import Path_Tile, Pathing
 import pygame
-from settings import SPEED, Direction, fvec2, TILE_W
+from settings import SPEED, Direction, fvec2, TILE_W, TILE_H
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
 
@@ -45,9 +45,9 @@ class Character(Ent):
                 self.animation_steps = 39
                 self.current_room = 3
 
-                self.key_points = [Path_Tile(3, 21), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True)]
+                self.key_points = [Path_Tile(3, 16), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True)]
 
-                self.path_tiles = [[21, 17, 13, 9, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
+                self.path_tiles = [[16, 17, 13, 9, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
 
                 filepath = "../res/duke_sprite.png"
 
@@ -73,15 +73,19 @@ class Character(Ent):
                 self.ur_start = 8
                 self.ul_start = 12
 
-                self.key_points = [Path_Tile(4, 2), Path_Tile(4, 14, door = True), Path_Tile(1, 2, door = True),
-                                   Path_Tile(1, 33, door = True), Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
+                self.key_points = [Path_Tile(4, 2), Path_Tile(4, 14, door = True), 
+                                   Path_Tile(1, 2, door = True), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
+                                   Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
                                    Path_Tile(2, 12, door = True), Path_Tile(2, 15)]
-                self.path_tiles = [[2, 14], [14, 2], [2, 3, 33], [33, 3], [3, 11], [11, 12], [12, 15]]
+                self.path_tiles = [[2, 14], [14, 2], [2, 3], [3, 33], [33, 3], [3, 11], [11, 12], [12, 15]]
                 filepath = "../res/grandma.png"
 
         self.pathing = Pathing(self.key_points, self.path_tiles, self.current_room)
 
         super().__init__(x_pos, y_pos, filepath, self.animation_steps)
+
+        self.pos.x = x_pos + TILE_W/2 - self.size.x/2
+        self.pos.y = y_pos + TILE_H/2 - self.size.y + 20
 
     def update(self, game_vars) -> None:
 
@@ -90,7 +94,7 @@ class Character(Ent):
                 self.prev_alive = False
                 self._set_death_animation()
         else:
-            #self.pathing.update(game_vars, self)
+            self.pathing.update(game_vars, self)
             self.pos.x += self.vel.x
             self.pos.y += self.vel.y
 
@@ -130,7 +134,6 @@ class Character(Ent):
             case Death_Type.electrecute:
                 if self.char == Char.lady:
                     self.sprites.set_animation(16, 17, repeat = False)
-                    print("upyu")
 
                 if self.char == Char.heir:
                     self.sprites.set_animation(33, 34, repeat = False)
