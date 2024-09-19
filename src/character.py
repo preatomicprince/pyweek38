@@ -1,6 +1,6 @@
 from entity import Ent
 from enum import Enum
-from object import Obj, Obj_Type
+from object import Obj, Obj_Type, Death_Type
 from pathing import Path_Tile, Pathing
 import pygame
 from settings import SPEED, Direction, fvec2, TILE_W
@@ -14,7 +14,7 @@ class Character(Ent):
         self.dir = Direction.dl
         self.prev_dir = Direction.ul
         
-        
+        self.death_type = None
 
         # Start frame for each direction's walk cycle
         # End frame should be the next start minus 1
@@ -48,9 +48,6 @@ class Character(Ent):
                 self.animation_steps = 39
                 self.current_room = 3
                 self.path = [0, 1, 2, 3]
-                self.explosion_start = 32
-                self.poison_start = 33
-
                 filepath = "../res/duke_sprite.png"
 
             case Char.duchess:
@@ -86,7 +83,7 @@ class Character(Ent):
         if self.alive == False:
             if self.prev_alive == True:
                 self.prev_alive = False
-                self.sprites.set_animation(self.poison_start, self.animation_steps - 1, repeat = False)
+                self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)
             self.pos.x += self.vel.x
@@ -107,5 +104,46 @@ class Character(Ent):
 
             screen.blit(rotated_image, rect)
 
+    def _set_death_animation(self):
+
+        match self.death_type:
+            case Death_Type.explode:
+                if self.char == Char.duke:
+                    self.sprites.set_animation(32, 32, repeat = False)
+
+                if self.char == Char.lady:
+                    self.sprites.set_animation(19, 20, repeat = False)
+
+            case Death_Type.poison:
+                if self.char == Char.duke:
+                    self.sprites.set_animation(33, self.animation_steps - 1, repeat = False)
+
+                if self.char == Char.duchess:
+                    self.sprites.set_animation(4, self.animation_steps - 1, repeat = False)
+
+            case Death_Type.electrecute:
+                if self.char == Char.lady:
+                    self.sprites.set_animation(16, 17, repeat = False)
+
+                if self.char == Char.heir:
+                    self.sprites.set_animation(33, 34, repeat = False)
+
+            case Death_Type.chop:
+                if self.char == Char.lady:
+                    self.sprites.set_animation(19, 20, repeat = False)
+
+                if self.char == Char.cleaner:
+                    self.sprites.set_animation(35, 36, repeat = False)
+        
+            case Death_Type.crush:
+                if self.char == Char.duchess:
+                    pass
+
+            case Death_Type.fall:
+                if self.char == Char.heir:
+                    pass
+
+                if self.char == Char.cleaner:
+                    pass
 
  

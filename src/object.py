@@ -5,7 +5,8 @@ from settings import TILE_H
 
 Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "other"])
 Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])
-Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone", "armour", "telephone", "bookshelf"])
+Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone", "armour", "telephone", "bookshelf", "window"])
+Death_Type = Enum("Death_Type", ["explode", "poison", "electrecute", "chop", "crush", "fall"])
 
 
 class Obj(Ent):
@@ -18,6 +19,7 @@ class Obj(Ent):
         self.go_to = None
         self.selected = False
         self.pickup_type = None
+        self.death_type = None
         self.interact_type = interact_type
         self.active = None
 
@@ -87,6 +89,10 @@ class Obj(Ent):
                     case Interact_Type.bookshelf:
                         ind = 12
                         self.pickup_type = [Pickup_Type.screwdriver]
+
+                    case Interact_Type.window:
+                        ind = 14
+                        self.pickup_type = [Pickup_Type.banana]
 
             case Obj_Type.other:
                 animation_steps = 1

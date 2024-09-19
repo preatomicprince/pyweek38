@@ -1,6 +1,6 @@
 from entity import Ent
 from input import Input
-from object import Obj, Obj_Type, Interact_Type
+from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
 from settings import Direction, SPEED, fvec2, TILE_H, TILE_W
 
@@ -106,11 +106,22 @@ class Player(Ent):
                     self.selected_obj.selected = False
                     self.selected_obj = None
                     return
+                
+                    
 
                 # All other interact objects
                 for i in self.inventory:
                     for p in self.selected_obj.pickup_type:
                         if p == i.pickup_type:
+                            
+                            #special case for gramophone with 2 ways to kill
+                            if self.selected_obj.interact_type == Interact_Type.gramophone:
+                                if p == Pickup_Type.screwdriver:
+                                    self.selected_obj.death_type = Death_Type.explode
+
+                                elif p == Pickup_Type.water_bottle:
+                                    self.selected_obj.death_type = Death_Type.electrecute
+
                             print("This object is now deadly")
                             self.inventory.remove(i)
                             self.selected_obj.interact = False

@@ -1,4 +1,4 @@
-from object import Obj_Type
+from object import Obj_Type, Interact_Type, Death_Type
 from settings import GameVars, ivec2, fvec2, Direction, SPEED, TILE_W, TILE_H
 
 
@@ -93,57 +93,92 @@ class Pathing:
                     character.vel = fvec2(SPEED.x/2, SPEED.y/2)
                     character.sprites.set_animation(character.dr_start, character.ur_start - 1)
 
+    def _handle_interaction(self, game_vars, character) -> None:
+        # Checks for interaction with nearby character and kills them
 
-    def update(self, game_vars, character):
+        if self.key_points[self.next_key_point_ind].interaction == True:
+            next_key_point = self.key_points[self.next_key_point_ind].tile
+
+            # List of nearby tiles
+            above_tile = next_key_point - 1
+            below_tile = next_key_point + 1
+            left_tile = next_key_point - game_vars.room_list[self.current_room].rows
+            right_tile = next_key_point + game_vars.room_list[self.current_room].rows
+
+            check_tiles = [above_tile, below_tile, left_tile, right_tile]
+
+            # Check  for interaction
+            for t in check_tiles:
+                cols = game_vars.room_list[self.current_room].cols
+                rows = game_vars.room_list[self.current_room].rows
+
+                if t not in range(rows*cols):
+                    continue
+
+                if len(game_vars.room_list[self.current_room].tiles[t].obj) == 0:
+                    continue
+
+                for o in game_vars.room_list[self.current_room].tiles[t].obj:
+                    if o.obj_type == Obj_Type.interact and o.active:
+
+                        # Kill character
+                        character.alive = False
+                        
+                        match o.obj_type:
+                            case Interact_Type.stove:
+                                character.death_type = Death_Type.explode
+
+                            case Interact_Type.whiskey:
+                                character.death_type = Death_Type.poison
+
+                            case Interact_Type.wine:
+                                character.death_type = Death_Type.poison
+
+                            case Interact_Type.gramophone:
+                                character.death_type = o.death_type
+
+                            case Interact_Type.armour:
+                                character.death_type = Death_Type.chop
+
+                            case Interact_Type.telephone:
+                                character.death_type = Death_Type.electrecute
+
+                            case Interact_Type.bookshelf:
+                                character.death_type = Death_Type.crush
+
+    def _handle_doors(self, game_vars, character) -> None:
+        # When next key tile reached, check if it has a door.
+
+        if self.key_points[self.next_key_point_ind].door == True:
+            if self.key_points[self.next_key_point_ind].room != self.key_points[self.next_key_point_ind + 1].room:
+                for o in game_vars.room_list[self.current_room].tiles[self.current_tile].obj:
+                    if o.obj_type == Obj_Type.door:
+                        # Go through door
+                        game_vars.room_list[self.current_room].chars.remove(character)
+                        self.current_room = o.new_room
+                        game_vars.room_list[self.current_room].chars.append(character)
+
+                        character.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x
+                        character.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - TILE_H
+    
+   
+    def update(self, game_vars, character) -> None:
         self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
         next_key_point = self.key_points[self.next_key_point_ind].tile
 
         if self.current_tile == next_tile:
-            if self.current_tile == next_key_point:
 
-                # When next key tile reached, check if it has a door.
-                if self.key_points[self.next_key_point_ind].door == True:
-                    if self.key_points[self.next_key_point_ind].room != self.key_points[self.next_key_point_ind + 1].room:
-                        for o in game_vars.room_list[self.current_room].tiles[self.current_tile].obj:
-                            if o.obj_type == Obj_Type.door:
-                                # Go through door
-                                game_vars.room_list[self.current_room].chars.remove(character)
-                                self.current_room = o.new_room
-                                game_vars.room_list[self.current_room].chars.append(character)
+            if self.current_tile != next_key_point:
+                self.next_tile_ind += 1
 
-                                character.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x
-                                character.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - TILE_H
+            # If reached key point
+            else:
+                self._handle_doors(game_vars, character)
+                
+                self._handle_interaction(game_vars, character)
 
-                if self.key_points[self.next_key_point_ind].interaction == True:
-                    print("Has interaction")
-                    # List of nearby tiles
-                    above_tile = next_key_point - 1
-                    below_tile = next_key_point + 1
-                    left_tile = next_key_point - game_vars.room_list[self.current_room].rows
-                    right_tile = next_key_point + game_vars.room_list[self.current_room].rows
-
-                    check_tiles = [above_tile, below_tile, left_tile, right_tile]
-
-                    # Check  for interaction
-                    for t in check_tiles:
-                        cols = game_vars.room_list[self.current_room].cols
-                        rows = game_vars.room_list[self.current_room].rows
-                        if t not in range(rows*cols):
-                            print(f"{t} not in range")
-                            continue
-
-                        if len(game_vars.room_list[self.current_room].tiles[t].obj) <= 0:
-                            continue
-
-                        for o in game_vars.room_list[self.current_room].tiles[t].obj:
-                            if o.obj_type == Obj_Type.interact and o.active:
-
-                                # Kill character
-                                character.alive = False
-                                print("Dead lol")
-                                
                 self.next_tile_ind = 1
 
                 # Move to next key point
@@ -154,15 +189,8 @@ class Pathing:
                 # If at end of path
                 else:
                     self._reverse_path()
-                    
                     self.current_key_point_ind = 0
                     self.next_key_point_ind = 1
-        
-                # Check if key tile has interaction
                 
-
-            # If at next tile but not key point
-            else:
-                self.next_tile_ind += 1
-
         self._set_direction(game_vars, character)
+
