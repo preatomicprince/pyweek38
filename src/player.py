@@ -133,6 +133,17 @@ class Player(Ent):
                                     self.selected_obj.death_type = Death_Type.electrecute
 
                             print("This object is now deadly")
+
+                            # Checks if player is too close to a character. They are caught if true
+                            if len(game_vars.room_list[game_vars.current_room].chars) > 0:
+                                for c in game_vars.room_list[game_vars.current_room].chars:
+                                    char_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(c.pathing.current_tile)
+                                    player_ind = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+                                    player_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(player_ind)
+
+                                    if char_coord.x - 2 < player_coord.x < char_coord.x + 2:
+                                        if char_coord.y - 2 < player_coord.y < char_coord.y + 2:
+                                            print("CAUGHT!")
                             self.inventory.remove(i)
                             self.selected_obj.interact = False
                             self.selected_obj.active = True
