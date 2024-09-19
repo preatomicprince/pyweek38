@@ -6,6 +6,7 @@ from pathlib import Path
 from player import Player
 import pygame
 from room import Room
+from ui import *
 from settings import Settings, WIDTH, HEIGHT, GameVars, TILE_W, TILE_H
 
 # Just here so the "comment" splashscreen isn't in the way during my testing
@@ -29,6 +30,14 @@ if __name__ == "__main__":
     #temporeroly removed fullscreen as itll be easier for me to find this bug
     #, pygame.FULLSCREEN
     player = Player(400, 300)
+
+    ###initialising for the UI
+
+    play_but = Buttons(20, 20, 2, "play")
+    exit_but = Buttons(120, 20, 4, "exit")
+    restart_but = Buttons(220, 20, 6, "restart")
+
+    button_list = [play_but, exit_but, restart_but]
 
     ###initialise some of the rooms to test transitions
     study_room = Room("study", 5, 5)
@@ -128,7 +137,7 @@ if __name__ == "__main__":
 
         screen.fill((128, 128, 128))
 
-        input.update(settings, prev_input)
+        input.update(button_list, settings, prev_input)
         game_vars.room_list[game_vars.current_room].set_interact(player)
         player.update(input, game_vars)
 
@@ -141,7 +150,8 @@ if __name__ == "__main__":
 
         ###this is where I blit the image to the screen, the image is leaded at the begining of the main function
         ###can remove once done
-        if platform != "linux":
-           screen.blit(meme, (0, 0))
-
+        #if platform == "linux":
+           #screen.blit(meme, (0, 0))
+        for b in button_list:
+            b.draw(screen)
         pygame.display.update()
