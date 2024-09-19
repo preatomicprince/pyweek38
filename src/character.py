@@ -27,8 +27,6 @@ class Character(Ent):
         self.current_room = 0
         self.walking_animation_steps = 32
 
-        self.pathing = Pathing()
-
         # List of points the character will travel to. 
         # Each int represents the index for room.tiles[]
         # If a tile in path contains a door, the character will walk through when reached
@@ -48,6 +46,13 @@ class Character(Ent):
                 self.animation_steps = 39
                 self.current_room = 3
                 self.path = [0, 1, 2, 3]
+
+                self.key_points = [Path_Tile(3, 0), Path_Tile(3, 3, door = True), 
+                                 Path_Tile(0, 0, door = True), Path_Tile(0, 1, interaction = True), 
+                                 Path_Tile(0, 3)]
+
+                self.path_tiles = [[0, 1, 2, 3], [3, 0], [0,1], [1, 2, 3]]
+
                 filepath = "../res/duke_sprite.png"
 
             case Char.duchess:
@@ -74,7 +79,12 @@ class Character(Ent):
                 self.dr_start = 4
                 self.ur_start = 8
                 self.ul_start = 12
+
+                self.key_points = [Path_Tile(3, 20), Path_Tile(3, 8, interaction = True)]
+                self.path_tiles = [[20, 16, 12, 8]]
                 filepath = "../res/grandma.png"
+
+        self.pathing = Pathing(self.key_points, self.path_tiles)
 
         super().__init__(x_pos, y_pos, filepath, self.animation_steps)
 
@@ -99,7 +109,8 @@ class Character(Ent):
             screen.blit(self.sprites.animation_list[self.sprites.ind], rect)
             return
         else:
-            angle = -45
+            angle = 180
+            rect = pygame.Rect(self.pos.x, self.pos.y + self.size.y/2, self.size.x, self.size.y)
             rotated_image = pygame.transform.rotate(self.sprites.animation_list[self.sprites.ind], angle)
 
             screen.blit(rotated_image, rect)
@@ -124,6 +135,7 @@ class Character(Ent):
             case Death_Type.electrecute:
                 if self.char == Char.lady:
                     self.sprites.set_animation(16, 17, repeat = False)
+                    print("upyu")
 
                 if self.char == Char.heir:
                     self.sprites.set_animation(33, 34, repeat = False)

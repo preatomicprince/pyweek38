@@ -23,15 +23,13 @@ class Pathing:
 
         # All major stops and key interaction tiles
         # List of Path_Tiles
-        self.key_points: list = [Path_Tile(3, 0), Path_Tile(3, 3, door = True), 
-                                 Path_Tile(0, 0, door = True), Path_Tile(0, 1, interaction = True), 
-                                 Path_Tile(0, 3)]
+        self.key_points: list = key_points
 
         # All stops between key points
         # List of tile indexes (int)
         # Should contain (len(self.key_points) - 1) lists
         # First in each list should be current key point. Last should be next key point
-        self.path_tiles: list = [[0, 1, 2, 3], [3, 0], [0,1], [1, 2, 3]]
+        self.path_tiles =  path_tiles
 
         # Index for room_list
         self.current_room = 3
@@ -124,7 +122,7 @@ class Pathing:
                         # Kill character
                         character.alive = False
                         
-                        match o.obj_type:
+                        match o.interact_type:
                             case Interact_Type.stove:
                                 character.death_type = Death_Type.explode
 

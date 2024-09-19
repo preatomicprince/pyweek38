@@ -4,6 +4,8 @@ from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
 from settings import Direction, SPEED, fvec2, TILE_H, TILE_W
 
+show_tile = False
+
 class Player(Ent):
     def __init__(self, x_pos: float, y_pos: float):
         filepath = "../res/char.png"
@@ -23,6 +25,13 @@ class Player(Ent):
     def update(self, input: Input, game_vars):
         self.velocity = fvec2(0, 0)
         self.prev_dir = self.dir
+        
+        # For debugging to easily find tile stood on
+        if show_tile:
+            bp = None
+            bp = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+
+            print(bp)
 
         if input.key_right:
             self.dir = Direction.dr

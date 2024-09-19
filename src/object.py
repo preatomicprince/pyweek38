@@ -51,6 +51,9 @@ class Obj(Ent):
                     case Pickup_Type.rat_poison:
                         ind = 2
 
+                    case Pickup_Type.screwdriver:
+                        ind = 6
+
             case Obj_Type.interact:
                 filepath = Path("../res/interact.png")
                 animation_steps = 14

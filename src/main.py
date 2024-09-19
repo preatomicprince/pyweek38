@@ -46,7 +46,7 @@ if __name__ == "__main__":
     
     kitchen_room = Room("kitchen", 4, 6)
     kitchen_room.add_walls("../res/kitchen_wall.png")
-    kitchen_room.tiles[5].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.water_bottle))
+    kitchen_room.tiles[5].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.screwdriver))
     kitchen_room.tiles[11].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.rat_poison))
     kitchen_room.tiles[3].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 0, go_to = 0))
     kitchen_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.gramophone))
@@ -55,11 +55,11 @@ if __name__ == "__main__":
     duke = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - TILE_H, Char.duke)
     #duchess = Character(kitchen_room.tiles[4].pos.x, kitchen_room.tiles[4].pos.y - 64, Char.duchess)
     #cleaner = Character(kitchen_room.tiles[8].pos.x, kitchen_room.tiles[8].pos.y - 64, Char.cleaner)
-    #lady = Character(kitchen_room.tiles[12].pos.x, kitchen_room.tiles[12].pos.y- 64, Char.lady)
+    lady = Character(kitchen_room.tiles[20].pos.x, kitchen_room.tiles[20].pos.y- 64, Char.lady)
     #game_vars.chars = [heir, duke, duchess, cleaner, lady]
     #kitchen_room.chars = [heir, duke, duchess, cleaner, lady]
-    game_vars.chars = [duke]
-    kitchen_room.chars = [duke]
+    game_vars.chars = [duke, lady]
+    kitchen_room.chars = [duke, lady]
 
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room]
