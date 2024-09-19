@@ -19,7 +19,7 @@ class Path_Tile:
 
 
 class Pathing:
-    def __init__(self, key_points = None, path_tiles = None) -> None:
+    def __init__(self, key_points = None, path_tiles = None, current_room = 0) -> None:
 
         # All major stops and key interaction tiles
         # List of Path_Tiles
@@ -32,7 +32,8 @@ class Pathing:
         self.path_tiles =  path_tiles
 
         # Index for room_list
-        self.current_room = 3
+        self.current_room = current_room
+
         self.current_tile = self.path_tiles[0][0]
         
         # Indexes in self.path_list
@@ -55,14 +56,13 @@ class Pathing:
 
 
     def _set_direction(self, game_vars, character):
-
         char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
         next_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(next_tile)
 
         character.prev_dir = character.dir
-
+        
         if next_tile_coord.x > char_tile_coord.x:
             character.dir = Direction.dr
         elif next_tile_coord.x < char_tile_coord.x:
@@ -146,11 +146,13 @@ class Pathing:
 
     def _handle_doors(self, game_vars, character) -> None:
         # When next key tile reached, check if it has a door.
-
         if self.key_points[self.next_key_point_ind].door == True:
+
             if self.key_points[self.next_key_point_ind].room != self.key_points[self.next_key_point_ind + 1].room:
                 for o in game_vars.room_list[self.current_room].tiles[self.current_tile].obj:
                     if o.obj_type == Obj_Type.door:
+                        print("££££")
+
                         # Go through door
                         game_vars.room_list[self.current_room].chars.remove(character)
                         self.current_room = o.new_room
@@ -162,12 +164,15 @@ class Pathing:
    
     def update(self, game_vars, character) -> None:
         self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
+        
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
+
+        
         next_key_point = self.key_points[self.next_key_point_ind].tile
-
         if self.current_tile == next_tile:
-
+            print(self.current_tile)
+            print(f"next tile: {next_tile}\n")
             if self.current_tile != next_key_point:
                 self.next_tile_ind += 1
 
