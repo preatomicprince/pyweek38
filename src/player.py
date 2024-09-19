@@ -111,6 +111,7 @@ class Player(Ent):
                  
                 # Special case for stove, that doesn't require any pickup to interact
                 if self.selected_obj.interact_type == Interact_Type.stove:
+                    self._check_if_caught(game_vars)
                     self.selected_obj.interact = False
                     self.selected_obj.active = True
                     self.selected_obj.selected = False
@@ -123,7 +124,6 @@ class Player(Ent):
                 for i in self.inventory:
                     for p in self.selected_obj.pickup_type:
                         if p == i.pickup_type:
-                            
                             #special case for gramophone with 2 ways to kill
                             if self.selected_obj.interact_type == Interact_Type.gramophone:
                                 if p == Pickup_Type.screwdriver:
@@ -133,17 +133,7 @@ class Player(Ent):
                                     self.selected_obj.death_type = Death_Type.electrecute
 
                             print("This object is now deadly")
-
-                            # Checks if player is too close to a character. They are caught if true
-                            if len(game_vars.room_list[game_vars.current_room].chars) > 0:
-                                for c in game_vars.room_list[game_vars.current_room].chars:
-                                    char_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(c.pathing.current_tile)
-                                    player_ind = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
-                                    player_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(player_ind)
-
-                                    if char_coord.x - 2 < player_coord.x < char_coord.x + 2:
-                                        if char_coord.y - 2 < player_coord.y < char_coord.y + 2:
-                                            print("CAUGHT!")
+                            self._check_if_caught(game_vars)
                             self.inventory.remove(i)
                             self.selected_obj.interact = False
                             self.selected_obj.active = True
@@ -161,3 +151,39 @@ class Player(Ent):
                 rect = pygame.Rect(10*count + count*i.size.x, 10, i.size.x, i.size.y)
                 screen.blit(i.sprites.animation_list[i.sprites.ind], rect)
                 count += 1
+
+    def _check_if_caught(self, game_vars):
+        # Checks if player is caught
+        if len(game_vars.room_list[game_vars.current_room].chars) > 0:
+            for c in game_vars.room_list[game_vars.current_room].chars:
+
+                # Check if character is too close to charcter
+                char_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(c.pathing.current_tile)
+                player_ind = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+                player_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(player_ind)
+                
+                caught = False
+
+                if char_coord.x - 2 < player_coord.x < char_coord.x + 2:
+                    if char_coord.y - 2 < player_coord.y < char_coord.y + 2:
+                        caught = True
+                
+                match c.dir:
+                    case Direction.dl:
+                        if player_coord.y > char_coord.y:
+                            caught = True
+                    
+                    case Direction.ur:
+                        if player_coord.y < char_coord.y:
+                            caught = True
+
+                    case Direction.ul:
+                        if player_coord.x < char_coord.x:
+                            caught = True
+                    
+                    case Direction.dr:
+                        if player_coord.x > char_coord.x:
+                            caught = True
+
+                if caught:
+                    print("Caught")
