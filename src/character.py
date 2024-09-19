@@ -133,10 +133,10 @@ class Character(Ent):
 
             case Death_Type.electrecute:
                 if self.char == Char.lady:
-                    self.sprites.set_animation(16, 17, repeat = False)
+                    self.sprites.set_animation(16, 17, repeat = 10)
 
                 if self.char == Char.heir:
-                    self.sprites.set_animation(33, 34, repeat = False)
+                    self.sprites.set_animation(33, 34, repeat = 10)
 
             case Death_Type.chop:
                 if self.char == Char.lady:

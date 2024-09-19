@@ -38,7 +38,7 @@ class SpriteSheet:
         image.set_colorkey(colour)
         return image
 
-    def set_animation(self, start_frame, end_frame, fps = base_fps, repeat: bool = True) -> None:
+    def set_animation(self, start_frame, end_frame, fps = base_fps, repeat: int = True) -> None:
         # Sets the start and end frames for certain parts of the sprite sheet
         # Used for calling specific animations from different parts of the same sheet
 
@@ -57,7 +57,16 @@ class SpriteSheet:
             self.prev_frame_time = time
             if self.ind < self.end_frame:
                 self.ind += 1
-            elif self.repeat == True:
+            elif self.repeat > 1:
+                if self.repeat == 2:
+                    self.repeat = 0
+                else:
+                    self.repeat -= 1
                 self.ind = self.start_frame
+
+            elif self.repeat == 1:
+                self.ind = self.start_frame
+
+            
 
         
