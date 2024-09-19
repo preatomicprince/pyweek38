@@ -36,6 +36,7 @@ if __name__ == "__main__":
     study_room.add_walls("../res/windows.png")
     study_room.tiles[20].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.water_bottle))
     study_room.tiles[0].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 3, go_to = 3))
+    study_room.tiles[6].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.whiskey))
 
 
     hallway_room = Room("hallway", 10, 4)

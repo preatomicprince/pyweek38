@@ -11,8 +11,7 @@ Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone",
 class Obj(Ent):
     def __init__(self, filepath: str = None,  ind: int = 0, 
                  obj_type: Obj_Type = Obj_Type.other, 
-                 interact_type: Interact_Type = None, 
-                 pickup_type: Pickup_Type = None, 
+                 interact_type: Interact_Type = None, pickup_type: Pickup_Type = None, 
                  new_room: int = None, go_to: int = None):
         
         self.obj_type = obj_type

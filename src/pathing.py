@@ -1,6 +1,7 @@
 from object import Obj_Type
 from settings import GameVars, ivec2, fvec2, Direction, SPEED, TILE_W, TILE_H
 
+
 class Path_Tile:
     def __init__(self, room: int, tile: int,
                  door: bool = False, interaction: bool = False) -> None:
@@ -16,18 +17,21 @@ class Path_Tile:
         # If true, interact with object on adjacent tile
         self.interaction = interaction        
 
+
 class Pathing:
     def __init__(self, key_points = None, path_tiles = None) -> None:
 
         # All major stops and key interaction tiles
         # List of Path_Tiles
-        self.key_points: list = [Path_Tile(3, 0), Path_Tile(3, 3, door = True), Path_Tile(0, 0, door = True), Path_Tile(0, 3)]
+        self.key_points: list = [Path_Tile(3, 0), Path_Tile(3, 3, door = True), 
+                                 Path_Tile(0, 0, door = True), Path_Tile(0, 1, interaction = True), 
+                                 Path_Tile(0, 3)]
 
         # All stops between key points
         # List of tile indexes (int)
         # Should contain (len(self.key_points) - 1) lists
         # First in each list should be current key point. Last should be next key point
-        self.path_tiles: list = [[0, 1, 2, 3], [3, 0], [0, 1, 2, 3]]
+        self.path_tiles: list = [[0, 1, 2, 3], [3, 0], [0,1], [1, 2, 3]]
 
         # Index for room_list
         self.current_room = 3
@@ -40,6 +44,7 @@ class Pathing:
         self.current_key_point_ind = 0
         self.next_key_point_ind = 1
 
+
     def _reverse_path(self) -> None:
         # Reverses path so character traverses back to start
 
@@ -50,9 +55,9 @@ class Pathing:
 
         self.path_tiles.reverse()
 
+
     def _set_direction(self, game_vars, character):
 
-        print(f"current tile: {self.current_tile}, room : {self.current_room}")
         char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
@@ -88,9 +93,9 @@ class Pathing:
                     character.vel = fvec2(SPEED.x/2, SPEED.y/2)
                     character.sprites.set_animation(character.dr_start, character.ur_start - 1)
 
+
     def update(self, game_vars, character):
         self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
-        print(self.current_tile)
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
         next_key_point = self.key_points[self.next_key_point_ind].tile
@@ -110,9 +115,35 @@ class Pathing:
 
                                 character.pos.x = game_vars.room_list[o.new_room].tiles[o.go_to].pos.x
                                 character.pos.y = game_vars.room_list[o.new_room].tiles[o.go_to].pos.y - TILE_H
-                            print("went through door")
 
-                print(f"key point: {next_key_point}")
+                if self.key_points[self.next_key_point_ind].interaction == True:
+                    print("Has interaction")
+                    # List of nearby tiles
+                    above_tile = next_key_point - 1
+                    below_tile = next_key_point + 1
+                    left_tile = next_key_point - game_vars.room_list[self.current_room].rows
+                    right_tile = next_key_point + game_vars.room_list[self.current_room].rows
+
+                    check_tiles = [above_tile, below_tile, left_tile, right_tile]
+
+                    # Check  for interaction
+                    for t in check_tiles:
+                        cols = game_vars.room_list[self.current_room].cols
+                        rows = game_vars.room_list[self.current_room].rows
+                        if t not in range(rows*cols):
+                            print(f"{t} not in range")
+                            continue
+
+                        if len(game_vars.room_list[self.current_room].tiles[t].obj) <= 0:
+                            continue
+
+                        for o in game_vars.room_list[self.current_room].tiles[t].obj:
+                            if o.obj_type == Obj_Type.interact and o.active:
+
+                                # Kill character
+                                character.alive = False
+                                print("Dead lol")
+                                
                 self.next_tile_ind = 1
 
                 # Move to next key point
@@ -126,27 +157,9 @@ class Pathing:
                     
                     self.current_key_point_ind = 0
                     self.next_key_point_ind = 1
+        
+                # Check if key tile has interaction
                 
-                
-               
-                """
-                # List of nearby tiles
-                above_tile = self.current_tile - 1
-                below_tile = self.current_tile + 1
-                left_tile = self.current_tile - game_vars.room_list[self.current_room].rows
-                right_tile = self.current_tile + game_vars.room_list[self.current_room].rows
-
-                check_tiles = [above_tile, below_tile, left_tile, right_tile]
-
-                # Check  for interaction
-                for t in check_tiles:
-                    if len(game_vars.room_list[self.current_room].tiles[t].obj) > 0:
-                        for o in game_vars.room_list[self.current_room].tiles[t].obj:
-                            if o.obj_type == Obj_Type.interact:
-                                
-                                # Kill character
-                                if o.active == True:
-                                    character.alive = False"""
 
             # If at next tile but not key point
             else:

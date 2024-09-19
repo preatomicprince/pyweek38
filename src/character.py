@@ -2,6 +2,7 @@ from entity import Ent
 from enum import Enum
 from object import Obj, Obj_Type
 from pathing import Path_Tile, Pathing
+import pygame
 from settings import SPEED, Direction, fvec2, TILE_W
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
@@ -33,33 +34,37 @@ class Character(Ent):
         # If a tile in path contains a door, the character will walk through when reached
         self.path: list = []
         
+        self.prev_alive = True
         self.alive = True
 
         match self.char:
             case Char.heir:
-                animation_steps = 34
+                self.animation_steps = 34
                 self.current_room = 3
                 self.path = [0]
                 filepath = "../res/the_heir.png"
 
             case Char.duke:
-                animation_steps = 39
+                self.animation_steps = 39
                 self.current_room = 3
                 self.path = [0, 1, 2, 3]
+                self.explosion_start = 32
+                self.poison_start = 33
+
                 filepath = "../res/duke_sprite.png"
 
             case Char.duchess:
                 self.current_room = 3
                 self.path = [4, 5, 6, 7]
                 self.walking_animation_steps = 4
-                animation_steps = 9
+                self.animation_steps = 9
                 self.dr_start = 1
                 self.ur_start = 2
                 self.ul_start = 3
                 filepath = "../res/mother.png"
 
             case Char.cleaner:
-                animation_steps = 37
+                self.animation_steps = 37
                 self.current_room = 3
                 self.path = [8, 10]
                 filepath = "../res/the_maid.png"
@@ -68,22 +73,39 @@ class Character(Ent):
                 self.current_room = 3
                 self.path = [12, 15]
                 self.walking_animation_steps = 16
-                animation_steps = 21
+                self.animation_steps = 21
                 self.dr_start = 4
                 self.ur_start = 8
                 self.ul_start = 12
                 filepath = "../res/grandma.png"
 
-        super().__init__(x_pos, y_pos, filepath, animation_steps)
+        super().__init__(x_pos, y_pos, filepath, self.animation_steps)
 
     def update(self, game_vars) -> None:
 
+        if self.alive == False:
+            if self.prev_alive == True:
+                self.prev_alive = False
+                self.sprites.set_animation(self.poison_start, self.animation_steps - 1, repeat = False)
+        else:
+            self.pathing.update(game_vars, self)
+            self.pos.x += self.vel.x
+            self.pos.y += self.vel.y
+
         self.sprites.update(game_vars.time)
 
-        self.pathing.update(game_vars, self)
 
-        self.pos.x += self.vel.x
-        self.pos.y += self.vel.y
+    def draw(self, screen):
+        rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
+        
+        if self.alive:
+            screen.blit(self.sprites.animation_list[self.sprites.ind], rect)
+            return
+        else:
+            angle = -45
+            rotated_image = pygame.transform.rotate(self.sprites.animation_list[self.sprites.ind], angle)
+
+            screen.blit(rotated_image, rect)
 
 
  
