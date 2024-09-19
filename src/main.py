@@ -42,7 +42,7 @@ if __name__ == "__main__":
     ###initialise some of the rooms to test transitions
     study_room = Room("study", 5, 5)
     study_room.add_walls("../res/kitchen_wall.png")
-    #study_room.tiles[20].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.water_bottle))
+    study_room.tiles[20].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.screwdriver))
     study_room.tiles[9].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 10))
 
     hallway_room = Room("hallway", 10, 4)

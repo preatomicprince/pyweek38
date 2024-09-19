@@ -108,6 +108,7 @@ class Pathing:
         # Checks for interaction with nearby character and kills them
 
         if self.key_points[self.next_key_point_ind].interaction == True:
+            
             next_key_point = self.key_points[self.next_key_point_ind].tile
 
             # List of nearby tiles
@@ -116,7 +117,7 @@ class Pathing:
             left_tile = next_key_point - game_vars.room_list[self.current_room].rows
             right_tile = next_key_point + game_vars.room_list[self.current_room].rows
 
-            check_tiles = [above_tile, below_tile, left_tile, right_tile]
+            check_tiles = [next_key_point, above_tile, below_tile, left_tile, right_tile]
 
             # Check  for interaction
             for t in check_tiles:
@@ -127,6 +128,7 @@ class Pathing:
                     continue
 
                 if len(game_vars.room_list[self.current_room].tiles[t].obj) == 0:
+                    
                     continue
 
                 for o in game_vars.room_list[self.current_room].tiles[t].obj:
@@ -186,16 +188,17 @@ class Pathing:
 
             # If reached key point
             else:
-                self._handle_interaction(game_vars, character)
 
                 if self.key_points[self.next_key_point_ind].wait > 0:
                     if self.timer == None:
+                        self._handle_interaction(game_vars, character)
                         self.timer = game_vars.time
                     else:
                         if game_vars.time > self.timer + self.key_points[self.next_key_point_ind].wait:
                             self.timer = None
 
                 if self.timer == None:
+                    self._handle_interaction(game_vars, character)
                     self._handle_doors(game_vars, character)
                     self.next_tile_ind = 1
 

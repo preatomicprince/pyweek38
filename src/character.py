@@ -149,7 +149,8 @@ class Character(Ent):
         
             case Death_Type.crush:
                 if self.char == Char.duchess:
-                    pass
+                    self.sprites.set_animation(4, self.animation_steps - 1, repeat = False)
+
 
             case Death_Type.fall:
                 if self.char == Char.heir:
