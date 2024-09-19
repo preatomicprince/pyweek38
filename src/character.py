@@ -61,7 +61,12 @@ class Character(Ent):
 
             case Char.cleaner:
                 self.animation_steps = 37
-                self.current_room = 3
+                self.current_room = 7
+
+                self.key_points = [Path_Tile(7, 13), Path_Tile(7, 1, interaction = True, wait = 5), Path_Tile(7, 7), Path_Tile(7, 6, door = True),
+                                   Path_Tile(6, 11, door = True), Path_Tile(6, 16, door = True),
+                                   Path_Tile(1, 6, door = True), Path_Tile(1, 0, interaction = True, wait = 5)]
+                self.path_tiles = [[13, 1], [1, 7], [7, 6], [6, 11], [11, 8, 16], [16, 6], [6, 0]]
                 filepath = "../res/the_maid.png"
 
             case Char.lady:
@@ -92,6 +97,7 @@ class Character(Ent):
             if self.prev_alive == True:
                 self.prev_alive = False
                 game_vars.score += 250000
+                print("DEAD")
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)

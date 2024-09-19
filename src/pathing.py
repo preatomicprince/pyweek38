@@ -61,10 +61,13 @@ class Pathing:
 
 
     def _set_direction(self, game_vars, character):
-        char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)            
+        char_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(self.current_tile)   
+
 
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
+        
         next_tile_coord = game_vars.room_list[self.current_room].ind_to_coord(next_tile)
+        
         """
         if char_tile_coord == None:
             character.pos.x = game_vars.room_list[self.current_room].tiles[self.key_points[self.current_key_point_ind].tile].pos.x + TILE_W/2 - self.size.x/2
