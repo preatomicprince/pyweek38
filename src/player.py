@@ -79,48 +79,71 @@ class Player(Ent):
             self.pos.x += self.velocity.x
             self.pos.y += self.velocity.y
 
-            # Calculate collision
-            # Thanks again to https://clintbellanger.net/articles/isometric_math/ 
-            cols = game_vars.room_list[game_vars.current_room].cols
-            rows = game_vars.room_list[game_vars.current_room].rows
-
-            if game_vars.current_room == 0:
-                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols - .5
-                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 1
-
-            elif game_vars.current_room == 1:
-                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols - 3
-                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 2.5
-
-            # Dunno why some rooms have a slight map position offset. 
-            # No time to figure it out but this makes it work properly
-            
-            elif game_vars.current_room == 3:
-                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols + 1
-                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
-            elif game_vars.current_room == 2:
-                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols + 0.5
-                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 1
-            else:
-                mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols
-                mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
-            print(f"x: {mapx}, y: {mapy}")
-            if mapx < 0 or mapx > cols:
+            if self._check_collision(game_vars):
                 self.pos.x -= self.velocity.x
                 self.pos.y -= self.velocity.y
-
-            if mapy < 0 or mapy > rows:
-                self.pos.x -= self.velocity.x
-                self.pos.y -= self.velocity.y
-
-
-
+    
         if input.key_interact:
             if input.prev_input.key_interact == False:
                 self.interact(game_vars)
 
+    def _check_collision(self, game_vars):
+        return self._wall_collision(game_vars) or self._obj_collision(game_vars)
+
+    def _wall_collision(self, game_vars):
+
+        # Thanks again to https://clintbellanger.net/articles/isometric_math/ 
+        cols = game_vars.room_list[game_vars.current_room].cols
+        rows = game_vars.room_list[game_vars.current_room].rows
+
+        pti = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+        if pti != None:
+            pt = game_vars.room_list[game_vars.current_room].ind_to_coord(pti)
+            if pt.x != 0 and pt.x != rows and pt.y != 0 and pt.y != cols:
+                return False
+            
+        if game_vars.current_room == 0:
+            mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols - .5
+            mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 1
+
+        elif game_vars.current_room == 1:
+            mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols - 3
+            mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 2.5
+
+        # Dunno why some rooms have a slight map position offset. 
+        # No time to figure it out but this makes it work properly
+        
+        elif game_vars.current_room == 3:
+            mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols + 1
+            mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
+        elif game_vars.current_room == 2:
+            mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols + 0.5
+            mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + 1
+        else:
+            mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols
+            mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
+        print(f"x: {mapx}, y: {mapy}")
+        if mapx < 0 or mapx > cols:
+            return True
+
+        if mapy < 0 or mapy > rows:
+            return True
+        
+        return False
+
+    def _obj_collision(self, game_vars):
+
+        pti = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+
+        if len(game_vars.room_list[game_vars.current_room].tiles[pti].obj) > 0:
+            for o in game_vars.room_list[game_vars.current_room].tiles[pti].obj:
+                if o.collide:
+                    return True
+                
+        return False
 
     def interact(self, game_vars) -> None:
+
         if self.selected_obj != None:
 
             # If selected object is a pickup
