@@ -13,6 +13,9 @@ class fvec2:
 class Settings:
     def __init__(self) -> None:
         self.running = True
+        self.restart = True
+
+
 
 # u = up, d = down, l = left, r = right
 Direction = Enum('Direction', ['ul', 'dl', 'dr', 'ur'])

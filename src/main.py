@@ -9,13 +9,8 @@ from room import Room
 from ui import *
 from settings import Settings, WIDTH, HEIGHT, GameVars, TILE_W, TILE_H
 
-# Just here so the "comment" splashscreen isn't in the way during my testing
-from sys import platform
+def main(settings: Settings, screen):
 
-if __name__ == "__main__":
-    pygame.init()
-
-    settings = Settings()
     ###initialise the game vars
     game_vars = GameVars()
 
@@ -23,7 +18,7 @@ if __name__ == "__main__":
     prev_input = Input()
 
     input.prev_input = prev_input
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+    
     #temporeroly removed fullscreen as itll be easier for me to find this bug
     #, pygame.FULLSCREEN
     player = Player(400, 300)
@@ -166,3 +161,15 @@ if __name__ == "__main__":
         for b in button_list:
             b.draw(screen)
         pygame.display.update()
+
+
+if __name__ == "__main__":
+    pygame.init()
+
+    settings = Settings()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+
+    while settings.restart:
+        settings.running = True
+        settings.restart = False
+        main(settings, screen)

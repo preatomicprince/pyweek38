@@ -3,6 +3,10 @@ from pygame.locals import *
 from settings import Settings
 import sys
 
+def restart(settings):
+    settings.running = False
+    settings.restart = True
+
 class Input:
     def __init__(self) -> None:
         self.key_left: bool = False
@@ -42,6 +46,9 @@ class Input:
 
                 if event.key == K_e:
                     self.key_interact = True
+
+                if event.key == K_SPACE:
+                    restart(settings)
 
 
             if event.type == KEYUP:
