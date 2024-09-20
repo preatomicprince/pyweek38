@@ -154,6 +154,7 @@ class Pathing:
                                 character.death_type = o.death_type
 
                             case Interact_Type.armour:
+                                o.active = False
                                 character.death_type = Death_Type.chop
 
                             case Interact_Type.telephone:

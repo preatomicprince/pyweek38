@@ -35,8 +35,9 @@ class Character(Ent):
                 self.animation_steps = 34
                 self.current_room = 5
 
-                self.key_points = [Path_Tile(5, 0), Path_Tile(5, 6)]
-                self.path_tiles = [[0, 6]]
+                self.key_points = [Path_Tile(5, 0), Path_Tile(5, 1, interaction = True), Path_Tile(5, 14, door = True),
+                                   Path_Tile(1, 5), Path_Tile(1, 25, interaction = True, wait = 15)]
+                self.path_tiles = [[0, 1], [1, 2, 14], [14, 5], [5, 25]]
                 filepath = "../res/the_heir.png"
 
             case Char.duke:
@@ -147,7 +148,7 @@ class Character(Ent):
                     self.sprites.set_animation(16, 17, repeat = 10)
 
                 if self.char == Char.heir:
-                    self.sprites.set_animation(33, 34, repeat = 10)
+                    self.sprites.set_animation(32, 33, repeat = 10)
 
             case Death_Type.chop:
                 if self.char == Char.lady:

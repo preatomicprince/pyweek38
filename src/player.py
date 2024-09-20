@@ -143,7 +143,21 @@ class Player(Ent):
         return False
 
     def interact(self, game_vars) -> None:
-
+        
+        # Check if there's a body to clear
+        if len(game_vars.room_list[game_vars.current_room].chars) > 0:
+            for c in game_vars.room_list[game_vars.current_room].chars:
+                if c.alive == False:
+                    rows = game_vars.room_list[game_vars.current_room].rows
+                    cti = game_vars.room_list[game_vars.current_room].find_ent_tile(c)
+                    pti = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+                    check_tiles = [pti, pti - 1, pti + 1, pti - rows, pti + rows]
+                    for t in check_tiles:
+                        if t == cti:
+                            game_vars.room_list[game_vars.current_room].chars.remove(c)
+                            print("Body hidden!")
+            return
+        
         if self.selected_obj != None:
 
             # If selected object is a pickup
