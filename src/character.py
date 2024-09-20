@@ -115,13 +115,20 @@ class Character(Ent):
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)
-
+            
+            # Set door exclamation
             if self.key_points[self.pathing.next_key_point_ind].door == True:
                 if game_vars.current_room == self.key_points[self.pathing.next_key_point_ind + 1].room:
                     tile = game_vars.room_list[game_vars.current_room].tiles[self.key_points[self.pathing.next_key_point_ind + 1].tile]
                     for o in tile.obj:
                         if o.obj_type == Obj_Type.door:
                             o.danger = True
+
+            # Find body
+            for c in game_vars.room_list[self.pathing.current_room].chars:
+                if c.alive == False:
+                    game_vars.caught = True
+                    print("caught")
 
             if self.pathing.timer == None:
                 self.pos.x += self.vel.x

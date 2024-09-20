@@ -43,6 +43,8 @@ class GameVars:
         ###needs to go on the screen somewhere
         self.score = 0
 
+        self.caught =  False
+
         self.time = 0
 
     ###to work out what screen we're on, 

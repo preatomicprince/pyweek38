@@ -270,6 +270,7 @@ class Player(Ent):
                             caught = True
 
                 if caught:
+                    game_vars.caught = True
                     print("Caught")
 
 
