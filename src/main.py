@@ -15,9 +15,6 @@ from sys import platform
 if __name__ == "__main__":
     pygame.init()
 
-    # to-do: add comment
-    meme = pygame.image.load(Path("../res/1lzym5zv16j01.png"))
-
     settings = Settings()
     ###initialise the game vars
     game_vars = GameVars()
@@ -127,17 +124,17 @@ if __name__ == "__main__":
     kitchen_room.tiles[16].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
 
 
-    #heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
+    heir = Character(bedroom2.tiles[0].pos.x, bedroom2.tiles[0].pos.y, Char.heir)
     duke = Character(kitchen_room.tiles[21].pos.x, kitchen_room.tiles[21].pos.y - TILE_H, Char.duke)
-
     duchess = Character(living_room.tiles[4].pos.x, living_room.tiles[4].pos.y, Char.duchess)
     cleaner = Character(library.tiles[13].pos.x , library.tiles[13].pos.y, Char.cleaner)
     lady = Character(bedroom1.tiles[2].pos.x , bedroom1.tiles[2].pos.y, Char.lady)
-    #game_vars.chars = [heir, duke, duchess, cleaner, lady]
-    #kitchen_room.chars = [heir, duke, duchess, cleaner, lady]
-    game_vars.chars = [duke, lady, duchess, cleaner]
+
+    game_vars.chars = [heir, duke, duchess, cleaner, lady]
+
     kitchen_room.chars = [duke]
     bedroom1.chars = [lady]
+    bedroom2.chars = [heir]
     library.chars = [cleaner]
     living_room.chars = [duchess]
 
@@ -148,6 +145,7 @@ if __name__ == "__main__":
     lady.pathing._set_direction(game_vars, lady)
     duchess.pathing._set_direction(game_vars, duchess)
     cleaner.pathing._set_direction(game_vars, cleaner)
+    heir.pathing._set_direction(game_vars, heir)
 
     while settings.running:
         game_vars.time = pygame.time.get_ticks()
@@ -165,10 +163,6 @@ if __name__ == "__main__":
         game_vars.room_list[game_vars.current_room].draw(screen, player)
         player.draw_inv(screen)
 
-        ###this is where I blit the image to the screen, the image is leaded at the begining of the main function
-        ###can remove once done
-        #if platform == "linux":
-           #screen.blit(meme, (0, 0))
         for b in button_list:
             b.draw(screen)
         pygame.display.update()

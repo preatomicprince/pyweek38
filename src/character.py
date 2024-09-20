@@ -33,7 +33,10 @@ class Character(Ent):
         match self.char:
             case Char.heir:
                 self.animation_steps = 34
-                self.current_room = 3
+                self.current_room = 5
+
+                self.key_points = [Path_Tile(5, 0), Path_Tile(5, 6)]
+                self.path_tiles = [[0, 6]]
                 filepath = "../res/the_heir.png"
 
             case Char.duke:
