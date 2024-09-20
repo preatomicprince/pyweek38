@@ -149,7 +149,7 @@ if __name__ == "__main__":
         screen.fill((128, 128, 128))
 
         input.update(button_list, settings, prev_input)
-        game_vars.room_list[game_vars.current_room].set_interact(player)
+        game_vars.room_list[game_vars.current_room].set_interact(game_vars, player)
         player.update(input, game_vars)
 
         for i in game_vars.chars:

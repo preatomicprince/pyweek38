@@ -122,7 +122,6 @@ class Player(Ent):
         else:
             mapx = ((self.pos.x / (TILE_W/2 )) + (self.pos.y / (TILE_H/2)))/2 - cols
             mapy = ((self.pos.y / (TILE_H/2 )) - (self.pos.x / (TILE_W/2)))/2 + .5
-        print(f"x: {mapx}, y: {mapy}")
         if mapx < 0 or mapx > cols:
             return True
 
@@ -134,11 +133,11 @@ class Player(Ent):
     def _obj_collision(self, game_vars):
 
         pti = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
-
-        if len(game_vars.room_list[game_vars.current_room].tiles[pti].obj) > 0:
-            for o in game_vars.room_list[game_vars.current_room].tiles[pti].obj:
-                if o.collide:
-                    return True
+        if pti != None:
+            if len(game_vars.room_list[game_vars.current_room].tiles[pti].obj) > 0:
+                for o in game_vars.room_list[game_vars.current_room].tiles[pti].obj:
+                    if o.collide:
+                        return True
                 
         return False
 
