@@ -88,6 +88,8 @@ class Player(Ent):
             if input.prev_input.key_interact == False:
                 self.interact(game_vars)
 
+        self._check_if_seen(game_vars)
+
     def _check_collision(self, game_vars):
         return self._wall_collision(game_vars) or self._obj_collision(game_vars)
 
@@ -156,7 +158,7 @@ class Player(Ent):
                         if t == cti:
                             game_vars.room_list[game_vars.current_room].chars.remove(c)
                             print("Body hidden!")
-            return
+                            return
         
         if self.selected_obj != None:
 
@@ -236,9 +238,12 @@ class Player(Ent):
             for c in game_vars.room_list[game_vars.current_room].chars:
 
                 # Check if character is too close to charcter
-                char_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(c.pathing.current_tile)
+                if c.pathing.current_tile != None:
+                    char_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(c.pathing.current_tile)
                 player_ind = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
-                player_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(player_ind)
+
+                if player_ind != None:
+                    player_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(player_ind)
                 
                 caught = False
 
@@ -246,6 +251,7 @@ class Player(Ent):
                     if char_coord.y - 2 < player_coord.y < char_coord.y + 2:
                         caught = True
                 
+                # Check if character is facing player
                 match c.dir:
                     case Direction.dl:
                         if player_coord.y > char_coord.y:
@@ -265,3 +271,50 @@ class Player(Ent):
 
                 if caught:
                     print("Caught")
+
+
+    def _check_if_seen(self, game_vars):
+            # Checks if player is seen
+
+            ###add a bark here
+            if len(game_vars.room_list[game_vars.current_room].chars) > 0:
+                for c in game_vars.room_list[game_vars.current_room].chars:
+
+                    # Check if character is too close to charcter
+                    if c.pathing.current_tile != None:
+                        char_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(c.pathing.current_tile)
+                    else:
+                        return
+                    player_ind = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
+
+                    if player_ind != None:
+                        player_coord = game_vars.room_list[game_vars.current_room].ind_to_coord(player_ind)
+                    else:
+                        return
+                    
+                    seen = False
+
+                    if char_coord.x - 2 < player_coord.x < char_coord.x + 2:
+                        if char_coord.y - 2 < player_coord.y < char_coord.y + 2:
+                            seen = True
+                    
+                    # Check if character is facing player
+                    match c.dir:
+                        case Direction.dl:
+                            if player_coord.y > char_coord.y:
+                                seen = True
+                        
+                        case Direction.ur:
+                            if player_coord.y < char_coord.y:
+                                seen = True
+
+                        case Direction.ul:
+                            if player_coord.x < char_coord.x:
+                                seen = True
+                        
+                        case Direction.dr:
+                            if player_coord.x > char_coord.x:
+                                seen = True
+
+                    if seen:
+                        c.can_see_player = True

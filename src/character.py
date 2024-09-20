@@ -2,8 +2,10 @@ from entity import Ent
 from enum import Enum
 from object import Obj, Obj_Type, Death_Type
 from pathing import Path_Tile, Pathing
+from pathlib import Path
 import pygame
-from settings import SPEED, Direction, fvec2, TILE_W, TILE_H
+from settings import SPEED, Direction, ivec2, TILE_W, TILE_H
+from spritesheet import SpriteSheet
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
 
@@ -13,6 +15,11 @@ class Character(Ent):
         
         self.dir = None
         self.prev_dir = None
+
+        self.can_see_player = False
+        exclamation = pygame.image.load(Path("../res/ui.png")).convert_alpha()
+        exclamation_size = ivec2(exclamation.get_rect().w/9, exclamation.get_rect().h)
+        self.exclamation = SpriteSheet(exclamation, 9, exclamation_size.x, exclamation_size.y, ind = 2)
         
         self.death_type = None
 
@@ -36,7 +43,7 @@ class Character(Ent):
                 self.current_room = 5
 
                 self.key_points = [Path_Tile(5, 0), Path_Tile(5, 1, interaction = True), Path_Tile(5, 14, door = True),
-                                   Path_Tile(1, 5), Path_Tile(1, 25, interaction = True, wait = 15)]
+                                   Path_Tile(1, 5, door = True), Path_Tile(1, 25, interaction = True, wait = 15)]
                 self.path_tiles = [[0, 1], [1, 2, 14], [14, 5], [5, 25]]
                 filepath = "../res/the_heir.png"
 
@@ -118,6 +125,19 @@ class Character(Ent):
         
         if self.alive:
             screen.blit(self.sprites.animation_list[self.sprites.ind], rect)
+
+            # Draw exclamation
+            if self.can_see_player:
+                if self.char == Char.duchess:
+                    y_offset = 0
+                elif self.char == Char.duke or self.char == Char.heir:
+                    y_offset = 40
+                else:
+                    y_offset = 24
+                rect = pygame.Rect(self.pos.x - 12, self.pos.y - self.exclamation.y_cut + y_offset, self.exclamation.x_cut, self.exclamation.y_cut)
+                screen.blit(self.exclamation.animation_list[self.exclamation.ind], rect)
+                self.can_see_player = False
+
             return
         else:
             angle = 180
