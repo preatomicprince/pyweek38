@@ -17,9 +17,12 @@ class Character(Ent):
         self.prev_dir = None
 
         self.can_see_player = False
+
         exclamation = pygame.image.load(Path("../res/ui.png")).convert_alpha()
         exclamation_size = ivec2(exclamation.get_rect().w/9, exclamation.get_rect().h)
         self.exclamation = SpriteSheet(exclamation, 9, exclamation_size.x, exclamation_size.y, ind = 2)
+        
+        self.heading_to_door = False
         
         self.death_type = None
 
@@ -113,6 +116,13 @@ class Character(Ent):
         else:
             self.pathing.update(game_vars, self)
 
+            if self.key_points[self.pathing.next_key_point_ind].door == True:
+                if game_vars.current_room == self.key_points[self.pathing.next_key_point_ind + 1].room:
+                    tile = game_vars.room_list[game_vars.current_room].tiles[self.key_points[self.pathing.next_key_point_ind + 1].tile]
+                    for o in tile.obj:
+                        if o.obj_type == Obj_Type.door:
+                            o.danger = True
+
             if self.pathing.timer == None:
                 self.pos.x += self.vel.x
                 self.pos.y += self.vel.y
@@ -134,6 +144,7 @@ class Character(Ent):
                     y_offset = 40
                 else:
                     y_offset = 24
+                    
                 rect = pygame.Rect(self.pos.x - 12, self.pos.y - self.exclamation.y_cut + y_offset, self.exclamation.x_cut, self.exclamation.y_cut)
                 screen.blit(self.exclamation.animation_list[self.exclamation.ind], rect)
                 self.can_see_player = False

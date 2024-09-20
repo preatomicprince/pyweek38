@@ -37,6 +37,7 @@ class Obj(Ent):
                 self.collide = False
                 self.interact = True
                 self.new_room = new_room
+                self.danger = False
                 self.go_to = go_to
 
             case Obj_Type.pickup:
