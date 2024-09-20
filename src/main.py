@@ -19,8 +19,6 @@ def main(settings: Settings, screen):
 
     input.prev_input = prev_input
     
-    #temporeroly removed fullscreen as itll be easier for me to find this bug
-    #, pygame.FULLSCREEN
     player = Player(400, 300)
 
     ###initialising for the UI
@@ -34,13 +32,19 @@ def main(settings: Settings, screen):
     ###initialise some of the rooms to test transitions
     study_room = Room("study", 5, 5)
     study_room.add_walls("../res/kitchen_wall.png")
-    study_room.tiles[20].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.screwdriver))
-    study_room.tiles[9].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 10))
+    study_room.tiles[21].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.screwdriver))
+    study_room.tiles[19].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 20))
+    study_room.tiles[0].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+    study_room.tiles[5].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+    study_room.tiles[10].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
+    study_room.tiles[15].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+    study_room.tiles[20].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+
 
     hallway_room = Room("hallway", 10, 4)
     hallway_room.add_walls("../res/hall_way_walls.png")
     # bedroom1 door
-    hallway_room.tiles[2].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 4, go_to = 14))
+    hallway_room.tiles[1].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 4, go_to = 13))
     # bedroom2 door
     hallway_room.tiles[5].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 5, go_to = 14))
     # living_room door
@@ -50,7 +54,7 @@ def main(settings: Settings, screen):
     # kitchen_room door
     hallway_room.tiles[33].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 3, go_to = 3))
     # study_room door
-    hallway_room.tiles[20].obj.append(Obj(Path("../res/doors.png"), ind = 2, obj_type = Obj_Type.door, new_room = 0, go_to = 9))
+    hallway_room.tiles[20].obj.append(Obj(Path("../res/doors.png"), ind = 2, obj_type = Obj_Type.door, new_room = 0, go_to = 19))
     # dining_room door
     hallway_room.tiles[37].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 2, go_to = 1))
     hallway_room.tiles[35].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.telephone))
@@ -71,7 +75,7 @@ def main(settings: Settings, screen):
     bedroom1 = Room("bedroom1", 3, 5)
     bedroom1.add_walls("../res/kitchen_wall.png")
     # hallway_room door
-    bedroom1.tiles[14].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 2))
+    bedroom1.tiles[13].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 1))
     bedroom1.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.gramophone))
 
     
@@ -98,6 +102,10 @@ def main(settings: Settings, screen):
     library.tiles[6].obj.append(Obj(Path("../res/doors.png"), ind = 2, obj_type = Obj_Type.door, new_room = 6, go_to = 11))
     library.tiles[12].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.bookshelf))
     library.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.window))
+    library.tiles[0].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+    library.tiles[3].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+
+
 
 
     # hallway_room door
@@ -114,13 +122,15 @@ def main(settings: Settings, screen):
     kitchen_room.tiles[11].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 2, go_to = 12))
     kitchen_room.tiles[0].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[2].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+    kitchen_room.tiles[4].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
+
     kitchen_room.tiles[4].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[8].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[16].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
 
 
     heir = Character(bedroom2.tiles[0].pos.x, bedroom2.tiles[0].pos.y, Char.heir)
-    duke = Character(kitchen_room.tiles[21].pos.x, kitchen_room.tiles[21].pos.y - TILE_H, Char.duke)
+    duke = Character(kitchen_room.tiles[5].pos.x, kitchen_room.tiles[5].pos.y, Char.duke)
     duchess = Character(living_room.tiles[4].pos.x, living_room.tiles[4].pos.y, Char.duchess)
     cleaner = Character(library.tiles[13].pos.x , library.tiles[13].pos.y, Char.cleaner)
     lady = Character(bedroom1.tiles[2].pos.x , bedroom1.tiles[2].pos.y, Char.lady)
@@ -134,7 +144,7 @@ def main(settings: Settings, screen):
     living_room.chars = [duchess]
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room, bedroom1, bedroom2, living_room, library]
-    game_vars.current_room = 7
+    game_vars.current_room = 3
 
     duke.pathing._set_direction(game_vars, duke)
     lady.pathing._set_direction(game_vars, lady)
@@ -145,7 +155,7 @@ def main(settings: Settings, screen):
     while settings.running:
         game_vars.time = pygame.time.get_ticks()
 
-        screen.fill((128, 128, 128))
+        screen.fill((0, 0, 0))
 
         input.update(button_list, settings, prev_input)
         game_vars.room_list[game_vars.current_room].set_interact(game_vars, player)
@@ -167,7 +177,7 @@ if __name__ == "__main__":
     pygame.init()
 
     settings = Settings()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))#, pygame.FULLSCREEN)
 
     while settings.restart:
         settings.running = True

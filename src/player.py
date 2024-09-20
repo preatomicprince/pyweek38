@@ -5,6 +5,7 @@ from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
 from settings import Direction, SPEED, fvec2, TILE_H, TILE_W, WIDTH
 
+# DEBUG - Should be False for release
 show_tile = False
 
 class Player(Ent):
@@ -154,6 +155,7 @@ class Player(Ent):
                         if self.selected_obj in t.obj:
                             t.obj.remove(self.selected_obj)
                 self.selected_obj = None
+                self._check_if_caught(game_vars)
                 return
             
             # If selected object is door

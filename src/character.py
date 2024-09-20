@@ -43,9 +43,9 @@ class Character(Ent):
                 self.animation_steps = 39
                 self.current_room = 3
 
-                self.key_points = [Path_Tile(3, 16), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True, wait = 5)]
+                self.key_points = [Path_Tile(3, 5, interaction = True, wait = 15), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True, wait = 5)]
 
-                self.path_tiles = [[16, 17, 13, 9, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
+                self.path_tiles = [[5, 6, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
 
                 filepath = "../res/duke_sprite.png"
 
@@ -80,11 +80,11 @@ class Character(Ent):
                 self.ur_start = 8
                 self.ul_start = 12
 
-                self.key_points = [Path_Tile(4, 2, interaction = True, wait = 3), Path_Tile(4, 14, door = True), 
-                                   Path_Tile(1, 2, door = True), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
+                self.key_points = [Path_Tile(4, 2, interaction = True, wait = 3), Path_Tile(4, 13, door = True), 
+                                   Path_Tile(1, 1, door = True), Path_Tile(1, 1, interaction = True, wait = 1), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
                                    Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
                                    Path_Tile(2, 12, door = True), Path_Tile(2, 15)]
-                self.path_tiles = [[2, 14], [14, 2], [2, 3], [3, 33], [33, 3], [3, 11], [11, 12], [12, 15]]
+                self.path_tiles = [[2, 14, 13], [13, 1], [1,1], [1, 3], [3, 33], [33, 3], [3, 11], [11, 12], [12, 15]]
                 filepath = "../res/grandma.png"
 
         self.pathing = Pathing(self.key_points, self.path_tiles, self.current_room)
