@@ -81,7 +81,8 @@ def main(settings: Settings, screen):
     
     bedroom2 = Room("bedroom2", 3, 5)
     bedroom2.add_walls("../res/kitchen_wall.png")
-    bedroom2.tiles[1].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    bedroom2.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.window))
+
     # hallway_room door
     bedroom2.tiles[14].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 5))
     bedroom2.tiles[4].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.water_bottle))
