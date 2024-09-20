@@ -3,22 +3,24 @@ from enum import Enum
 from pathlib import Path
 from settings import TILE_H
 
-Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "other"])
+Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "decor", "other"])
 Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])
 Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone", "armour", "telephone", "bookshelf", "window"])
 Death_Type = Enum("Death_Type", ["explode", "poison", "electrecute", "chop", "crush", "fall"])
+Decor_Type = Enum("Decor_Type", ["bookcase", "counter"])
 
 
 class Obj(Ent):
     def __init__(self, filepath: str = None,  ind: int = 0, 
                  obj_type: Obj_Type = Obj_Type.other, 
-                 interact_type: Interact_Type = None, pickup_type: Pickup_Type = None, 
+                 interact_type: Interact_Type = None, pickup_type: Pickup_Type = None, decor_type: Decor_Type = None,
                  new_room: int = None, go_to: int = None):
         
         self.obj_type = obj_type
         self.go_to = None
         self.selected = False
         self.pickup_type = None
+        self.decor_type = decor_type
         self.death_type = None
         self.interact_type = interact_type
         self.active = None
@@ -108,6 +110,19 @@ class Obj(Ent):
                         animation_steps = 2
                         filepath = Path("../res/open_window2.png")
                         self.pickup_type = [Pickup_Type.banana]
+
+            case Obj_Type.decor:
+                self.collide = True
+                self.interact = False
+
+                match self.decor_type:
+                    case Decor_Type.bookcase:
+                        filepath = Path("../res/bookcase.png")
+                        animation_steps = 4
+
+                    case Decor_Type.counter:
+                        filepath = Path("../res/counter.png")
+                        animation_steps = 4
 
             case Obj_Type.other:
                 animation_steps = 1

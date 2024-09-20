@@ -50,24 +50,32 @@ class Room:
         for tile in self.tiles:
             if len(tile.obj) > 0:
                 for i in range(len(tile.obj)):
-                    if tile.obj[i].obj_type == Obj_Type.door or tile.obj[i].obj_type == Obj_Type.interact or tile.obj[i].obj_type == Obj_Type.pickup:
-                        tile.draw_obj(screen, i)
-
-        for tile in self.tiles:
-            if len(tile.obj) > 0:
-                for i in range(len(tile.obj)):
-                    if tile.obj[i].obj_type != Obj_Type.wall and tile.obj[i].obj_type != Obj_Type.door and tile.obj[i].obj_type == Obj_Type.interact and tile.obj[i].obj_type == Obj_Type.pickup:
+                    if  tile.obj[i].obj_type == Obj_Type.decor or tile.obj[i].obj_type == Obj_Type.other:
                         if tile.pos.y + TILE_H/2 < player.pos.y + player.size.y:
                             tile.draw_obj(screen, i)
 
-        player.draw(screen) # can be adjusted to work for all characters
+        for tile in self.tiles:
+            if len(tile.obj) > 0:
+                for i in range(len(tile.obj)):
+                    if tile.obj[i].obj_type == Obj_Type.door or tile.obj[i].obj_type == Obj_Type.interact or tile.obj[i].obj_type == Obj_Type.pickup:
+                        tile.draw_obj(screen, i)
+
+        
+
         for character in self.chars:
-            character.draw(screen)
+            if character.pos.y < player.pos.y:
+                character.draw(screen)
+
+        player.draw(screen) # can be adjusted to work for all characters
+
+        for character in self.chars:
+            if character.pos.y > player.pos.y:
+                character.draw(screen)
 
         for tile in self.tiles:
             if len(tile.obj) > 0:
                 for i in range(len(tile.obj)):
-                    if tile.obj[i].obj_type != Obj_Type.wall and tile.obj[i].obj_type != Obj_Type.door and tile.obj[i].obj_type == Obj_Type.interact and tile.obj[i].obj_type == Obj_Type.pickup:
+                    if tile.obj[i].obj_type == Obj_Type.decor or tile.obj[i].obj_type == Obj_Type.other:
                         if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
                             tile.draw_obj(screen, i)
 

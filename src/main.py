@@ -1,7 +1,7 @@
 from character import Character, Char
 from entity import Ent
 from input import Input
-from object import Obj, Obj_Type, Pickup_Type, Interact_Type
+from object import Obj, Obj_Type, Pickup_Type, Interact_Type, Decor_Type
 from pathlib import Path
 from player import Player
 import pygame
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     prev_input = Input()
 
     input.prev_input = prev_input
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
     #temporeroly removed fullscreen as itll be easier for me to find this bug
     #, pygame.FULLSCREEN
     player = Player(400, 300)
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     dining_room = Room("dining", 6, 6)
     dining_room.add_walls("../res/dining.wall.png")
     # kitchen door
-    dining_room.tiles[12].obj.append(Obj(Path("../res/doors.png"), ind = 1, obj_type = Obj_Type.door, new_room = 3, go_to = 11))
+    dining_room.tiles[12].obj.append(Obj(Path("../res/doors.png"), ind = 2, obj_type = Obj_Type.door, new_room = 3, go_to = 11))
     # hallway door
     dining_room.tiles[1].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 37))
     dining_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.whiskey))
@@ -114,12 +114,18 @@ if __name__ == "__main__":
 
     kitchen_room = Room("kitchen", 4, 6)
     kitchen_room.add_walls("../res/kitchen_wall.png")
-    kitchen_room.tiles[8].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.stove))
+    kitchen_room.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.stove))
     kitchen_room.tiles[12].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.rat_poison))
     # hallway_room door
     kitchen_room.tiles[3].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 33))
     # dining_room door
     kitchen_room.tiles[11].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 2, go_to = 12))
+    kitchen_room.tiles[0].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+    kitchen_room.tiles[2].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+    kitchen_room.tiles[4].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+    kitchen_room.tiles[8].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+    kitchen_room.tiles[16].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+
 
     #heir = Character(kitchen_room.tiles[0].pos.x, kitchen_room.tiles[0].pos.y - 64, Char.heir)
     duke = Character(kitchen_room.tiles[21].pos.x, kitchen_room.tiles[21].pos.y - TILE_H, Char.duke)
