@@ -60,7 +60,7 @@ class Obj(Ent):
             case Obj_Type.interact:
                 filepath = Path("../res/interact.png")
                 animation_steps = 14
-                self.collide = True
+                self.collide = False
                 self.interact = True
 
                 # If the correct pickup has been used
@@ -69,6 +69,7 @@ class Obj(Ent):
                 match self.interact_type:
 
                     case Interact_Type.stove:
+                        self.collide = True
                         ind = 0
                         self.pickup_type = []
 
@@ -81,18 +82,22 @@ class Obj(Ent):
                         self.pickup_type = [Pickup_Type.rat_poison]
 
                     case Interact_Type.gramophone:
+                        self.collide = True
                         ind = 6
                         self.pickup_type = [Pickup_Type.water_bottle, Pickup_Type.screwdriver]
 
                     case Interact_Type.armour:
+                        self.collide = True
                         ind = 8
                         self.pickup_type = [Pickup_Type.screwdriver]
 
                     case Interact_Type.telephone:
+                        self.collide = True
                         ind = 10
                         self.pickup_type = [Pickup_Type.water_bottle]
 
                     case Interact_Type.bookshelf:
+                        self.collide = True
                         animation_steps = 4
                         filepath = Path("../res/bookcase.png")
                         ind = 2
