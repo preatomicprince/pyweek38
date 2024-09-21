@@ -28,13 +28,6 @@ class Player(Ent):
     def update(self, input: Input, game_vars):
         self.velocity = fvec2(0, 0)
         self.prev_dir = self.dir
-        
-        # For debugging to easily find tile stood on
-        if show_tile:
-            bp = None
-            bp = game_vars.room_list[game_vars.current_room].find_ent_tile(self)
-
-            print(bp)
 
         if input.key_right:
             self.dir = Direction.dr
@@ -223,7 +216,8 @@ class Player(Ent):
                             return
                         
                 # Code below will run if player doesn't have correct pickup
-                print("You don't have the right kind of object, dingus")
+                game_vars.text_events.append(game_vars, "You don't have ther right tool for that!")
+                
                 
     def draw_inv(self, screen) -> None:
         if len(self.inventory) > 0:

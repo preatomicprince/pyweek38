@@ -154,6 +154,7 @@ def main(settings: Settings, screen):
     cleaner.pathing._set_direction(game_vars, cleaner)
     heir.pathing._set_direction(game_vars, heir)
 
+    print(duke)
     while settings.running:
         screen.fill((0, 0, 0))
         
@@ -193,7 +194,6 @@ def main(settings: Settings, screen):
     for c in game_vars.chars:
         del c
 
-
 if __name__ == "__main__":
     pygame.init()
 
@@ -204,3 +204,4 @@ if __name__ == "__main__":
         settings.running = True
         settings.restart = False
         main(settings, screen)
+        

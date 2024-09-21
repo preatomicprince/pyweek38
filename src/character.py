@@ -114,7 +114,6 @@ class Character(Ent):
             if self.prev_alive == True:
                 self.prev_alive = False
                 game_vars.score += 250000
-                print("DEAD")
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)
@@ -139,7 +138,6 @@ class Character(Ent):
                 if c != self and self.alive:
                     if c.alive == False:
                         game_vars.caught = True
-                        print("caught")
 
             if self.pathing.timer == None:
                 self.pos.x += self.vel.x*game_vars.dt
