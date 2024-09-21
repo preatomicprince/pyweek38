@@ -77,12 +77,12 @@ class Player(Ent):
         if input.key_right or input.key_left or input.key_up or input.key_down:
             self.sprites.update(game_vars.time)
 
-            self.pos.x += self.velocity.x
-            self.pos.y += self.velocity.y
+            self.pos.x += self.velocity.x*game_vars.dt
+            self.pos.y += self.velocity.y*game_vars.dt
 
             if self._check_collision(game_vars):
-                self.pos.x -= self.velocity.x
-                self.pos.y -= self.velocity.y
+                self.pos.x -= self.velocity.x*game_vars.dt
+                self.pos.y -= self.velocity.y*game_vars.dt
     
         if input.key_interact:
             if input.prev_input.key_interact == False:

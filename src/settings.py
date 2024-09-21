@@ -28,7 +28,7 @@ TILE_H = 64
 
 ISO_RATIO = TILE_W/TILE_H
 
-_BASE_SPEED = 0.2
+_BASE_SPEED = 70
 SPEED =  fvec2(_BASE_SPEED*ISO_RATIO, _BASE_SPEED)
 
 class GameVars:
@@ -46,6 +46,7 @@ class GameVars:
         self.caught =  False
 
         self.time = 0
+        self.dt = 0
 
     ###to work out what screen we're on, 
 

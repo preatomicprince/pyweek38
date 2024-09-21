@@ -154,7 +154,9 @@ def main(settings: Settings, screen):
     heir.pathing._set_direction(game_vars, heir)
 
     while settings.running:
+        game_vars.dt = (pygame.time.get_ticks() - game_vars.time)/1000
         game_vars.time = pygame.time.get_ticks()
+        
 
         screen.fill((0, 0, 0))
 

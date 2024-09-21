@@ -131,8 +131,8 @@ class Character(Ent):
                     print("caught")
 
             if self.pathing.timer == None:
-                self.pos.x += self.vel.x
-                self.pos.y += self.vel.y
+                self.pos.x += self.vel.x*game_vars.dt
+                self.pos.y += self.vel.y*game_vars.dt
 
         self.sprites.update(game_vars.time)
 
