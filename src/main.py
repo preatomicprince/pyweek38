@@ -136,6 +136,7 @@ def main(settings: Settings, screen):
     kitchen_room.tiles[2].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[4].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
 
+    ####decor 
     kitchen_room.tiles[4].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[8].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[16].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
@@ -156,7 +157,7 @@ def main(settings: Settings, screen):
     living_room.chars = [duchess]
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room, bedroom1, bedroom2, living_room, library]
-    game_vars.current_room = 3
+    game_vars.current_room = 0
 
     duke.pathing._set_direction(game_vars, duke)
     lady.pathing._set_direction(game_vars, lady)
@@ -213,7 +214,7 @@ def main(settings: Settings, screen):
 
 
     for c in game_vars.chars:
-        del c
+        del c.pos
 
 if __name__ == "__main__":
     pygame.init()
