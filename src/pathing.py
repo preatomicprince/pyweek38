@@ -185,6 +185,10 @@ class Pathing:
    
     def update(self, game_vars, character) -> None:
         self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
+        
+                
+                
+
         next_tile = self.path_tiles[self.current_key_point_ind][self.next_tile_ind]
 
         
@@ -194,7 +198,7 @@ class Pathing:
                 self.next_tile_ind += 1
 
             # If reached key point
-            else:
+            elif self.current_tile == next_key_point:
 
                
                 if self.key_points[self.next_key_point_ind].wait > 0:
@@ -225,6 +229,31 @@ class Pathing:
                         self._reverse_path()
                         self.current_key_point_ind = 0
                         self.next_key_point_ind = 1
-            self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
-            self._set_direction(game_vars, character)
+            
 
+            elif self.current_room == 3 :
+                print(self.current_tile)
+
+                for i in self.path_tiles[self.current_key_point_ind]:
+                    on_path = False
+                    if self.current_tile != i:
+                        continue
+                    on_path = True
+                    
+                    break
+                
+                if on_path == False:
+                    current_key_tile = self.key_points[self.current_key_point_ind].tile
+
+                    
+                    print(f"current key tile: {current_key_tile}")
+
+                    key_tile_pos = game_vars.room_list[self.current_room].tiles[current_key_tile].pos
+                    nt_pos = game_vars.room_list[self.current_room].tiles[self.path_tiles[self.current_key_point_ind][self.next_tile_ind+1]].pos
+                    print(f"x{key_tile_pos.x}")
+                    self.next_tile_ind = 1
+                    character.pos.x = nt_pos.x+ TILE_W/2 - character.size.x/2
+                    character.pos.y = nt_pos.y + 20 + TILE_H/2 - character.size.y
+
+        self.current_tile = game_vars.room_list[self.current_room].find_ent_tile(character)
+        self._set_direction(game_vars, character)

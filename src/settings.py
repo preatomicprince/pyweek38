@@ -4,6 +4,6 @@ class Settings:
         self.restart = True
 
         #tutorial text
-        self.tutorial_text = True
+        self.tutorial_text = False
         self.off_screen = False
         self.tut_text_y = 0

@@ -1,9 +1,11 @@
 from entity import Ent
 from input import Input
+from pathlib import Path
 import math
 from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
 from typedefs import Direction, SPEED, fvec2, TILE_H, TILE_W
+from music import Music_Sound
 
 # DEBUG - Should be False for release
 show_tile = False
@@ -171,6 +173,9 @@ class Player(Ent):
             
             # If selected object is door
             elif self.selected_obj.obj_type == Obj_Type.door:
+                door_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/door close.wav"))
+                door_track.load()
+                door_track.play()
                 game_vars.current_room = self.selected_obj.new_room
                 self.pos.x = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.x + TILE_W/2 - self.size.x/2
                 self.pos.y = game_vars.room_list[game_vars.current_room].tiles[self.selected_obj.go_to].pos.y + 20 + TILE_H/2 - self.size.y
@@ -184,6 +189,11 @@ class Player(Ent):
                  
                 # Special case for stove, that doesn't require any pickup to interact
                 if self.selected_obj.interact_type == Interact_Type.stove:
+
+                    stove_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/gas stove.wav"))
+                    stove_track.load()
+                    stove_track.play()
+
                     self._check_if_caught(game_vars)
                     self.selected_obj.interact = False
                     self.selected_obj.active = True
