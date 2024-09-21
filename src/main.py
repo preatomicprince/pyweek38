@@ -154,18 +154,29 @@ def main(settings: Settings, screen):
     heir.pathing._set_direction(game_vars, heir)
 
     while settings.running:
+        screen.fill((0, 0, 0))
+        
         game_vars.dt = (pygame.time.get_ticks() - game_vars.time)/1000
         game_vars.time = pygame.time.get_ticks()
-        
 
-        screen.fill((0, 0, 0))
+        game_vars.set_win_state()
+
+        if game_vars.win:
+            # Win state here
+            print("You won!")
+
+        if game_vars.caught:
+            # Fail state here
+            print("You lost!")
 
         input.update(button_list, settings, prev_input)
-        game_vars.room_list[game_vars.current_room].set_interact(game_vars, player)
-        player.update(input, game_vars)
+        if game_vars.win == False and game_vars.caught == False:
+            
+            game_vars.room_list[game_vars.current_room].set_interact(game_vars, player)
+            player.update(input, game_vars)
 
-        for i in game_vars.chars:
-            i.update(game_vars)  
+            for i in game_vars.chars:
+                i.update(game_vars)  
                   
         ###this goes over the list of rooms, checks which room the player (in the game vars) is in against the names of the rooms
         game_vars.room_list[game_vars.current_room].draw(screen, player)

@@ -43,12 +43,28 @@ class GameVars:
         ###needs to go on the screen somewhere
         self.score = 0
 
+        # Fail state
         self.caught =  False
+
+        # Win state
+        self.win = False
 
         self.time = 0
         self.dt = 0
 
     ###to work out what screen we're on, 
+    def _check_win_state(self) -> bool:
+        win = False
+        for c in self.chars:
+            if c.alive:
+                return False
+        return True
+    
+    def set_win_state(self):
+        if self.caught == False:
+            self.win = self._check_win_state()
+        
+
 
 
 

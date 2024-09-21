@@ -270,9 +270,7 @@ class Player(Ent):
                             caught = True
 
                 if caught:
-                    game_vars.caught = True
-                    print("Caught")
-
+                    game_vars.caught
 
     def _check_if_seen(self, game_vars):
             # Checks if player is seen
