@@ -182,7 +182,7 @@ class Character(Ent):
 
         match self.death_type:
             case Death_Type.explode:
-                explode_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/explosion.wav"))
+                explode_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/explosion.wav"))
                 explode_track.load()
                 explode_track.play()
 
@@ -193,7 +193,7 @@ class Character(Ent):
                     self.sprites.set_animation(19, 20, repeat = False)
 
             case Death_Type.poison:
-                poison_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/water pour.wav"))
+                poison_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/water_pour.wav"))
                 poison_track.load()
                 poison_track.play()
 
@@ -204,7 +204,7 @@ class Character(Ent):
                     self.sprites.set_animation(4, self.animation_steps - 1, repeat = False)
 
             case Death_Type.electrecute:
-                electro_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/electrocution.wav"))
+                electro_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/electrocution.wav"))
                 electro_track.load()
                 electro_track.play()
 
@@ -215,7 +215,7 @@ class Character(Ent):
                     self.sprites.set_animation(32, 33, repeat = 10)
 
             case Death_Type.chop:
-                axe_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/Axe.wav"))
+                axe_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/Axe.wav"))
                 axe_track.load()
                 axe_track.play()
 
@@ -226,10 +226,10 @@ class Character(Ent):
                     self.sprites.set_animation(35, 36, repeat = False)
         
             case Death_Type.crush:
-                bookcase_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/bookcase fall.wav"))
+                bookcase_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/bookcase_fall.wav"))
                 bookcase_track.load()
                 bookcase_track.play()
-                splat_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/splat.wav"))
+                splat_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/splat.wav"))
                 splat_track.load()
                 splat_track.play()
 
@@ -238,7 +238,7 @@ class Character(Ent):
 
 
             case Death_Type.fall:
-                man_scream_track = Music_Sound(1, Path("../res/Py week- Traitor - Sound Effects/death scream male.wav"))
+                man_scream_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/death_scream_male.wav"))
                 man_scream_track.load()
                 man_scream_track.play()
                 if self.char == Char.heir:

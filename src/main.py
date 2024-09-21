@@ -24,7 +24,7 @@ def main(settings: Settings, screen):
     player = Player(400, 300)
 
     ###for the main track in the game
-    main_track = Music_Sound(0, Path("../res/Py Week- Traitor - Sound Effects/Thunder.wav"))
+    main_track = Music_Sound(0, Path("../res/Py_week_Traitor_Sound_Effects/Thunder.wav"))
     main_track.load()
     main_track.play()
     ###initialising for the UI
