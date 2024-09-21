@@ -173,7 +173,7 @@ class Player(Ent):
             
             # If selected object is door
             elif self.selected_obj.obj_type == Obj_Type.door:
-                door_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/door_close.wav"))
+                door_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/door_close.wav"))
                 door_track.load()
                 door_track.play()
                 game_vars.current_room = self.selected_obj.new_room
@@ -190,7 +190,7 @@ class Player(Ent):
                 # Special case for stove, that doesn't require any pickup to interact
                 if self.selected_obj.interact_type == Interact_Type.stove:
 
-                    stove_track = Music_Sound(1, Path("../res/Py_week_Traitor_Sound_Effects/gas_stove.wav"))
+                    stove_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/gas_stove.wav"))
                     stove_track.load()
                     stove_track.play()
 
