@@ -1,6 +1,7 @@
 from entity import Ent
 from object import Obj, Obj_Type
 from player import Player
+from text import Text
 from tile import Tile
 from typedefs import Direction, TILE_W, TILE_H, WIDTH, ivec2
 
@@ -78,6 +79,11 @@ class Room:
                     if tile.obj[i].obj_type == Obj_Type.decor or tile.obj[i].obj_type == Obj_Type.other:
                         if tile.pos.y + TILE_H/2 > player.pos.y + player.size.y:
                             tile.draw_obj(screen, i)
+
+                    #draw selection text
+                    if tile.obj[i].selected:
+                        if tile.obj[i].text != None:
+                            tile.obj[i].text.draw(screen, tile.pos.x - tile.obj[i].text.size.x/2 + TILE_W/2, tile.pos.y - TILE_H)                            
 
     def add_walls(self, filepath: str):
         for c in range(self.cols):

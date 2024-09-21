@@ -1,6 +1,7 @@
 from entity import Ent
 from enum import Enum
 from pathlib import Path
+from text import Text
 
 Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "decor", "other"])
 Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])
@@ -23,6 +24,7 @@ class Obj(Ent):
         self.death_type = None
         self.interact_type = interact_type
         self.active = None
+        self.text = None
 
         match self.obj_type:
             case Obj_Type.wall:
@@ -48,15 +50,19 @@ class Obj(Ent):
 
                 match self.pickup_type:
                     case Pickup_Type.water_bottle:
+                        self.text = Text(0, "Water Bottle")
                         ind = 0
 
                     case Pickup_Type.rat_poison:
+                        self.text = Text(0, "Rat Poison")
                         ind = 2
 
                     case Pickup_Type.banana:
+                        self.text = Text(0, "banana")
                         ind = 4
 
                     case Pickup_Type.screwdriver:
+                        self.text = Text(0, "screwdriver")
                         ind = 6
 
             case Obj_Type.interact:
@@ -71,34 +77,41 @@ class Obj(Ent):
                 match self.interact_type:
 
                     case Interact_Type.stove:
+                        self.text = Text(0, "turn on gas - requires none")
                         self.collide = True
                         ind = 0
                         self.pickup_type = []
 
                     case Interact_Type.whiskey:
+                        self.text = Text(0, "poison whiskey - requires: rat poison")
                         ind = 2
                         self.pickup_type = [Pickup_Type.rat_poison]
 
                     case Interact_Type.wine:
+                        self.text = Text(0, "poison wine - requires: rat poison")
                         ind = 4
                         self.pickup_type = [Pickup_Type.rat_poison]
 
                     case Interact_Type.gramophone:
+                        self.text = Text(0, "overload gramophone - requires: water bottle or screwdriver")
                         self.collide = True
                         ind = 6
                         self.pickup_type = [Pickup_Type.water_bottle, Pickup_Type.screwdriver]
 
                     case Interact_Type.armour:
+                        self.text = Text(0, "loosen axe - requires: screwdriver")
                         self.collide = True
                         ind = 8
                         self.pickup_type = [Pickup_Type.screwdriver]
 
                     case Interact_Type.telephone:
+                        self.text = Text(0, "electrify phone - requires: water bottle")
                         self.collide = True
                         ind = 10
                         self.pickup_type = [Pickup_Type.water_bottle]
 
                     case Interact_Type.bookshelf:
+                        self.text = Text(0, "destabilise bookshelf - requires: screwdriver")
                         self.collide = True
                         animation_steps = 4
                         filepath = Path("../res/bookcase.png")
@@ -106,6 +119,7 @@ class Obj(Ent):
                         self.pickup_type = [Pickup_Type.screwdriver]
 
                     case Interact_Type.window:
+                        self.text = Text(0, "place banana peel next to open window - requires: banana")
                         ind = 0
                         animation_steps = 2
                         filepath = Path("../res/open_window2.png")
