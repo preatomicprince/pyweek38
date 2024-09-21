@@ -1,5 +1,5 @@
 from character import Character, Char
-from entity import Ent
+from game_vars import GameVars
 from input import Input
 from object import Obj, Obj_Type, Pickup_Type, Interact_Type, Decor_Type
 from pathlib import Path
@@ -7,7 +7,7 @@ from player import Player
 import pygame
 from room import Room
 from ui import *
-from settings import Settings, GameVars
+from settings import Settings
 from typedefs import WIDTH, HEIGHT
 
 def main(settings: Settings, screen):
@@ -170,8 +170,9 @@ def main(settings: Settings, screen):
             # Fail state here
             print("You lost!")
 
+        input.update(button_list, settings, prev_input)
         if game_vars.win == False and game_vars.caught == False:
-            input.update(button_list, settings, prev_input)
+            
             game_vars.room_list[game_vars.current_room].set_interact(game_vars, player)
             player.update(input, game_vars)
 
@@ -188,6 +189,9 @@ def main(settings: Settings, screen):
         for b in button_list:
             b.draw(screen)
         pygame.display.update()
+
+    for c in game_vars.chars:
+        del c
 
 
 if __name__ == "__main__":

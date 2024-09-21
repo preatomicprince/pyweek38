@@ -1,4 +1,5 @@
 from object import Obj_Type, Interact_Type, Death_Type
+from text import Text
 from typedefs import fvec2, Direction, SPEED, TILE_W, TILE_H
 
 
@@ -201,6 +202,7 @@ class Pathing:
                          # Add text event
                         if self.key_points[self.next_key_point_ind].text != None:
                             game_vars.text_events.append(game_vars, self.key_points[self.next_key_point_ind].text)
+                            character.text = Text(game_vars.time, self.key_points[self.next_key_point_ind].text, self.key_points[self.next_key_point_ind].wait)
 
                         self._handle_interaction(game_vars, character)
                         self.timer = game_vars.time

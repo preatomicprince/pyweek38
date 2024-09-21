@@ -157,7 +157,7 @@ class Player(Ent):
                     for t in check_tiles:
                         if t == cti:
                             game_vars.room_list[game_vars.current_room].chars.remove(c)
-                            print("Body hidden!")
+                            game_vars.text_events.append(game_vars, "You hid the body!")
                             return
         
         if self.selected_obj != None:
@@ -171,7 +171,9 @@ class Player(Ent):
                         if self.selected_obj in t.obj:
                             t.obj.remove(self.selected_obj)
                 self.selected_obj = None
+                game_vars.text_events.append(game_vars, "You picked up an item!")
                 self._check_if_caught(game_vars)
+
                 return
             
             # If selected object is door
@@ -194,6 +196,7 @@ class Player(Ent):
                     self.selected_obj.active = True
                     self.selected_obj.selected = False
                     self.selected_obj = None
+                    game_vars.text_events.append(game_vars, "The object is now deadly!")
                     return
                 
                     
@@ -210,7 +213,7 @@ class Player(Ent):
                                 elif p == Pickup_Type.water_bottle:
                                     self.selected_obj.death_type = Death_Type.electrecute
 
-                            print("This object is now deadly")
+                            game_vars.text_events.append(game_vars, "The object is now deadly!")
                             self._check_if_caught(game_vars)
                             self.inventory.remove(i)
                             self.selected_obj.interact = False
@@ -270,7 +273,7 @@ class Player(Ent):
                             caught = True
 
                 if caught:
-                    game_vars.caught
+                    game_vars.caught = True
 
     def _check_if_seen(self, game_vars):
             # Checks if player is seen

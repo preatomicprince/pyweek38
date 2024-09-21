@@ -5,6 +5,7 @@ from pathing import Path_Tile, Pathing
 from pathlib import Path
 import pygame
 from spritesheet import SpriteSheet
+from text import Text
 from typedefs import ivec2, TILE_W, TILE_H
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
@@ -26,6 +27,8 @@ class Character(Ent):
         
         self.death_type = None
 
+        self.text = None
+        
         # Start frame for each direction's walk cycle
         # End frame should be the next start minus 1
         self.dl_start = 0
@@ -115,6 +118,12 @@ class Character(Ent):
                 self._set_death_animation()
         else:
             self.pathing.update(game_vars, self)
+
+            # Text timer
+            if self.text != None:
+                if game_vars.time > self.text.time + self.text.display_time:
+                    self.text = None
+
             
             # Set door exclamation
             if self.key_points[self.pathing.next_key_point_ind].door == True:
@@ -126,9 +135,11 @@ class Character(Ent):
 
             # Find body
             for c in game_vars.room_list[self.pathing.current_room].chars:
-                if c.alive == False:
-                    game_vars.caught = True
-                    print("caught")
+
+                if c != self and self.alive:
+                    if c.alive == False:
+                        game_vars.caught = True
+                        print("caught")
 
             if self.pathing.timer == None:
                 self.pos.x += self.vel.x*game_vars.dt
@@ -143,18 +154,22 @@ class Character(Ent):
         if self.alive:
             screen.blit(self.sprites.animation_list[self.sprites.ind], rect)
 
+            if self.char == Char.duchess:
+                y_offset = 0
+            elif self.char == Char.duke or self.char == Char.heir:
+                y_offset = 40
+            else:
+                y_offset = 24
+
             # Draw exclamation
             if self.can_see_player:
-                if self.char == Char.duchess:
-                    y_offset = 0
-                elif self.char == Char.duke or self.char == Char.heir:
-                    y_offset = 40
-                else:
-                    y_offset = 24
-                    
                 rect = pygame.Rect(self.pos.x - 12, self.pos.y - self.exclamation.y_cut + y_offset, self.exclamation.x_cut, self.exclamation.y_cut)
                 screen.blit(self.exclamation.animation_list[self.exclamation.ind], rect)
                 self.can_see_player = False
+
+            # Draw text
+            if self.text != None:
+                self.text.draw(screen, self.pos.x - self.text.size.x/2 + self.size.x/2, self.pos.y + y_offset - self.text.size.y -10)
 
             return
         else:
