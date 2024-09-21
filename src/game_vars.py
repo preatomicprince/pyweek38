@@ -12,6 +12,8 @@ class GameVars:
         ###needs to go on the screen somewhere
         self.score = 0
 
+        
+
         # Fail state
         self.caught =  False
 

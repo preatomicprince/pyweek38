@@ -32,16 +32,16 @@ class Input:
                     settings.running = False
                     sys.exit()
 
-                if event.key == K_RIGHT:
+                if event.key == K_RIGHT or event.key == K_d:
                     self.key_right = True
 
-                if event.key == K_LEFT:
+                if event.key == K_LEFT or event.key == K_a:
                     self.key_left = True
 
-                if event.key == K_UP:
+                if event.key == K_UP or event.key == K_w:
                     self.key_up = True
 
-                if event.key == K_DOWN:
+                if event.key == K_DOWN or event.key == K_s:
                     self.key_down = True
 
                 if event.key == K_e:
@@ -52,16 +52,20 @@ class Input:
 
 
             if event.type == KEYUP:
-                if event.key == K_RIGHT:
+                ###this controls the text at the begining of the level
+                if settings.off_screen == False:
+                    settings.off_screen = True
+
+                if event.key == K_RIGHT or event.key == K_d:
                     self.key_right = False
 
-                if event.key == K_LEFT:
+                if event.key == K_LEFT or event.key == K_a:
                     self.key_left = False
 
-                if event.key == K_UP:
+                if event.key == K_UP or event.key == K_w:
                     self.key_up = False
 
-                if event.key == K_DOWN:
+                if event.key == K_DOWN or event.key == K_s:
                     self.key_down = False
 
                 if event.key == K_e:

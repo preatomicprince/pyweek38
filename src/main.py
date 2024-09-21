@@ -30,6 +30,11 @@ def main(settings: Settings, screen):
 
     button_list = [play_but, exit_but, restart_but]
 
+    ###for the will to pop up in the tutorial
+    the_will = pygame.image.load("../res/the_will.png")
+    win_im = pygame.image.load("../res/win.png")
+    lose_im = pygame.image.load("../res/end screen.png")
+
     ###initialise some of the rooms to test transitions
     study_room = Room("study", 5, 5)
     study_room.add_walls("../res/kitchen_wall.png")
@@ -40,7 +45,7 @@ def main(settings: Settings, screen):
     study_room.tiles[10].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
     study_room.tiles[15].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
     study_room.tiles[20].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
-
+    study_room.tiles[10].obj.append(Obj(ind = 8, obj_type= Obj_Type.pickup, pickup_type= Pickup_Type.will))
 
     hallway_room = Room("hallway", 10, 4)
     hallway_room.add_walls("../res/hall_way_walls.png")
@@ -146,7 +151,7 @@ def main(settings: Settings, screen):
     living_room.chars = [duchess]
 
     game_vars.room_list = [study_room, hallway_room, dining_room, kitchen_room, bedroom1, bedroom2, living_room, library]
-    game_vars.current_room = 3
+    game_vars.current_room = 0
 
     duke.pathing._set_direction(game_vars, duke)
     lady.pathing._set_direction(game_vars, lady)
@@ -162,13 +167,7 @@ def main(settings: Settings, screen):
 
         game_vars.set_win_state()
 
-        if game_vars.win:
-            # Win state here
-            print("You won!")
-
-        if game_vars.caught:
-            # Fail state here
-            print("You lost!")
+        
 
         input.update(button_list, settings, prev_input)
         if game_vars.win == False and game_vars.caught == False:
@@ -188,7 +187,25 @@ def main(settings: Settings, screen):
 
         for b in button_list:
             b.draw(screen)
+        
+        ###this just removes the tutorial text and stuff
+        if settings.tutorial_text == True:
+            will_rect = pygame.Rect(0, settings.tut_text_y, 900, 700)
+            screen.blit(the_will, will_rect)
+            if settings.off_screen == True:
+                settings.tut_text_y += 10
+                if settings.tut_text_y >= 4000:
+                    settings.tutorial_text = False
+        if game_vars.win:
+            # Win state here
+            win_rect = pygame.Rect(0, 0, 900, 700)
+            screen.blit(win_im, win_rect)
+
+        if game_vars.caught:
+            lose_rect = pygame.Rect(0, 0, 900, 700)
+            screen.blit(lose_im, lose_rect)
         pygame.display.update()
+
 
     for c in game_vars.chars:
         del c

@@ -34,7 +34,7 @@ class Obj(Ent):
 
             case Obj_Type.door:
                 filepath = Path("../res/doors.png")
-                animation_steps = 4
+                animation_steps = 8
                 self.collide = False
                 self.interact = True
                 self.new_room = new_room
@@ -64,6 +64,10 @@ class Obj(Ent):
                     case Pickup_Type.screwdriver:
                         self.text = Text(0, "screwdriver")
                         ind = 6
+
+                    case Pickup_Type.will:
+                        self.text = Text(0, "will, Press E to interact")
+                        ind = 8
 
             case Obj_Type.interact:
                 filepath = Path("../res/interact.png")
