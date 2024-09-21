@@ -79,7 +79,8 @@ class Input:
             if event.type == MOUSEBUTTONUP:
                 for b in range(len(buttons)):
                     if buttons[b].over == True:
-                        print(buttons[b].name)
+                        if buttons[b].name == "play":
+                            settings.off_screen = True
   
 
 def _copy_input(input1: Input, input2: Input):

@@ -166,6 +166,9 @@ class Pathing:
                             case Interact_Type.bookshelf:
                                 character.death_type = Death_Type.crush
 
+                            case Interact_Type.window:
+                                character.death_type = Death_Type.fall
+
     def _handle_doors(self, game_vars, character) -> None:
         # When next key tile reached, check if it has a door.
         if self.key_points[self.next_key_point_ind].door == True:

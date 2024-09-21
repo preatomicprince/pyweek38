@@ -67,7 +67,7 @@ class Character(Ent):
             case Char.duchess:
                 self.current_room = 6
                 self.walking_animation_steps = 4
-                self.animation_steps = 9
+                self.animation_steps = 10
                 self.dr_start = 1
                 self.ur_start = 2
                 self.ul_start = 3
@@ -115,7 +115,7 @@ class Character(Ent):
             if self.prev_alive == True:
                 self.prev_alive = False
                 game_vars.score += 250000
-                self._set_death_animation()
+                self._set_death_animation(game_vars)
         else:
             self.pathing.update(game_vars, self)
 
@@ -178,7 +178,7 @@ class Character(Ent):
 
             screen.blit(rotated_image, rect)
 
-    def _set_death_animation(self):
+    def _set_death_animation(self, game_vars):
 
         match self.death_type:
             case Death_Type.explode:
@@ -234,17 +234,24 @@ class Character(Ent):
                 splat_track.play()
 
                 if self.char == Char.duchess:
-                    self.sprites.set_animation(4, self.animation_steps - 1, repeat = False)
+                    self.sprites.set_animation(9, self.animation_steps - 1, repeat = False)
 
 
             case Death_Type.fall:
                 man_scream_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/death_scream_male.wav"))
                 man_scream_track.load()
                 man_scream_track.play()
+
                 if self.char == Char.heir:
-                    pass
+                    for c in game_vars.room_list[game_vars.current_room].chars:
+                        if c.alive == False:
+                            game_vars.room_list[game_vars.current_room].chars.remove(c)
+                            game_vars.text_events.append(game_vars, "The heir fell out of the window!")
 
                 if self.char == Char.cleaner:
-                    pass
+                    for c in game_vars.room_list[game_vars.current_room].chars:
+                        if c.alive == False:
+                            game_vars.room_list[game_vars.current_room].chars.remove(c)
+                            game_vars.text_events.append(game_vars, "The cleaner fell out of the window!")
 
  

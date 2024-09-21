@@ -2,12 +2,12 @@ from entity import Ent
 from enum import Enum
 from pathlib import Path
 from text import Text
-
+from music import Music_Sound
 Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "decor", "other"])
 Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])
 Interact_Type = Enum("interact_type", ["stove", "whiskey", "wine", "gramophone", "armour", "telephone", "bookshelf", "window"])
 Death_Type = Enum("Death_Type", ["explode", "poison", "electrecute", "chop", "crush", "fall"])
-Decor_Type = Enum("Decor_Type", ["bookcase", "counter"])
+Decor_Type = Enum("Decor_Type", ["bookcase", "counter", "bed", "painting", "sofa"])
 
 
 class Obj(Ent):
@@ -58,7 +58,7 @@ class Obj(Ent):
                         ind = 2
 
                     case Pickup_Type.banana:
-                        self.text = Text(0, "banana")
+                        self.text = Text(0, "Priceless Banana Art")
                         ind = 4
 
                     case Pickup_Type.screwdriver:
@@ -109,6 +109,7 @@ class Obj(Ent):
                         self.pickup_type = [Pickup_Type.screwdriver]
 
                     case Interact_Type.telephone:
+
                         self.text = Text(0, "electrify phone - requires: water bottle")
                         self.collide = True
                         ind = 10
@@ -141,6 +142,18 @@ class Obj(Ent):
                     case Decor_Type.counter:
                         filepath = Path("../res/counter.png")
                         animation_steps = 4
+
+                    case Decor_Type.bed:
+                        filepath = Path("../res/bed.png")
+                        animation_steps = 2
+
+                    case Decor_Type.painting:
+                        filepath = Path("../res/paintings.png")
+                        animation_steps = 2
+
+                    case Decor_Type.sofa:
+                        filepath = Path("../res/sofa.png")
+                        animation_steps = 1
 
             case Obj_Type.other:
                 animation_steps = 1

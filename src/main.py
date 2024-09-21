@@ -13,6 +13,12 @@ from typedefs import WIDTH, HEIGHT
 
 def main(settings: Settings, screen):
 
+    pygame.display.set_caption("The Mysterious Tale of Inheritance at the Manor of Increasingly Preposterous Accidents")
+    icon = pygame.image.load("../res/sofa.png")
+    pygame.display.set_icon(icon) 
+
+    g_font = pygame.font.Font("../res/Vogue.ttf", 24)
+    
     ###initialise the game vars
     game_vars = GameVars()
 
@@ -29,11 +35,9 @@ def main(settings: Settings, screen):
     main_track.play()
     ###initialising for the UI
 
-    play_but = Buttons(20, 20, 2, "play")
-    exit_but = Buttons(120, 20, 4, "exit")
-    restart_but = Buttons(220, 20, 6, "restart")
-
-    button_list = [play_but, exit_but, restart_but]
+    play_but = Buttons(WIDTH/2, HEIGHT-80, 3, "play")
+    
+    button_list = [play_but]
 
     ###for the will to pop up in the tutorial
     the_will = pygame.image.load("../res/the_will.png")
@@ -50,6 +54,9 @@ def main(settings: Settings, screen):
     study_room.tiles[10].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
     study_room.tiles[15].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
     study_room.tiles[20].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
+
+    
+
     study_room.tiles[10].obj.append(Obj(ind = 8, obj_type= Obj_Type.pickup, pickup_type= Pickup_Type.will))
 
     hallway_room = Room("hallway", 10, 4)
@@ -74,29 +81,38 @@ def main(settings: Settings, screen):
 
     dining_room = Room("dining", 6, 6)
     dining_room.add_walls("../res/dining.wall.png")
+    dining_room.tiles[5].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.painting))
+    dining_room.tiles[30].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.painting))
     # kitchen door
     dining_room.tiles[12].obj.append(Obj(Path("../res/doors.png"), ind = 2, obj_type = Obj_Type.door, new_room = 3, go_to = 11))
     # hallway door
     dining_room.tiles[1].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 37))
     dining_room.tiles[4].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.whiskey))
     dining_room.tiles[14].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.banana))
-
+    
 
 
     bedroom1 = Room("bedroom1", 3, 5)
     bedroom1.add_walls("../res/kitchen_wall.png")
+    bedroom1.tiles[7].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.bed))
     # hallway_room door
     bedroom1.tiles[13].obj.append(Obj(Path("../res/doors.png"), ind = 4 ,obj_type = Obj_Type.door, new_room = 1, go_to = 1))
     bedroom1.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.gramophone))
-
+    bedroom1.tiles[0].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    bedroom1.tiles[1].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    bedroom1.tiles[2].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
     
+
     bedroom2 = Room("bedroom2", 3, 5)
     bedroom2.add_walls("../res/kitchen_wall.png")
+    bedroom2.tiles[13].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bed))
     bedroom2.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.window))
-
+    bedroom2.tiles[0].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    bedroom2.tiles[2].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
     # hallway_room door
     bedroom2.tiles[14].obj.append(Obj(Path("../res/doors.png"), ind = 4,obj_type = Obj_Type.door, new_room = 1, go_to = 5))
     bedroom2.tiles[4].obj.append(Obj(Path("../res/usables2.png"), obj_type = Obj_Type.pickup, pickup_type = Pickup_Type.water_bottle))
+    
 
     living_room = Room("living_room", 4,5)
     living_room.add_walls("../res/kitchen_wall.png")
@@ -105,8 +121,12 @@ def main(settings: Settings, screen):
     # hallway_room door
     living_room.tiles[16].obj.append(Obj(Path("../res/doors.png"), ind = 4, obj_type = Obj_Type.door, new_room = 1, go_to = 6))
     living_room.tiles[0].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.wine))
+    living_room.tiles[0].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    living_room.tiles[1].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    living_room.tiles[2].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    living_room.tiles[3].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
 
-
+    living_room.tiles[2].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.sofa))
 
     library = Room("library", 3, 5)
     library.add_walls("../res/kitchen_wall.png")
@@ -116,10 +136,9 @@ def main(settings: Settings, screen):
     library.tiles[1].obj.append(Obj(obj_type = Obj_Type.interact, interact_type = Interact_Type.window))
     library.tiles[0].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
     library.tiles[3].obj.append(Obj(ind = 1, obj_type=Obj_Type.decor, decor_type=Decor_Type.bookcase))
-
-
-
-
+    library.tiles[0].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    library.tiles[2].obj.append(Obj(Path("../res/windows.png/"), ind = 0, obj_type = Obj_Type.wall))
+    
     # hallway_room door
     #library.tiles[14].obj.append(Obj(Path("../res/doors.png"), obj_type = Obj_Type.door, new_room = 1, go_to = 9))
 
@@ -135,9 +154,10 @@ def main(settings: Settings, screen):
     kitchen_room.tiles[0].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[2].obj.append(Obj(ind = 0, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[4].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
+    kitchen_room.tiles[12].obj.append(Obj(Path("../res/windows.png/"), ind = 1, obj_type = Obj_Type.wall))
 
     ####decor 
-    kitchen_room.tiles[4].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
+    kitchen_room.tiles[20].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[8].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
     kitchen_room.tiles[16].obj.append(Obj(ind = 3, obj_type=Obj_Type.decor, decor_type=Decor_Type.counter))
 
@@ -167,10 +187,12 @@ def main(settings: Settings, screen):
 
     while settings.running:
         screen.fill((0, 0, 0))
-        
+
+        text = g_font.render(f"Current Inheritance: £{game_vars.score}", True, (255, 255, 255), (0, 0, 0))
+        screen.blit(text, (500, 650))
         game_vars.dt = (pygame.time.get_ticks() - game_vars.time)/1000
         game_vars.time = pygame.time.get_ticks()
-
+        
         game_vars.set_win_state()
 
         
@@ -191,17 +213,22 @@ def main(settings: Settings, screen):
         player.draw_inv(screen)
         game_vars.text_events.draw(screen)
 
-        for b in button_list:
-            b.draw(screen)
+        
         
         ###this just removes the tutorial text and stuff
         if settings.tutorial_text == True:
             will_rect = pygame.Rect(0, settings.tut_text_y, 900, 700)
             screen.blit(the_will, will_rect)
+            for b in button_list:
+                b.draw(screen)
+
+            
             if settings.off_screen == True:
                 settings.tut_text_y += 10
                 if settings.tut_text_y >= 4000:
                     settings.tutorial_text = False
+
+        
         if game_vars.win:
             # Win state here
             win_rect = pygame.Rect(0, 0, 900, 700)
