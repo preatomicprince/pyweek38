@@ -2,8 +2,8 @@ from entity import Ent
 from object import Obj, Obj_Type
 from pathlib import Path
 import pygame
-from settings import TILE_W, TILE_H, ivec2
 from spritesheet import SpriteSheet
+from typedefs import TILE_W, TILE_H, ivec2
 
 class Tile(Ent):
     def __init__(self, x_pos: float, y_pos: float, obj: Obj = None, ind: int = 0):

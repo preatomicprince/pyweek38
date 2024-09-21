@@ -1,8 +1,8 @@
 from entity import Ent
 from object import Obj, Obj_Type
 from player import Player
-from settings import Direction, TILE_W, TILE_H, WIDTH, HEIGHT, fvec2, ivec2
 from tile import Tile
+from typedefs import Direction, TILE_W, TILE_H, WIDTH, ivec2
 
 
 

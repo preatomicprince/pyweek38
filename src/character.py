@@ -4,8 +4,8 @@ from object import Obj, Obj_Type, Death_Type
 from pathing import Path_Tile, Pathing
 from pathlib import Path
 import pygame
-from settings import SPEED, Direction, ivec2, TILE_W, TILE_H
 from spritesheet import SpriteSheet
+from typedefs import ivec2, TILE_W, TILE_H
 
 Char = Enum("Char", ["heir", "duke", "duchess", "cleaner", "lady"])
 
@@ -45,8 +45,8 @@ class Character(Ent):
                 self.animation_steps = 34
                 self.current_room = 5
 
-                self.key_points = [Path_Tile(5, 0), Path_Tile(5, 1, interaction = True), Path_Tile(5, 14, door = True),
-                                   Path_Tile(1, 5, door = True), Path_Tile(1, 25, interaction = True, wait = 15)]
+                self.key_points = [Path_Tile(5, 0), Path_Tile(5, 1, interaction = True, wait =2, text = "The Heir is walking past the window in his bedroom"), Path_Tile(5, 14, door = True),
+                                   Path_Tile(1, 5, door = True), Path_Tile(1, 25, interaction = True, wait = 15, text = "The Heir is making a phonecall")]
                 self.path_tiles = [[0, 1], [1, 2, 14], [14, 5], [5, 25]]
                 filepath = "../res/the_heir.png"
 
@@ -54,7 +54,7 @@ class Character(Ent):
                 self.animation_steps = 39
                 self.current_room = 3
 
-                self.key_points = [Path_Tile(3, 5, interaction = True, wait = 15), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True, wait = 5)]
+                self.key_points = [Path_Tile(3, 5, interaction = True, wait = 15, text = "The Duke is smoking a cigarette in the kitchen"), Path_Tile(3, 11, door = True), Path_Tile(2, 12, door = True), Path_Tile(2, 10, interaction = True, wait = 5, text = "The Duke is drinking his whiskey in the dining room")]
 
                 self.path_tiles = [[5, 6, 10, 11], [11, 12], [12, 13, 14, 15, 16, 10]]
 
@@ -68,8 +68,8 @@ class Character(Ent):
                 self.ur_start = 2
                 self.ul_start = 3
 
-                self.key_points = [Path_Tile(6, 4, interaction = True, wait = 7),  Path_Tile(6, 8), Path_Tile(6, 11, door = True),
-                                   Path_Tile(7, 6, door = True), Path_Tile(7, 7), Path_Tile(7, 13), Path_Tile(7, 12, interaction = True, wait = 5)]
+                self.key_points = [Path_Tile(6, 4, interaction = True, wait = 7, text = "The Duchess is drinking wine in the living room"),  Path_Tile(6, 8), Path_Tile(6, 11, door = True),
+                                   Path_Tile(7, 6, door = True), Path_Tile(7, 7), Path_Tile(7, 13), Path_Tile(7, 12, interaction = True, wait = 5, text = "The duchess is picking a book to read in the library")]
                 self.path_tiles = [[4, 8], [8, 9, 10, 11], [11, 6], [6, 7], [7, 13], [13, 12]]
                 filepath = "../res/mother.png"
 
@@ -77,9 +77,9 @@ class Character(Ent):
                 self.animation_steps = 37
                 self.current_room = 7
 
-                self.key_points = [Path_Tile(7, 13), Path_Tile(7, 1, interaction = True, wait = 5), Path_Tile(7, 7), Path_Tile(7, 6, door = True),
+                self.key_points = [Path_Tile(7, 13), Path_Tile(7, 1, interaction = True, wait = 5, text = "The Cleaner is cleaning a window in the library"), Path_Tile(7, 7), Path_Tile(7, 6, door = True),
                                    Path_Tile(6, 11, door = True), Path_Tile(6, 16, door = True),
-                                   Path_Tile(1, 6, door = True), Path_Tile(1, 0, interaction = True, wait = 5)]
+                                   Path_Tile(1, 6, door = True), Path_Tile(1, 0, interaction = True, wait = 5, text = "The Cleaner is polishing the suit of armour in the hallway")]
                 self.path_tiles = [[13, 1], [1, 7], [7, 6], [6, 11], [11, 8, 16], [16, 6], [6, 0]]
                 filepath = "../res/the_maid.png"
 
@@ -91,8 +91,8 @@ class Character(Ent):
                 self.ur_start = 8
                 self.ul_start = 12
 
-                self.key_points = [Path_Tile(4, 2, interaction = True, wait = 3), Path_Tile(4, 13, door = True), 
-                                   Path_Tile(1, 1, door = True), Path_Tile(1, 1, interaction = True, wait = 1), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
+                self.key_points = [Path_Tile(4, 2, interaction = True, wait = 3, text = "The Lady is listening to her gramophone in her bedroom"), Path_Tile(4, 13, door = True), 
+                                   Path_Tile(1, 1, door = True), Path_Tile(1, 1, interaction = True, wait = 4, text =  "The Lady is admiring the suit of armour in the hallway"), Path_Tile(1, 3), Path_Tile(1, 33, door = True), 
                                    Path_Tile(3, 3, door = True), Path_Tile(3, 11, door = True),
                                    Path_Tile(2, 12, door = True), Path_Tile(2, 15)]
                 self.path_tiles = [[2, 14, 13], [13, 1], [1,1], [1, 3], [3, 33], [33, 3], [3, 11], [11, 12], [12, 15]]

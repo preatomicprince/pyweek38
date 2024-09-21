@@ -1,7 +1,6 @@
 from entity import Ent
 from enum import Enum
 from pathlib import Path
-from settings import TILE_H
 
 Obj_Type = Enum("Obj_type", ["wall", "door", "pickup", "interact", "decor", "other"])
 Pickup_Type = Enum("Pickup_Type", ["water_bottle", "rat_poison", "banana", "screwdriver", "will"])

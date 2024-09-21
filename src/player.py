@@ -3,7 +3,7 @@ from input import Input
 import math
 from object import Obj, Obj_Type, Interact_Type, Pickup_Type, Death_Type
 import pygame
-from settings import Direction, SPEED, fvec2, TILE_H, TILE_W, WIDTH
+from typedefs import Direction, SPEED, fvec2, TILE_H, TILE_W
 
 # DEBUG - Should be False for release
 show_tile = False

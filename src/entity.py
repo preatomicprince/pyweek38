@@ -1,7 +1,7 @@
 from pathlib import Path
 import pygame
-from settings import *
 from spritesheet import SpriteSheet
+from typedefs import fvec2, ivec2
 
 
 class Ent:

@@ -7,7 +7,8 @@ from player import Player
 import pygame
 from room import Room
 from ui import *
-from settings import Settings, WIDTH, HEIGHT, GameVars, TILE_W, TILE_H
+from settings import Settings, GameVars
+from typedefs import WIDTH, HEIGHT
 
 def main(settings: Settings, screen):
 
@@ -169,18 +170,20 @@ def main(settings: Settings, screen):
             # Fail state here
             print("You lost!")
 
-        input.update(button_list, settings, prev_input)
         if game_vars.win == False and game_vars.caught == False:
-            
+            input.update(button_list, settings, prev_input)
             game_vars.room_list[game_vars.current_room].set_interact(game_vars, player)
             player.update(input, game_vars)
 
             for i in game_vars.chars:
                 i.update(game_vars)  
+
+            game_vars.text_events.update(game_vars)
                   
         ###this goes over the list of rooms, checks which room the player (in the game vars) is in against the names of the rooms
         game_vars.room_list[game_vars.current_room].draw(screen, player)
         player.draw_inv(screen)
+        game_vars.text_events.draw(screen)
 
         for b in button_list:
             b.draw(screen)

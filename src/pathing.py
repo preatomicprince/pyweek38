@@ -1,10 +1,10 @@
 from object import Obj_Type, Interact_Type, Death_Type
-from settings import GameVars, ivec2, fvec2, Direction, SPEED, TILE_W, TILE_H
+from typedefs import fvec2, Direction, SPEED, TILE_W, TILE_H
 
 
 class Path_Tile:
     def __init__(self, room: int, tile: int,
-                 door: bool = False, interaction: bool = False, wait: int = 0) -> None:
+                 door: bool = False, interaction: bool = False, wait: int = 0, text: str = None) -> None:
         
         #index of room in room_list[]
         self.room = room
@@ -18,7 +18,9 @@ class Path_Tile:
         self.interaction = interaction      
 
         # Time in seconds to wait before starting to move to next key point
-        self.wait = wait*1000  
+        self.wait = wait*1000 
+
+        self.text = text
 
 
 class Pathing:
@@ -193,8 +195,13 @@ class Pathing:
             # If reached key point
             else:
 
+               
                 if self.key_points[self.next_key_point_ind].wait > 0:
                     if self.timer == None:
+                         # Add text event
+                        if self.key_points[self.next_key_point_ind].text != None:
+                            game_vars.text_events.append(game_vars, self.key_points[self.next_key_point_ind].text)
+
                         self._handle_interaction(game_vars, character)
                         self.timer = game_vars.time
                     else:
