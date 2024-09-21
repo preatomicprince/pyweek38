@@ -14,7 +14,7 @@ from typedefs import WIDTH, HEIGHT
 def main(settings: Settings, screen):
 
     pygame.display.set_caption("The Mysterious Tale of Inheritance at the Manor of Increasingly Preposterous Accidents")
-    icon = pygame.image.load("../res/sofa.png")
+    icon = pygame.image.load("../res/icon.png")
     pygame.display.set_icon(icon) 
 
     g_font = pygame.font.Font("../res/Vogue.ttf", 24)
@@ -33,6 +33,10 @@ def main(settings: Settings, screen):
     main_track = Music_Sound(0, Path("../res/Py_Week_Traitor_Sound_Effects/Thunder.wav"))
     main_track.load()
     main_track.play()
+
+    #tutorial_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/DE_LA_TWIDDLY_WILL.wav"))
+    #tutorial_track.load()
+    #tutorial_track.play()
     ###initialising for the UI
 
     play_but = Buttons(WIDTH/2, HEIGHT-80, 3, "play")
@@ -188,14 +192,13 @@ def main(settings: Settings, screen):
     while settings.running:
         screen.fill((0, 0, 0))
 
-        text = g_font.render(f"Current Inheritance: £{game_vars.score}", True, (255, 255, 255), (0, 0, 0))
-        screen.blit(text, (500, 650))
+        
+
         game_vars.dt = (pygame.time.get_ticks() - game_vars.time)/1000
         game_vars.time = pygame.time.get_ticks()
         
         game_vars.set_win_state()
 
-        
         
         input.update(button_list, settings, prev_input)
         if game_vars.win == False and game_vars.caught == False:
@@ -215,18 +218,7 @@ def main(settings: Settings, screen):
 
         
         
-        ###this just removes the tutorial text and stuff
-        if settings.tutorial_text == True:
-            will_rect = pygame.Rect(0, settings.tut_text_y, 900, 700)
-            screen.blit(the_will, will_rect)
-            for b in button_list:
-                b.draw(screen)
-
-            
-            if settings.off_screen == True:
-                settings.tut_text_y += 10
-                if settings.tut_text_y >= 4000:
-                    settings.tutorial_text = False
+        
 
         
         if game_vars.win:
@@ -237,8 +229,26 @@ def main(settings: Settings, screen):
         if game_vars.caught:
             lose_rect = pygame.Rect(0, 0, 900, 700)
             screen.blit(lose_im, lose_rect)
-        pygame.display.update()
 
+
+        text = g_font.render(f"Current Inheritance: £{game_vars.score}", True, (255, 255, 255), (0, 0, 0))
+        screen.blit(text, (500, 650))
+
+        
+
+        ###this just removes the tutorial text and stuff
+        if settings.tutorial_text == True:
+            will_rect = pygame.Rect(0, settings.tut_text_y, 900, 700)
+            screen.blit(the_will, will_rect)
+            for b in button_list:
+                b.draw(screen)
+
+            if settings.off_screen == True:
+                settings.tut_text_y += 10
+                if settings.tut_text_y >= 4000:
+                    settings.tutorial_text = False
+        pygame.display.update()
+        
 
     for c in game_vars.chars:
         del c.pos
@@ -253,4 +263,6 @@ if __name__ == "__main__":
         settings.running = True
         settings.restart = False
         main(settings, screen)
+        
+    
         

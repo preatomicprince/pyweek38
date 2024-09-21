@@ -201,7 +201,7 @@ class Character(Ent):
                     self.sprites.set_animation(33, self.animation_steps - 1, repeat = False)
 
                 if self.char == Char.duchess:
-                    self.sprites.set_animation(4, self.animation_steps - 1, repeat = False)
+                    self.sprites.set_animation(4, self.animation_steps - 2, repeat = False)
 
             case Death_Type.electrecute:
                 electro_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/electrocution.wav"))
