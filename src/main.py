@@ -14,10 +14,10 @@ from typedefs import WIDTH, HEIGHT
 def main(settings: Settings, screen):
 
     pygame.display.set_caption("The Mysterious Tale of Inheritance at the Manor of Increasingly Preposterous Accidents")
-    icon = pygame.image.load("../res/icon.png")
+    icon = pygame.image.load(Path("../res/icon.png"))
     pygame.display.set_icon(icon) 
 
-    g_font = pygame.font.Font("../res/Vogue.ttf", 24)
+    g_font = pygame.font.Font(Path("../res/Vogue.ttf"), 24)
     
     ###initialise the game vars
     game_vars = GameVars()
