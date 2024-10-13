@@ -47,8 +47,8 @@ class Input:
                 if event.key == K_e:
                     self.key_interact = True
 
-                if event.key == K_SPACE:
-                    restart(settings)
+                #if event.key == K_SPACE:
+                    #restart(settings)
 
 
             if event.type == KEYUP:

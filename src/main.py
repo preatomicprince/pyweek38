@@ -34,9 +34,10 @@ def main(settings: Settings, screen):
     main_track.load()
     main_track.play()
 
-    #tutorial_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/DE_LA_TWIDDLY_WILL.wav"))
+    #tutorial_track = Music_Sound(1, Path("../res/Py_Week_Traitor_Sound_Effects/Thunder.wav"))
     #tutorial_track.load()
     #tutorial_track.play()
+    #tutorial_track.stop()
     ###initialising for the UI
 
     play_but = Buttons(WIDTH/2, HEIGHT-80, 3, "play")
